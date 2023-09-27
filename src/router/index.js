@@ -3,6 +3,7 @@ import ProfileView from '../views/Profile.vue'
 import FeedView from '../views/Feed.vue'
 import ConnectionView from '../views/Connection.vue'
 import CircularButton from '../components/CircularButton.vue'
+import EventCalendar from "@/components/EventCalendar.vue";
 
 const routes = [
   {
@@ -24,7 +25,12 @@ const routes = [
     path:'/string ',
     name:'CircularButton ',
     component: CircularButton
-  }
+  },
+  {
+    path: '/calendar',
+    name: 'Calendar',
+    component: EventCalendar, // You may need to adjust this depending on your route structure
+  },
 ]
 
 const router = createRouter({
