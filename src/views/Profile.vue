@@ -13,8 +13,8 @@
 
             <CircularButton to="/Profile.vue" icon="fa fa-bullseye" label="Goal Setting" style="margin-bottom: 10px; margin-left: 5px" />
             <CircularButton to="/Profile.vue" icon="fa fa-book" label="Daily Journaling" style="margin-bottom: 10px; margin-left: 5px" />
-            <CircularButton to="/Profile.vue" icon="fa fa-file" label="Study Timetable" style="margin-bottom: 10px; margin-left: 5px" />
-            <CircularButton to="/Profile.vue" icon="fa fa-table" label="Reflective Journal" style="margin-bottom: 10px; margin-left: 5px" />
+            <CircularButton to="/Profile.vue" icon="fa fa-file" label="Grades Tracking" style="margin-bottom: 10px; margin-left: 5px" />
+            <CircularButton to="/Profile.vue" icon="fa fa-table" label="Resource Library" style="margin-bottom: 10px; margin-left: 5px" />
 
         </div>
     </div>
