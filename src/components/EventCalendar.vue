@@ -5,7 +5,19 @@
         </v-calendar>
         <div v-if="selectedDate">
             <h3>Selected Date: {{ selectedDate }}</h3>
-            <!-- Add your task creator form here -->
+            <div>
+                <button @click="startEditing">Add Event/Task</button>
+            </div>
+            <div v-if="editingEvent">
+                <input v-model="newEvent" type="text" placeholder="Enter your Event or Task" />
+                <button @click="saveEvent">Save</button>
+            </div>
+            <div v-if="events[selectedDate]">
+                <h4>Events/Tasks:</h4>
+                <ul>
+                    <li v-for="(event, index) in events[selectedDate]" :key="index">{{ event }}</li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -18,7 +30,7 @@
     align-items: center; /* Center the calendar horizontally */
     justify-content: center; /* Center the calendar vertically */
     height: 100vh;
-    margin-top:-200px;
+    margin-top: -200px;
 }
 
 /* Set the calendar itself to fill the available width */
@@ -41,17 +53,37 @@ export default {
     },
     setup() {
         const selectedDate = ref(null);
-        const events = [];
+        const events = {};
+        const newEvent = ref('');
+        const editingEvent = ref(false);
 
         const handleDayClick = ({ date }) => {
-            // Handle day click event here, you can add the selected date to your events array
             selectedDate.value = date;
+            editingEvent.value = false; // Ensure the input field is hidden initially
+        };
+
+        const startEditing = () => {
+            editingEvent.value = true;
+        };
+
+        const saveEvent = () => {
+            const date = selectedDate.value;
+            if (!events[date]) {
+                events[date] = [];
+            }
+            events[date].push(newEvent.value);
+            newEvent.value = '';
+            editingEvent.value = false;
         };
 
         return {
             selectedDate,
             events,
+            newEvent,
+            editingEvent,
             handleDayClick,
+            startEditing,
+            saveEvent,
         };
     },
 };

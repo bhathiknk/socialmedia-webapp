@@ -3,7 +3,12 @@ import ProfileView from '../views/Profile.vue'
 import FeedView from '../views/Feed.vue'
 import ConnectionView from '../views/Connection.vue'
 import CircularButton from '../components/CircularButton.vue'
-import EventCalendar from "@/components/EventCalendar.vue";
+import EventCalendar from "@/components/EventCalendar.vue"
+import GoalSetting from "../components/GoalSetting.vue"
+import DailyJournaling from "@/components/DailyJournaling.vue";
+import GradesTracking from "@/components/GradesTracking.vue";
+import ResourceLibrary from "@/components/ResourceLibrary.vue";
+import ToDo from "@/components/ToDo.vue";
 
 const routes = [
   {
@@ -29,8 +34,33 @@ const routes = [
   {
     path: '/calendar',
     name: 'Calendar',
-    component: EventCalendar, // You may need to adjust this depending on your route structure
+    component: EventCalendar // You may need to adjust this depending on your route structure
   },
+  {
+    path: '/goal',
+    name: 'goal',
+    component: GoalSetting
+  },
+  {
+    path: '/DailyJournaling',
+    name: 'DailyJournaling',
+    component: DailyJournaling
+  },
+  {
+    path: '/GradesTracking',
+    name: 'GradesTracking',
+    component: GradesTracking
+  },
+  {
+    path: '/ResourceLibrary',
+    name: 'ResourceLibrary',
+    component: ResourceLibrary
+  },
+  {
+    path: '/ToDo',
+    name: 'ToDo',
+    component: ToDo
+  }
 ]
 
 const router = createRouter({

@@ -2,7 +2,14 @@
     <div>
         <h2>Learning Chart</h2>
         <div class="profile">
-            <CircularButton to="/Profile.vue" icon="fa fa-check" label="ToDo" style="margin-bottom: 10px; margin-left: 5px" />
+
+            <CircularButton
+                @click="navigateToToDo"
+                icon="fa fa-check"
+                label="ToDo"
+                style="margin-bottom: 10px; margin-left: 5px"
+                to="/ToDo.vue"
+            />
             <CircularButton
                 @click="navigateToEventCalendar"
                 icon="fa fa-calendar"
@@ -10,11 +17,34 @@
                 style="margin-bottom: 10px; margin-left: 5px"
                 to="/EventCalendar.vue"
             />
-
-            <CircularButton to="/Profile.vue" icon="fa fa-bullseye" label="Goal Setting" style="margin-bottom: 10px; margin-left: 5px" />
-            <CircularButton to="/Profile.vue" icon="fa fa-book" label="Daily Journaling" style="margin-bottom: 10px; margin-left: 5px" />
-            <CircularButton to="/Profile.vue" icon="fa fa-file" label="Grades Tracking" style="margin-bottom: 10px; margin-left: 5px" />
-            <CircularButton to="/Profile.vue" icon="fa fa-table" label="Resource Library" style="margin-bottom: 10px; margin-left: 5px" />
+            <CircularButton
+                @click="navigateToGoalSetting"
+                icon="fa fa-bullseye"
+                label="Goal Setting"
+                style="margin-bottom: 10px; margin-left: 5px"
+                to="/GoalSetting.vue"
+            />
+            <CircularButton
+                @click="navigateToDailyJournaling"
+                icon="fa fa-book"
+                label="Daily Journaling"
+                style="margin-bottom: 10px; margin-left: 5px"
+                to="/DailyJournaling.vue"
+            />
+            <CircularButton
+                @click="navigateToGradesTracking"
+                icon="fa fa-file"
+                label="Grades Tracking"
+                style="margin-bottom: 10px; margin-left: 5px"
+                to="/GradesTracking.vue"
+            />
+            <CircularButton
+                @click="navigateToResourceLibrary"
+                icon="fa fa-table"
+                label="Resource Library"
+                style="margin-bottom: 10px; margin-left: 5px"
+                to="/ResourceLibrary.vue"
+            />
 
         </div>
     </div>
@@ -26,17 +56,43 @@
 <script>
 import CircularButton from '../components/CircularButton.vue';
 import EventCalendar from '../components/EventCalendar.vue';
+import GoalSetting from "../components/GoalSetting.vue";
+import GradesTracking from "@/components/GradesTracking.vue";
+import ResourceLibrary from "@/components/ResourceLibrary.vue";
+import ToDo from "@/components/ToDo.vue";
+import DailyJournaling from "@/components/DailyJournaling.vue";
 
 export default {
     name: 'ProfileView',
     components: {
         CircularButton,
         EventCalendar, // Add EventCalendar as a component here
+        GoalSetting
     },
     methods: {
         navigateToEventCalendar() {
             // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
             this.$router.push("/calendar");
+        },
+        navigateToGoalSetting() {
+            // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
+            this.$router.push("/goal");
+        },
+        navigateToDailyJournaling() {
+            // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
+            this.$router.push("/DailyJournaling");
+        },
+        navigateToGradesTracking() {
+            // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
+            this.$router.push("/GradesTracking");
+        },
+        navigateToResourceLibrary() {
+            // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
+            this.$router.push("/ResourceLibrary");
+        },
+        navigateToToDo() {
+            // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
+            this.$router.push("/ToDo");
         },
     },
 };
