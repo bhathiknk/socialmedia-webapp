@@ -56,18 +56,13 @@
 <script>
 import CircularButton from '../components/CircularButton.vue';
 import EventCalendar from '../components/EventCalendar.vue';
-import GoalSetting from "../components/GoalSetting.vue";
-import GradesTracking from "@/components/GradesTracking.vue";
-import ResourceLibrary from "@/components/ResourceLibrary.vue";
-import ToDo from "@/components/ToDo.vue";
-import DailyJournaling from "@/components/DailyJournaling.vue";
+
 
 export default {
     name: 'ProfileView',
     components: {
         CircularButton,
         EventCalendar, // Add EventCalendar as a component here
-        GoalSetting
     },
     methods: {
         navigateToEventCalendar() {

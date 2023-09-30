@@ -1,6 +1,6 @@
 <template>
-    <div class="feed">
-        <h1>This is an about GoalSetting page</h1>
+    <div class="goalSettings">
+        <h1></h1>
     </div>
 </template>
 <script setup>
