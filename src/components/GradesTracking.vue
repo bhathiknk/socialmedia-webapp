@@ -1,7 +1,5 @@
 <template>
-    <div class="gradeTracking">
-        <h1></h1>
-    </div>
+
   <div id="calculator">
     <h1>GPA Calculator</h1>
     <form id="gpa-form">
