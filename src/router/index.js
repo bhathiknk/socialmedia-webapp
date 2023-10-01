@@ -8,7 +8,8 @@ import GoalSetting from "../components/GoalSetting.vue"
 import DailyJournaling from "@/components/DailyJournaling.vue";
 import GradesTracking from "@/components/GradesTracking.vue";
 import ResourceLibrary from "@/components/ResourceLibrary.vue";
-import ToDo from "@/components/ToDo.vue";
+import ToDo from "@/components/ToDo.vue"
+import ProfileEdit from "@/components/ProfileEdit.vue";
 
 const routes = [
   {
@@ -60,6 +61,11 @@ const routes = [
     path: '/ToDo',
     name: 'ToDo',
     component: ToDo
+  },
+  {
+    path:'/ProfileEdit',
+    name:'ProfileEdit',
+    component: ProfileEdit
   }
 ]
 
