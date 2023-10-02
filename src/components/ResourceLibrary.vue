@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="resourceLibrary">
       <h1>Resource Library</h1>
   
       <!-- Input to add files -->
