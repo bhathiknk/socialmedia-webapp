@@ -50,7 +50,7 @@ const calculateGPA = () => {
 
   if (totalCredits > 0) {
     const calculatedGPA = (totalGradePoints / totalCredits).toFixed(2);
-    gpa.value = `Your GPA is: ${calculatedGPA}`;
+    gpa.value = ` ${calculatedGPA}`;
   } else {
     gpa.value = null;
   }
