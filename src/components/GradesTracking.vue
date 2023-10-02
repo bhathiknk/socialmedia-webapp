@@ -1,6 +1,6 @@
 <template>
 
-  <div id="calculator">
+  <div id="calculator" class="scroll">
     <h1>GPA Calculator</h1>
     <form id="gpa-form">
       <div id="subject-list">
@@ -176,5 +176,11 @@ input[type="number"] {
   margin-top: 20px;
 }
 
+
+.scroll {
+  max-height: 600px; /*  maximum height for the scrollable area */
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
 </style>
 
