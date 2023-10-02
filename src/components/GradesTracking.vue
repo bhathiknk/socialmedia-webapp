@@ -16,7 +16,7 @@
     <div id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
     <div id="result" v-else>Please add subjects and marks first.</div>
   </div>
-
+  
   <div id="text-grid" >
     <div class="alert alert-dismissible alert-primary">
       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -26,7 +26,6 @@
       <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 5%;"></div>
     </div>
   </div>
-
 </template>
 
 
