@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h2>Learning Chart</h2>
         <div class="profile">
 
             <CircularButton
@@ -45,6 +44,13 @@
                 style="margin-bottom: 10px; margin-left: 5px"
                 to="/ResourceLibrary.vue"
             />
+            <CircularButton
+                @click="navigateToProfileEdit"
+                icon="fa fa-user"
+                label="Profile"
+                style="margin-bottom: 10px; margin-left: 5px"
+                to="/ProfileEdit.vue"
+            />
 
         </div>
     </div>
@@ -88,6 +94,10 @@ export default {
         navigateToToDo() {
             // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
             this.$router.push("/ToDo");
+        },
+        navigateToProfileEdit() {
+            // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
+            this.$router.push("/ProfileEdit");
         },
     },
 };
