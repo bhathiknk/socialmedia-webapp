@@ -13,12 +13,10 @@
     "core-js": "^3.8.3",
     "font-awesome": "^4.7.0",
     "fullcalendar": "^6.1.9",
-    "lodash": "^4.17.21",
     "v-calendar": "^3.1.0",
     "vue": "^3.3.4",
     "vue-fullcalendar": "^1.0.9",
     "vue-router": "^4.2.5",
-    "vue-wp-resource-library": "^1.1.0",
     "vue3-calendar": "^0.1.2",
     "vue3-calendar-composable": "^0.1.5"
   },
