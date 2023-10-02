@@ -16,7 +16,7 @@
     <div id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
     <div id="result" v-else>Please add subjects and marks first.</div>
   </div>
-  
+
   <div id="text-grid" >
     <div class="alert alert-dismissible alert-primary">
       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -85,7 +85,7 @@ body {
 }
 
 #calculator {
-  max-width: 1000px;
+  max-width: 990px;
   margin: 0 auto;
   background-color: #fff;
   padding: 20px;
@@ -117,15 +117,23 @@ input[type="number"] {
   border-radius: 5px;
 }
 
+input[type="text"]:hover{
+  border: 1px solid #6d99e3;
+}
+input[type="number"]:hover{
+  border: 1px solid #6d99e3;
+}
+
 .subject-item {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   margin-bottom: 15px; /* Add more spacing between textareas */
 }
 
 .subject-item input[type="text"],
 .subject-item input[type="number"] {
-  width: 42%;
+  width: 45%;
 
 }
 
@@ -135,7 +143,7 @@ input[type="number"] {
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  margin-right: 10px; /* Add space between buttons */
+  margin-right: 15px; /* Add space between buttons */
   border-radius: 5px;
 }
 
@@ -154,10 +162,10 @@ input[type="number"] {
 
 .remove-subject-button:hover{
   background-color: #100f0f;
+  border: 1px solid #1960e7;
   transition: 0.8s;
 
 }
-
 
 #add-subject-button:hover{
   background-color: #3636ef;
@@ -172,6 +180,8 @@ input[type="number"] {
   cursor: pointer;
   margin-top: 10px;
   border-radius: 5px;
+  margin-right: 100px;
+
 }
 
 #calculate-button:hover{
@@ -200,4 +210,3 @@ input[type="number"] {
 }
 
 </style>
-
