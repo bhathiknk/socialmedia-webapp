@@ -96,7 +96,8 @@ export default {
             this.$router.push("/ToDo");
         },
         navigateToProfileEdit() {
-            // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
+            // Unpm run serve
+            // se Vue Router's push method to navigate to the "EventCalendar.vue" route
             this.$router.push("/ProfileEdit");
         },
     },
