@@ -1,6 +1,30 @@
 <template>
     <div class="profile-edit">
-        <h2>Edit Profile</h2>
+
+        <div>
+            <!-- Navigation Bar -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container">
+                    <a class="navbar-brand" href="#">Your App Name</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Settings</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
 
         <!-- Display user information -->
         <div class="profile-info">
@@ -86,18 +110,20 @@ h2 {
 
 .profile-info {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 5% auto;
     padding: 20px;
     background-color: #f7f7f7;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
 }
 
 .profile-container img {
     max-width: 100%;
     height: auto;
     border-radius: 50%;
+
 }
 
 .profile-container h3 {
