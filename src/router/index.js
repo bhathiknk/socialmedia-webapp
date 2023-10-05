@@ -4,10 +4,10 @@ import FeedView from '../views/Feed.vue'
 import ConnectionView from '../views/Connection.vue'
 import CircularButton from '../components/CircularButton.vue'
 import EventCalendar from "@/components/EventCalendar.vue"
-import GoalSetting from "../components/GoalSetting.vue"
+import DiscussionForum from "../components/DiscussionForum.vue"
 import DailyJournaling from "@/components/DailyJournaling.vue";
 import GradesTracking from "@/components/GradesTracking.vue";
-import ResourceLibrary from "@/components/ResourceLibrary.vue";
+import ShortNote from "@/components/ShortNote.vue";
 import ToDo from "@/components/ToDo.vue"
 import ProfileEdit from "@/components/ProfileEdit.vue";
 
@@ -38,9 +38,9 @@ const routes = [
     component: EventCalendar // You may need to adjust this depending on your route structure
   },
   {
-    path: '/goal',
-    name: 'goal',
-    component: GoalSetting
+    path: '/DiscussionForum',
+    name: 'DiscussionForum',
+    component: DiscussionForum
   },
   {
     path: '/DailyJournaling',
@@ -53,9 +53,9 @@ const routes = [
     component: GradesTracking
   },
   {
-    path: '/ResourceLibrary',
-    name: 'ResourceLibrary',
-    component: ResourceLibrary
+    path: '/ShortNote',
+    name: 'ShortNote',
+    component:ShortNote
   },
   {
     path: '/ToDo',

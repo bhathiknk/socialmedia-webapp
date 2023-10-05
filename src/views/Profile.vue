@@ -5,30 +5,16 @@
             <CircularButton
                 @click="navigateToToDo"
                 icon="fa fa-check"
-                label="ToDo"
+                label="ToDo/Calendar"
                 style="margin-bottom: 10px; margin-left: 5px"
                 to="/ToDo.vue"
             />
             <CircularButton
-                @click="navigateToEventCalendar"
-                icon="fa fa-calendar"
-                label="Calendar"
+                @click="navigateToResourceLibrary"
+                icon="fa fa-table"
+                label="ShortNote"
                 style="margin-bottom: 10px; margin-left: 5px"
-                to="/EventCalendar.vue"
-            />
-            <CircularButton
-                @click="navigateToGoalSetting"
-                icon="fa fa-bullseye"
-                label="Goal Setting"
-                style="margin-bottom: 10px; margin-left: 5px"
-                to="/GoalSetting.vue"
-            />
-            <CircularButton
-                @click="navigateToDailyJournaling"
-                icon="fa fa-book"
-                label="Daily Journaling"
-                style="margin-bottom: 10px; margin-left: 5px"
-                to="/DailyJournaling.vue"
+                to="/ShortNote.vue"
             />
             <CircularButton
                 @click="navigateToGradesTracking"
@@ -38,11 +24,18 @@
                 to="/GradesTracking.vue"
             />
             <CircularButton
-                @click="navigateToResourceLibrary"
-                icon="fa fa-table"
-                label="Resource Library"
+                @click="navigateToGoalSetting"
+                icon="fa fa-bullseye"
+                label="Discussion Forum"
                 style="margin-bottom: 10px; margin-left: 5px"
-                to="/ResourceLibrary.vue"
+                to="/DiscussionForum.vue"
+            />
+            <CircularButton
+                @click="navigateToDailyJournaling"
+                icon="fa fa-book"
+                label="Daily Journaling"
+                style="margin-bottom: 15px; margin-left: 5px"
+                to="/DailyJournaling.vue"
             />
             <CircularButton
                 @click="navigateToProfileEdit"
@@ -77,7 +70,7 @@ export default {
         },
         navigateToGoalSetting() {
             // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
-            this.$router.push("/goal");
+            this.$router.push("/DiscussionForum");
         },
         navigateToDailyJournaling() {
             // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
@@ -89,7 +82,7 @@ export default {
         },
         navigateToResourceLibrary() {
             // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
-            this.$router.push("/ResourceLibrary");
+            this.$router.push("/ShortNote");
         },
         navigateToToDo() {
             // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
