@@ -8,7 +8,6 @@ import DiscussionForum from "../components/DiscussionForum.vue"
 import DailyJournaling from "@/components/DailyJournaling.vue";
 import GradesTracking from "@/components/GradesTracking.vue";
 import ShortNote from "@/components/ShortNote.vue";
-import ToDo from "@/components/ToDo.vue"
 import ProfileEdit from "@/components/ProfileEdit.vue";
 
 const routes = [
@@ -56,11 +55,6 @@ const routes = [
     path: '/ShortNote',
     name: 'ShortNote',
     component:ShortNote
-  },
-  {
-    path: '/ToDo',
-    name: 'ToDo',
-    component: ToDo
   },
   {
     path:'/ProfileEdit',

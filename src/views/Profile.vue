@@ -3,11 +3,11 @@
         <div class="profile">
 
             <CircularButton
-                @click="navigateToToDo"
+                @click="navigateToEventCalendar"
                 icon="fa fa-check"
                 label="ToDo/Calendar"
-                style="margin-bottom: 10px; margin-left: 5px"
-                to="/ToDo.vue"
+                style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
+                to="/EventCalendar.vue"
             />
             <CircularButton
                 @click="navigateToResourceLibrary"
@@ -64,10 +64,6 @@ export default {
         EventCalendar, // Add EventCalendar as a component here
     },
     methods: {
-        navigateToEventCalendar() {
-            // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
-            this.$router.push("/calendar");
-        },
         navigateToGoalSetting() {
             // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
             this.$router.push("/DiscussionForum");
@@ -84,9 +80,9 @@ export default {
             // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
             this.$router.push("/ShortNote");
         },
-        navigateToToDo() {
+        navigateToEventCalendar() {
             // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
-            this.$router.push("/ToDo");
+            this.$router.push("/calendar");
         },
         navigateToProfileEdit() {
             // Unpm run serve
