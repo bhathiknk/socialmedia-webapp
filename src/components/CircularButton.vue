@@ -78,8 +78,8 @@ export default {
 .label {
     position: absolute;
     top: 0;
-    right: -130px; /* Adjust the value to control the label's position */
-    width: 130px; /* Adjust the width of the label as needed */
+    right: -135px; /* Adjust the value to control the label's position */
+    width: 140px; /* Adjust the width of the label as needed */
     text-align: left; /* Align label text to the left */
     display: none;
     white-space: nowrap; /* Prevent label text from wrapping */
@@ -88,6 +88,8 @@ export default {
     padding: 5px; /* Add some padding for better styling */
     border-top-left-radius: 5px; /* Round the top-left corner */
     border-bottom-left-radius: 5px; /* Round the bottom-left corner */
+    border-top-right-radius: 5px; /* Round the top-left corner */
+    border-bottom-right-radius: 5px; /* Round the bottom-left corner */
     z-index: 1; /* Ensure label is on top of the button */
 }
 

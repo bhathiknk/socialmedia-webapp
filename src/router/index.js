@@ -8,9 +8,10 @@ import DiscussionForum from "../components/DiscussionForum.vue"
 import DailyJournaling from "@/components/DailyJournaling.vue";
 import GradesTracking from "@/components/GradesTracking.vue";
 import ShortNote from "@/components/ShortNote.vue";
-import ProfileEdit from "@/components/ProfileEdit.vue";
+import ProfileEdit from "@/components/ProfileCom/ProfileEdit.vue";
 import SignUp from "@/components/LoggingComponent/SignUp.vue";
 import SignIn from "@/components/LoggingComponent/SignIn.vue";
+import UserDetailEdit from "@/components/ProfileCom/UserDetailEdit.vue";
 
 const routes = [
   {
@@ -72,6 +73,11 @@ const routes = [
     path:'/SignIn',
     name:'SignIn',
     component: SignIn
+  },
+  {
+    path:'/UserDetailEdit',
+    name:'UserDetailEdit',
+    component: UserDetailEdit
   }
 ]
 

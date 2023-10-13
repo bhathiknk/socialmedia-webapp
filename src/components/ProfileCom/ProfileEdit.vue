@@ -11,6 +11,15 @@
             style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
             />
         </div>
+        <div class="circular-button-container">
+            <CircularButton
+                @click="navigateToUserDetailEdit"
+                to="/UserDetailEdit"
+                icon="fa fa-gear"
+                label="Settings"
+                style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
+            />
+        </div>
 
         <!-- Display user information -->
         <div class="profile-info">
@@ -20,31 +29,11 @@
             <p>{{ user.bio }}</p>
         </div>
 
-        <div class="button-container">
-            <button @click="toggleEditForm">Edit Profile</button>
-        </div>
-
-        <!-- Edit profile form (initially hidden) -->
-        <form v-if="showEditForm" @submit.prevent="updateProfile">
-            <label for="profilePicture">Profile Picture:</label>
-            <input type="file" id="profilePicture" @change="handleProfilePictureChange" />
-
-            <label for="username">Username:</label>
-            <input type="text" id="username" v-model="user.username" />
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" v-model="user.email" />
-
-            <label for="bio">Bio:</label>
-            <textarea id="bio" v-model="user.bio"></textarea>
-
-            <button type="submit">Save Changes</button>
-        </form>
     </div>
 </template>
 
 <script>
-import CircularButton from "./CircularButton.vue";
+import CircularButton from "../CircularButton.vue";
 export default {
     components: {
         CircularButton,
@@ -57,31 +46,15 @@ export default {
                 profileImageUrl: '../assets/profile.jpg',
                 bio: 'This is my bio.',
             },
-            showEditForm: false, // Initially, the edit form is hidden
-            newProfilePicture: null,
         };
     },
     methods: {
-        toggleEditForm() {
-            this.showEditForm = !this.showEditForm;
-        },
-        handleProfilePictureChange(event) {
-            this.newProfilePicture = event.target.files[0];
-        },
-        updateProfile() {
-            // In this front-end-only example, you can simulate an update by updating the user object.
-            // In a real application, you would send this data to a back end to update the user's profile.
-            // Handle the file upload using an appropriate library or API.
-            // Update the user object with the server's response.
-            // Here, we simulate the update by setting the user's profile data directly.
-            this.user.profileImageUrl = URL.createObjectURL(this.newProfilePicture);
-            // You can also send other user data to a back end here if needed.
-            this.showEditForm = false; // Hide the edit form after saving changes
-        },
-
         navigateToSignUp() {
-            // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
+            // Use Vue Router's push method to navigate to the "SignUp.vue" route
             this.$router.push("/SignUp");
+        },
+        navigateToUserDetailEdit(){
+            this.$router.push("/UserDetailEdit")
         },
     },
 };
