@@ -1,29 +1,15 @@
 <template>
     <div class="profile-edit">
 
-        <div>
-            <!-- Navigation Bar -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container">
-                    <a class="navbar-brand" href="#">Your App Name</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Profile</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Settings</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+
+        <div class="circular-button-container">
+            <CircularButton
+                @click="navigateToSignUp"
+                to="/SignUp"
+            icon="fa fa-arrow-right"
+            label="LogIn"
+            style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
+            />
         </div>
 
         <!-- Display user information -->
@@ -58,7 +44,11 @@
 </template>
 
 <script>
+import CircularButton from "./CircularButton.vue";
 export default {
+    components: {
+        CircularButton,
+    },
     data() {
         return {
             user: {
@@ -87,6 +77,11 @@ export default {
             this.user.profileImageUrl = URL.createObjectURL(this.newProfilePicture);
             // You can also send other user data to a back end here if needed.
             this.showEditForm = false; // Hide the edit form after saving changes
+        },
+
+        navigateToSignUp() {
+            // Use Vue Router's push method to navigate to the "EventCalendar.vue" route
+            this.$router.push("/SignUp");
         },
     },
 };
@@ -187,6 +182,12 @@ button[type="submit"]:hover {
         padding: 10px;
     }
 }
+ .circular-button-container {
+     position: relative;
+     top: 10px;  /* Adjust the top value as needed to control the vertical position */
+     margin-left:5px;  /* Adjust the right value as needed to control the horizontal position */
+     display: block;
+ }
 
 
 

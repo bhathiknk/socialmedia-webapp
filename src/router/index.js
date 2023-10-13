@@ -9,6 +9,8 @@ import DailyJournaling from "@/components/DailyJournaling.vue";
 import GradesTracking from "@/components/GradesTracking.vue";
 import ShortNote from "@/components/ShortNote.vue";
 import ProfileEdit from "@/components/ProfileEdit.vue";
+import SignUp from "@/components/LoggingComponent/SignUp.vue";
+import SignIn from "@/components/LoggingComponent/SignIn.vue";
 
 const routes = [
   {
@@ -60,6 +62,16 @@ const routes = [
     path:'/ProfileEdit',
     name:'ProfileEdit',
     component: ProfileEdit
+  },
+  {
+    path:'/SignUp',
+    name:'SignUp',
+    component: SignUp
+  },
+  {
+    path:'/SignIn',
+    name:'SignIn',
+    component: SignIn
   }
 ]
 
