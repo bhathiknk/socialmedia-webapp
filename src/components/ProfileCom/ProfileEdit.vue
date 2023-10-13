@@ -2,7 +2,7 @@
     <div class="profile-edit">
 
 
-        <div class="circular-button-container">
+       <div class="circular-button-container">
             <CircularButton
                 @click="navigateToSignUp"
                 to="/SignUp"
@@ -21,12 +21,16 @@
             />
         </div>
 
+        <div class="container">
         <!-- Display user information -->
-        <div class="profile-info">
-            <img :src="user.profileImageUrl" alt="Profile Picture" />
-            <h3>{{ user.username }}</h3>
-            <p>{{ user.email }}</p>
-            <p>{{ user.bio }}</p>
+            <div class="profile-info">
+                <div class="profile-picture-container">
+                    <img :src="user.profileImageUrl" alt="Profile Picture" />
+                </div>
+                <h3>{{ user.username }}</h3>
+                 <p>{{ user.email }}</p>
+                 <p>{{ user.bio }}</p>
+          </div>
         </div>
 
     </div>
@@ -41,9 +45,9 @@ export default {
     data() {
         return {
             user: {
-                username: 'User',
+                username: 'Kavindya',
                 email: 'user@example.com',
-                profileImageUrl: '../assets/profile.jpg',
+                profileImageUrl: require('@/assets/profile.jpg'),
                 bio: 'This is my bio.',
             },
         };
@@ -75,91 +79,52 @@ body {
 h2 {
     color: #333;
 }
-
 .profile-info {
-    max-width: 400px;
-    margin: 5% auto;
+    margin: -12% auto;
+    max-width: 60%;
     padding: 20px;
     background-color: #f7f7f7;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-
+    text-align: center; /* Center the content horizontally */
 }
 
-.profile-container img {
+.profile-picture-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 20px auto;
+}
+
+.profile-picture-container img {
     max-width: 100%;
     height: auto;
-    border-radius: 50%;
 
 }
 
-.profile-container h3 {
+.profile-info h3 {
+
     font-size: 24px;
     margin-top: 10px;
     color: #333;
+    margin-bottom: 60px; /* Add margin below the username */
 }
 
-.profile-container p {
-    margin: 5px 0;
+.profile-info p {
+
     color: #666;
+    margin-bottom: 30px;
 }
 
-form {
-    margin-top: 20px;
-}
 
-label {
-    font-weight: bold;
-    color: #333;
-}
-
-input[type="text"],
-input[type="email"],
-textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-button{
-    margin-top: 50px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
-
-/* Responsive design for smaller screens */
-@media (max-width: 768px) {
-    .profile-container {
-        max-width: 100%;
-        padding: 10px;
-    }
-}
  .circular-button-container {
-     position: relative;
+
      top: 10px;  /* Adjust the top value as needed to control the vertical position */
      margin-left:5px;  /* Adjust the right value as needed to control the horizontal position */
      display: block;
+     position: relative;
  }
 
 
