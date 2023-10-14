@@ -3,25 +3,17 @@
         <h1> discussion-forum </h1>
 
 
-      <div>
-        <label for="question">Your Question:</label>
-        <input type="text" id="question" v-model="newQuestion" @input="clearError" />
-        <button @click="postQuestion">Post Question</button>
-      </div>
+        <div>
+      <textarea v-model="newPostText" placeholder="What's on your mind?"></textarea>
+      <button @click="createPost">Post</button>
+    </div>
 
-      <div v-if="error" class="error-message">
-        {{ error }}
-      </div>
-
-      <div>
-        <h2>Questions</h2>
-        <ul>
-          <li v-for="(question, index) in questions" :key="index">
-            {{ question }}
-          </li>
-        </ul>
-      </div>
-
+    <!-- Display posts -->
+    <div v-for="(post, index) in posts" :key="index">
+      <div>{{ post.text }}</div>
+      <button @click="likePost(post)">Like</button>
+      <span>{{ post.likes }} Likes</span>
+    </div>
 
 
 
@@ -32,6 +24,22 @@
     </div>
 </template>
 <script setup>
+
+import { ref } from 'vue';
+
+const newPostText = ref('');
+const posts = ref([]);
+
+const createPost = () => {
+  if (newPostText.value) {
+    posts.value.push({
+      text: newPostText.value,
+      likes: 0,
+    });
+    newPostText.value = '';
+  }
+};
+
 
 
 
