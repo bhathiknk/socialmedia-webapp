@@ -1,5 +1,10 @@
 <template>
     <div class="signup-form">
+
+        <div>
+            <p>If you have an account, please <router-link to="/SignIn">Sign In</router-link></p>
+        </div>
+
         <h2>Sign Up</h2>
         <form @submit.prevent="submitForm">
             <div class="form-group">
@@ -29,9 +34,8 @@
             <button type="submit">Sign Up</button>
         </form>
     </div>
-    <div>
-        <p>If you have an account, please <router-link to="/SignIn">Sign In</router-link></p>
-    </div>
+
+
 </template>
 
 <script>
@@ -64,29 +68,34 @@ export default {
 </script>
 
 <style scoped>
+
 .signup-form {
     max-width: 400px;
     margin: 10px auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #007bff; /* Change border color to match the button */
     border-radius: 5px;
-
+    background-color: #f8f8f8; /* Add a background color */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+    overflow-y: auto;
 }
 
 .form-group {
-    margin-bottom: 10px;
+    margin-bottom: 5px; /* Increase spacing between form groups */
 }
 
 label {
     display: block;
     font-weight: bold;
+    margin-bottom: 5px; /* Add space below labels */
 }
 
 input {
     width: 100%;
-    padding: 5px;
+    padding: 4px; /* Increase input padding */
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 10px;
+    outline: none; /* Remove input outline */
 }
 
 button {
@@ -94,7 +103,13 @@ button {
     color: #fff;
     padding: 10px 20px;
     border: none;
-    border-radius: 3px;
+    border-radius: 10px;
     cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px; /* Add space above the button */
+}
+
+button:hover {
+    background-color: #0056b3; /* Change button color on hover */
 }
 </style>

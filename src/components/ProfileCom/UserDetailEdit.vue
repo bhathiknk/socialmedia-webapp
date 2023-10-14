@@ -5,7 +5,9 @@
             <div class="form-group">
                 <label for="profile-picture">Profile Picture:</label>
                 <input type="file" id="profile-picture" @change="updateProfilePicture" />
-                <img :src="editedUser.profilePicture" alt="Profile Picture" class="profile-picture" />
+                <div class="profile-picture-container">
+                    <img :src="editedUser.profileImageUrl" alt="Profile Picture" />
+                </div>
             </div>
             <div class="form-group">
                 <label for="user-name">User Name:</label>
@@ -29,7 +31,7 @@ export default {
     data() {
         return {
             editedUser: {
-                profilePicture: '', // You can provide a default image URL here
+                profileImageUrl: require('@/assets/profile.jpg'),
                 userName: '',
                 email: '',
                 bio: ''
@@ -61,14 +63,17 @@ export default {
 <style scoped>
 .user-detail-edit {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 10px auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #007bff; /* Change border color to match the button */
     border-radius: 5px;
+    background-color: #f8f8f8; /* Add a background color */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+    overflow-y: auto;
 }
 
 .form-group {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 label {
@@ -80,24 +85,25 @@ input[type="file"] {
     width: 100%;
     padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 10px;
 }
 
-img.profile-picture {
-    max-width: 100px;
-    max-height: 100px;
-    border: 1px solid #ccc;
+.profile-picture-container {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    margin-top: 5px;
+    overflow: hidden;
+    margin: 20px auto;
 }
 
 input[type="text"],
 input[type="email"],
 textarea {
     width: 100%;
-    padding: 5px;
+    padding: 4px; /* Increase input padding */
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 10px;
+    outline: none; /* Remove input outline */
 }
 
 button {
@@ -105,7 +111,9 @@ button {
     color: #fff;
     padding: 10px 20px;
     border: none;
-    border-radius: 3px;
+    border-radius: 10px;
     cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px; /* Add space above the button */
 }
 </style>
