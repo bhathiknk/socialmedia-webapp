@@ -1,15 +1,30 @@
 <template>
     <div class="goalSettings">
-        <h1></h1>
+        <h1> discussion-forum </h1>
 
 
-    <nav>
-      <ul>
-        <li><a href="Logo">LOGO</a></li>
-        <li><a href="/">Home</a></li>
-        <li><a href="icon">Bell icon</a></li>
-      </ul>
-    </nav>
+      <div>
+        <label for="question">Your Question:</label>
+        <input type="text" id="question" v-model="newQuestion" @input="clearError" />
+        <button @click="postQuestion">Post Question</button>
+      </div>
+
+      <div v-if="error" class="error-message">
+        {{ error }}
+      </div>
+
+      <div>
+        <h2>Questions</h2>
+        <ul>
+          <li v-for="(question, index) in questions" :key="index">
+            {{ question }}
+          </li>
+        </ul>
+      </div>
+
+
+
+
 
 
 
@@ -18,7 +33,7 @@
 <script setup>
 
 
- 
+
 
 
 </script>
