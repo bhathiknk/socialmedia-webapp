@@ -1,5 +1,15 @@
 <template>
-    <div class="post-feed">
+
+    <div class="post-feed" >
+        <div class="circular-button-container">
+            <CircularButton
+                @click="navigateToAddFeed"
+                to="/AddFeed"
+                icon="fa fa-plus"
+                label="Add Feed"
+                style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
+            />
+        </div>
         <div class="container">
             <div class="post" v-for="post in posts" :key="post.id">
                 <div class="post-header">
@@ -22,8 +32,11 @@
 </template>
 
 <script>
+import CircularButton from "@/components/CircularButton.vue";
+
 export default {
     name: 'PostFeed',
+    components: {CircularButton},
     data() {
         return {
             posts: [
@@ -45,11 +58,25 @@ export default {
                     comments: 20,
                     caption: "Another great post.",
                 },
+                {
+                    id: 3,
+                    username: "username3",
+                    userAvatar: require('@/assets/profile.jpg'),
+                    imageUrl: require('@/assets/post3.jpg'),
+                    likes: 200,
+                    comments: 20,
+                    caption: "Another great post.",
+                },
                 // Add more posts here...
             ],
         };
     },
     methods: {
+
+        navigateToAddFeed() {
+            // Use Vue Router's push method to navigate to the "SignUp.vue" route
+            this.$router.push("/AddFeed");
+        },
        /* likePost(postId) {
             // Implement liking a post (e.g., send a request to the backend).
         },
@@ -65,17 +92,21 @@ export default {
     display: flex;
     justify-content: center;
     padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f2f2f2;
 }
 
 .container {
     max-width: 600px;
+
 }
 
 .post {
     margin: 20px 0;
-    border: 1px solid #ddd;
+    border: 3px solid lightslategrey;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 }
 
 .post-header {
@@ -93,6 +124,7 @@ export default {
 
 .username {
     font-weight: 500;
+    color: #030202;
 }
 
 .post-image {

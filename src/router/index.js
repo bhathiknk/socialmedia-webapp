@@ -12,6 +12,7 @@ import ProfileEdit from "@/components/ProfileCom/ProfileEdit.vue";
 import SignUp from "@/components/LoggingComponent/SignUp.vue";
 import SignIn from "@/components/LoggingComponent/SignIn.vue";
 import UserDetailEdit from "@/components/ProfileCom/UserDetailEdit.vue";
+import AddFeed from "@/components/FeedCom/AddFeed.vue";
 
 const routes = [
   {
@@ -78,6 +79,11 @@ const routes = [
     path:'/UserDetailEdit',
     name:'UserDetailEdit',
     component: UserDetailEdit
+  },
+  {
+    path:'/AddFeed',
+    name:'AddFeed',
+    component: AddFeed
   }
 ]
 
