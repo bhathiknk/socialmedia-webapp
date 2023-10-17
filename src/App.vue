@@ -1,7 +1,7 @@
 <template>
     <nav class="custom-navbar">
         <div class="navbar-content">
-            <router-link to="/">Profile</router-link> |
+            <router-link to="/">Tools</router-link> |
             <router-link to="/feed">Feed</router-link> |
             <router-link to="/connection">Connection</router-link>
         </div>

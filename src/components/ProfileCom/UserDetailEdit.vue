@@ -4,10 +4,14 @@
         <form @submit.prevent="submitForm">
             <div class="form-group">
                 <label for="profile-picture">Profile Picture:</label>
-                <input type="file" id="profile-picture" @change="updateProfilePicture" />
                 <div class="profile-picture-container">
                     <img :src="editedUser.profileImageUrl" alt="Profile Picture" />
+                    <!-- Use Font Awesome for the plus icon -->
+                    <button @click="selectProfilePicture" class="plus-button">
+                        <i class="fa fa-plus"></i>
+                    </button>
                 </div>
+                <input type="file" id="profile-picture" @change="updateProfilePicture" style="display: none" />
             </div>
             <div class="form-group">
                 <label for="user-name">User Name:</label>
@@ -39,24 +43,29 @@ export default {
         };
     },
     methods: {
-        /*updateProfilePicture(event) {
+        selectProfilePicture() {
+            // Trigger the hidden input field for selecting a profile picture
+            const input = this.$el.querySelector('#profile-picture');
+            input.click();
+        },
+        /*  updateProfilePicture(event) {
             // Handle profile picture upload and update editedUser.profilePicture
             // You can use FileReader API to display the selected image preview
             // Example:
-            // const file = event.target.files[0];
-            // const reader = new FileReader();
-            // reader.onload = (e) => {
-            //   this.editedUser.profilePicture = e.target.result;
-            // };
-            // reader.readAsDataURL(file);
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.editedUser.profileImageUrl = e.target.result;
+            };
+            reader.readAsDataURL(file);
         },
         submitForm() {
             // You can perform form validation here and save changes to the backend if required
             // For this example, we will just log the edited user data
             console.log('Edited User Data:', this.editedUser);
-        }
 
-    */}
+    }*/
+    }
 };
 </script>
 
@@ -115,5 +124,23 @@ button {
     cursor: pointer;
     font-weight: bold;
     margin-top: 15px; /* Add space above the button */
+}
+.plus-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 1px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    position: absolute;
+    margin-right: 200%;
+    width: 30px;
+    height: 30px;
+}
+
+/* Style the "plus" button on hover */
+.plus-button:hover {
+    background-color: #0056b3;
 }
 </style>
