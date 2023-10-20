@@ -1,6 +1,7 @@
 <template>
 
   <div class="container">
+
     <div id="margin-top">
 
 <!--nedd to add side panel for add Gpa methods from User-->
@@ -25,6 +26,7 @@
       <div id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
       <div id="result" v-else>Please add subjects and marks first.</div>
     </div>
+
 
 
 
