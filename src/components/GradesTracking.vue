@@ -36,8 +36,19 @@
 </template>
 
 
-<script>
+<script setup>
+import { ref } from 'vue';
 
+const subjects = ref([{ name: '', mark: '' }]);
+const gpa = ref(null);
+
+const addSubject = () => {
+  subjects.value.push({ name: '', mark: '' });
+};
+
+const removeSubject = (index) => {
+  subjects.value.splice(index, 1);
+};
 
 </script>
 
@@ -67,6 +78,7 @@ h1 {
   text-align: center;
   color: #333;
 }
+
 
 
 </style>
