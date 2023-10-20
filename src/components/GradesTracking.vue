@@ -3,7 +3,7 @@
   <div class="container">
     <div id="margin-top">
 
-
+<!--nedd to add side panel for add Gpa methods from User-->
 
     </div>
   </div>
@@ -49,6 +49,8 @@ const addSubject = () => {
 const removeSubject = (index) => {
   subjects.value.splice(index, 1);
 };
+
+//Still developing
 
 </script>
 
