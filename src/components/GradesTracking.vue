@@ -48,6 +48,20 @@ body {
   background-color: #f2f2f2;
 }
 
+#calculator {
+  max-width: 990px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 100px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+#calculator:hover{
+  box-shadow: 0 0 5px rgba(37, 80, 166, 0.2);
+
+}
 
 h1 {
   text-align: center;
