@@ -87,6 +87,7 @@ const calculateGradePoints = (mark) => {
 
 
 <style>
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f2f2f2;
@@ -111,6 +112,114 @@ h1 {
   text-align: center;
   color: #333;
 }
+
+label {
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input[type="text"]:hover{
+  border: 1px solid #6d99e3;
+}
+input[type="number"]:hover{
+  border: 1px solid #6d99e3;
+}
+
+.subject-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 15px; /* Add more spacing between textareas */
+}
+
+.subject-item input[type="text"],
+.subject-item input[type="number"] {
+  width: 45%;
+
+}
+
+#add-subject-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 15px; /* Add space between buttons */
+  border-radius: 5px;
+}
+
+
+.remove-subject-button {
+  background-color: #e7132c;
+  color: #fff;
+  border: none;
+  padding: 4px 5px;
+  cursor: pointer;
+  margin-right: 10px; /* Add space between buttons */
+  margin-left: 10px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+
+.remove-subject-button:hover{
+  background-color: #100f0f;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  transition: 0.8s;
+
+}
+
+
+#add-subject-button:hover{
+  background-color: #3636ef;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  transition: 0.8s;
+}
+
+#calculate-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+  margin-right: 100px;
+
+}
+
+#calculate-button:hover{
+  background-color: #3636ef;
+  transition: 0.8s;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+#result {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+
+.scroll {
+  max-height: 500px; /*  maximum height for the scrollable area */
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+
+#margin-top{
+  padding-top: 80px;
+}
+
 
 
 
