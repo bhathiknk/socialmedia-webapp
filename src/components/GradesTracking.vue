@@ -220,6 +220,7 @@ input[type="number"]:hover{
   padding-top: 80px;
 }
 
+//Need to add side panel CSS
 
 
 
