@@ -5,7 +5,7 @@
     <div id="margin-top">
 
 <!--nedd to add side panel for add Gpa methods from User-->
-<h1>Testing issues in this web page</h1>
+<h1 class="text-focus-in">Testing issues in this web page</h1>
     </div>
   </div>
 
@@ -221,6 +221,40 @@ input[type="number"]:hover{
 }
 
 /*Need to add side panel CSS*/
+
+/*Need to add side panel CSS*/
+
+
+/*test animation*/
+.text-focus-in {
+  -webkit-animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+@-webkit-keyframes text-focus-in {
+  0% {
+    -webkit-filter: blur(12px);
+    filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-filter: blur(0px);
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+@keyframes text-focus-in {
+  0% {
+    -webkit-filter: blur(12px);
+    filter: blur(12px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-filter: blur(0px);
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
 
 
 
