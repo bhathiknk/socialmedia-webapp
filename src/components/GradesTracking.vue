@@ -52,8 +52,37 @@ const removeSubject = (index) => {
   subjects.value.splice(index, 1);
 };
 
-//Still developing
+const calculateGPA = () => {
+  let totalCredits = 0;
+  let totalGradePoints = 0;
 
+
+  subjects.value.forEach((subject) => {
+    const mark = parseFloat(subject.mark);
+    const gradePoints = calculateGradePoints(mark);
+
+    totalCredits += 1;
+    totalGradePoints += gradePoints;
+  });
+
+  if (totalCredits > 0) {
+    const calculatedGPA = (totalGradePoints / totalCredits).toFixed(2);
+    gpa.value = ` ${calculatedGPA}`;
+  } else {
+    gpa.value = null;
+  }
+};
+
+const calculateGradePoints = (mark) => {
+  if (mark >= 90) return 4.0;
+  else if (mark >= 85) return 3.7;
+  else if (mark >= 80) return 3.3;
+  else if (mark >= 75) return 3.0;
+  else if (mark >= 65) return 2.7;
+  else if (mark >= 55) return 2.3;
+  else if (mark >= 45) return 2.0;
+  else return 0.0;
+};
 </script>
 
 
