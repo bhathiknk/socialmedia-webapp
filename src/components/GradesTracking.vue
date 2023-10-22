@@ -37,9 +37,25 @@
                 -->
                 <div class="gpa-calculator-edit">
                   <h5>Add your GPA Calculator grades</h5>
+                  <form id="gpa-form">
+                    <div id="subject-list">
+                      <div class="subject-item">
+                        <div class="input-group mb-3">
+                          <input type="text" class="mark" placeholder="A" required>
+                          <input type="number" class="subject-mark" placeholder="Subject Mark" min="0" max="100" required>
+                          <input type="text" class="mark" placeholder="B" required>
+                          <input type="number" class="subject-mark" placeholder="Subject Mark" min="0" max="100" required>
+                          <input type="text" class="mark" placeholder="C" required>
+                          <input type="number" class="subject-mark" placeholder="Subject Mark" min="0" max="100" required>
+                          <input type="text" class="mark" placeholder="S" required>
+                          <input type="number" class="" placeholder="Subject Mark" min="0" max="100" required>
+                        </div>
+                      </div>
+                    </div>
 
-
-
+                    <button type="button" id="add-subject-button">Save</button>
+                    <button type="button" id="calculate-button">Clear</button>
+                  </form>
 
                 </div>
               </div>
@@ -87,15 +103,6 @@
 
 
 
-    <!--<div id="text-grid" >
-      <div class="alert alert-dismissible alert-primary">
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        <strong>Under maintenance !</strong> <a href="#" class="alert-link">Changed a few things</a> @Vilochana Rajapaksha
-      </div>
-      <div class="progress">
-        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 5%;"></div>
-      </div>
-    </div>-->
 
 
 
