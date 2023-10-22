@@ -69,7 +69,7 @@
 
         <div class="col">
           <!--<div class="p-3 border bg-light">Reset</div>-->
-          <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+          <button class="add-gpa-method-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
             Add your GPA method
           </button>
         </div>
@@ -97,17 +97,83 @@
         <button type="button" id="add-subject-button" @click="addSubject">  Add Subject <i class="bi bi-plus-square"></i></button>
         <button type="button" id="calculate-button" @click="calculateGPA">Calculate GPA</button>
       </form>
-      <div id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
-      <div id="result" v-else>Please add subjects and marks first.</div>
+      <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
+      <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
     </div>
-
-
-
 
 
   </div>
 
+  <div id="DB-gpa-sub-data-show" class="DB-export-data-scroll">
+    <h5 id="DB-gpa-sub-data-topic">Your Subjects</h5>
+    <!-- Still testing this-->
+    <table class="table table-hover">
+      <thead>
+      <tr class="tbl-topic">
+        <th scope="col" class="table-primary">Subject Name</th>
+        <th scope="col"  class="table-dark">Marks</th>
+        <th scope="col"  class="table-danger">GPA</th>
 
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="table-secondary">
+        <th scope="row">Algo</th>
+        <td class="table-light">75</td>
+        <td class="table-info">3.0</td>
+
+      </tr>
+      <tr class="table-secondary">
+        <th scope="row">Database management</th>
+        <td class="table-light">75</td>
+        <td class="table-info">3.0</td>
+
+      </tr>
+      <tr class="table-secondary">
+        <th scope="row">FD Mathematics</th>
+        <td class="table-light">75</td>
+        <td class="table-info">3.0</td>
+      </tr>
+      <tr class="table-secondary">
+        <th scope="row">Advanced Statics</th>
+        <td class="table-light">75</td>
+        <td class="table-info">3.0</td>
+      </tr>
+      <tr class="table-secondary">
+        <th scope="row">Mobile Application Developement</th>
+        <td class="table-light">75</td>
+        <td class="table-info">3.0</td>
+      </tr>
+      <tr class="table-secondary">
+        <th scope="row">Machine Learning</th>
+        <td class="table-light">75</td>
+        <td class="table-info">3.0</td>
+
+      </tr>
+      <tr class="table-secondary">
+        <th scope="row">IOT</th>
+        <td class="table-light">75</td>
+        <td class="table-info">3.0</td>
+      </tr>
+      <tr class="table-secondary">
+        <th scope="row">C#</th>
+        <td class="table-light">75</td>
+        <td class="table-info">3.0</td>
+      </tr>
+      <tr class="table-secondary">
+        <th scope="row">Robotics</th>
+        <td class="table-light">75</td>
+        <td class="table-info">3.0</td>
+      </tr>
+      <tr class="table-secondary">
+        <th scope="row">Artificial Intelegence</th>
+        <td class="table-light">75</td>
+        <td class="table-info">3.0</td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
 
 </template>
 
@@ -177,7 +243,7 @@ body {
   background-color: #fff;
   padding: 20px;
   border-radius: 15px;
-  margin-top: 100px;
+  margin-top: 80px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -287,7 +353,7 @@ input[type="number"]:hover{
 
 
 .scroll {
-  max-height: 500px; /*  maximum height for the scrollable area */
+  max-height: 400px; /*  maximum height for the scrollable area (default 500px) */
   overflow-y: scroll;
   scroll-behavior: smooth;
 }
@@ -306,25 +372,67 @@ input[type="number"]:hover{
   margin-top: 80px;
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
-.canva-head-vil{
-  max-width: 10000px;
+
+/*showing Gpa result Output*/
+.gpa-result-show{
+  max-width: 1000px;
   margin: 0 auto;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  margin-top: 10px;
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+  margin-top: 80px;
+  box-shadow: 0 0 5px rgba(37, 80, 166, 0.2);
+
 }
+
 h5{
-  margin-left: 20px;
+  margin-left: 55px;
   margin-right: 20px;
 }
+.add-gpa-method-btn{
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 15px; /* Add space between buttons */
+  border-radius: 5px;
+}
 
-/*Need to add side panel CSS*/
+.add-gpa-method-btn:hover{
+  background-color: #3636ef;
+  transition: 0.8s;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
 
-/*Need to add side panel CSS*/
+#DB-gpa-sub-data-show{
+  max-width: 990px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 50px;
+  margin-bottom: 200px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
+.DB-export-data-scroll{
+  max-height: 300px; /*  maximum height for the scrollable area */
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
 
-
+#DB-gpa-sub-data-topic{
+  max-width: 990px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  background-color: rgb(45, 79, 213);
+  color: #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
 </style>
