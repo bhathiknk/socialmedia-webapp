@@ -15,15 +15,17 @@
           -->
 
           <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Enter your Grading method</h5>
-              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  <h5 class="offcanvas-title" id="offcanvasExampleLabel">Enter your Grading method</h5>
+                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
               <div>
                 you can add your University GPA Grading marks to here. Which means A = 90 / B = 75 / C = 55 /S = 35 Like That
               </div>
-              <div class="dropdown mt-3">
+
+             <!-- <div class="dropdown mt-3"> drop down button  -->
 
                 <!--
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
@@ -58,7 +60,7 @@
                   </form>
 
                 </div>
-              </div>
+              <!--  </div> Drop down button yaf end-->
             </div>
           </div>
 
@@ -98,9 +100,6 @@
       <div id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
       <div id="result" v-else>Please add subjects and marks first.</div>
     </div>
-
-
-
 
 
 
@@ -158,6 +157,10 @@ const calculateGradePoints = (mark) => {
   else if (mark >= 45) return 2.0;
   else return 0.0;
 };
+
+//edit marsk
+
+
 </script>
 
 
@@ -180,7 +183,6 @@ body {
 
 #calculator:hover{
   box-shadow: 0 0 5px rgba(37, 80, 166, 0.2);
-
 }
 
 h1 {
@@ -293,6 +295,29 @@ input[type="number"]:hover{
 
 #margin-top{
   padding-top: 80px;
+}
+
+.gpa-calculator-edit{
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 80px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.canva-head-vil{
+  max-width: 10000px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 10px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+h5{
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 /*Need to add side panel CSS*/
