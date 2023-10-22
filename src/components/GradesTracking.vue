@@ -85,7 +85,7 @@
 
   <div id="scr-pg">
     <div id="calculator" class="scroll">
-      <h1>GPA Calculator</h1>
+      <h3 id="cal-topic">GPA Calculator</h3>
       <form id="gpa-form">
         <div id="subject-list">
           <div class="subject-item" v-for="(subject, index) in subjects" :key="index">
@@ -237,6 +237,17 @@ body {
   background-color: #f2f2f2;
 }
 
+#cal-topic{
+  max-width: 990px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  background-color: rgb(100, 122, 204);
+  color: #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 #calculator {
   max-width: 990px;
   margin: 0 auto;
@@ -417,7 +428,7 @@ h5{
 }
 
 .DB-export-data-scroll{
-  max-height: 300px; /*  maximum height for the scrollable area */
+  max-height: 310px; /*  maximum height for the scrollable area */
   overflow-y: scroll;
   scroll-behavior: smooth;
 }
