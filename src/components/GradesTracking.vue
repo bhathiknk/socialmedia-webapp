@@ -2,10 +2,66 @@
 
   <div class="container">
 
+
     <div id="margin-top">
 
-<!--nedd to add side panel for add Gpa methods from User-->
-<h1 class="text-focus-in">Testing issues in this web page</h1>
+      <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+        <div class="col"></div>
+        <div class="col">
+          <!--
+           <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+
+          </button>
+          -->
+
+          <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Enter your Grading method</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <div>
+                you can add your University GPA Grading marks to here. Which means A = 90 / B = 75 / C = 55 /S = 35 Like That
+              </div>
+              <div class="dropdown mt-3">
+
+                <!--
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                  Dropdown button
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+                -->
+                <div class="gpa-calculator-edit">
+                  <h5>Add your GPA Calculator grades</h5>
+
+
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="col">
+          <!--<div class="p-3 border bg-light">Reset</div>-->
+          <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            Add your GPA method
+          </button>
+        </div>
+        <div class="col">
+          <!--<button class="btn btn-primary">Add your GPA method 3</button>-->
+        </div>
+        <div class="col"></div>
+      </div>
+
+
     </div>
   </div>
 
@@ -28,6 +84,18 @@
     </div>
 
 
+
+
+
+    <!--<div id="text-grid" >
+      <div class="alert alert-dismissible alert-primary">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Under maintenance !</strong> <a href="#" class="alert-link">Changed a few things</a> @Vilochana Rajapaksha
+      </div>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 5%;"></div>
+      </div>
+    </div>-->
 
 
 
