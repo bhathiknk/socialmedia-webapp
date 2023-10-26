@@ -37,6 +37,9 @@
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
                 -->
+
+
+              <!--need to modify this code with Vue JS-->
                 <div class="gpa-calculator-edit">
                   <h5>Add your GPA Calculator grades</h5>
                   <form id="gpa-form">
