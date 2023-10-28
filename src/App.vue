@@ -44,6 +44,7 @@
 .custom-navbar a.router-link-exact-active {
     color: white;
 }
+
 </style>
 
 <script setup>

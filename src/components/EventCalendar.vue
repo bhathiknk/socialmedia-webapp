@@ -26,6 +26,12 @@
       </div>
     </div>
   </div>
+  <div class="todo-list-container">
+    <h1>To-Do List</h1>
+        <input type="text" v-model="todoText" placeholder="Enter" class="todo-input">
+        <button @click="addTodo" class="todo-button add-button">Add</button>
+        <button @click="closeTodoPopup" class="todo-button close-button">Close</button>
+      </div>
 
 </template>
 
@@ -57,6 +63,60 @@
   margin-top: 100px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
+.todo-list-container {
+  width: 50%;
+  float: left;
+  padding: 20px;
+}
+
+input {
+  width: 100%;
+}
+.todo-popup {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+}
+
+.todo-popup-content {
+  display: flex;
+  flex-direction: column;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin: 0 0 10px 0;
+}
+
+.todo-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.todo-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.add-button {
+  background-color: #007bff;
+  margin-right: 10px;
+}
+
+.close-button {
+  background-color: #dc3545;
+}
 
 
 </style>
@@ -67,6 +127,25 @@ import { Calendar } from 'v-calendar';
 import 'v-calendar/dist/style.css';
 
 export default {
+  data() {
+    return {
+      showTodoPopup: false,
+      todoText: "",
+      todoList: [],
+    };
+  },
+  methods: {
+    addTodo() {
+      if (this.todoText.trim() !== "") {
+        this.todoList.push(this.todoText);
+        this.todoText = "";
+      }
+    },
+    closeTodoPopup() {
+      this.showTodoPopup = false;
+    },
+  },
+  
   components: {
     'v-calendar': Calendar,
   },
@@ -105,6 +184,7 @@ export default {
     ]);
 
     return {
+      
       selectedDate,
       events,
       newEvent,
@@ -116,4 +196,5 @@ export default {
     };
   },
 };
+
 </script>
