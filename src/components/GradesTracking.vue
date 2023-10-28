@@ -212,7 +212,7 @@ const calculateGradePoints = (mark) => {
   else return 0.0;
 };
 
-//edit marsk
+//Need to develop Db connection and db
 
 
 </script>
