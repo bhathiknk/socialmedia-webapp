@@ -1,19 +1,14 @@
 <template>
 
   <div class="container">
-
-
     <div id="margin-top">
-
       <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
         <div class="col"></div>
         <div class="col">
           <!--
            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-
           </button>
           -->
-
           <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 
             <div class="offcanvas-header">
@@ -54,17 +49,13 @@
                         </div>
                       </div>
                     </div>
-
                     <button type="button" id="add-subject-button">Save</button>
                     <button type="button" id="calculate-button">Clear</button>
                   </form>
-
                 </div>
               <!--  </div> Drop down button yaf end-->
             </div>
           </div>
-
-
         </div>
 
         <div class="col">
@@ -78,8 +69,6 @@
         </div>
         <div class="col"></div>
       </div>
-
-
     </div>
   </div>
 
@@ -100,10 +89,7 @@
       <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
       <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
     </div>
-
-
   </div>
-
   <div id="DB-gpa-sub-data-show" class="DB-export-data-scroll">
     <h5 id="DB-gpa-sub-data-topic">Your Subjects</h5>
     <!-- Still testing this-->
@@ -169,7 +155,6 @@
         <th scope="row">Artificial Intelegence</th>
         <td class="table-light">75</td>
         <td class="table-info">3.0</td>
-
       </tr>
       </tbody>
     </table>
