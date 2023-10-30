@@ -1,89 +1,88 @@
 <template>
-    <div class="resourceLibrary">
-      <h1>Resource Library</h1>
-  
-      <!-- Input to add files -->
-      <input type="file" @change="addFile" accept=".pdf, .jpg, .jpeg, .png, .gif, .zip, .mp4, .avi" multiple />
-  
-      <!-- List of files -->
-      <ul>
-        <li v-for="(file, index) in files" :key="index">
-          {{ file.name }}
-          <button @click="displayFile(file)">View</button>
-        </li>
-      </ul>
-  
-      <!-- Display selected file content -->
-      <div v-if="selectedFile" class="selected-file">
-        <h2>Selected File: {{ selectedFile.name }}</h2>
-        <div v-if="isImage(selectedFile.type)" class="image-preview">
-          <img :src="selectedFile.content" alt="Selected File" />
-        </div>
-        <div v-else class="file-content">
-          <pre>{{ selectedFile.content }}</pre>
-        </div>
-      </div>
+  <html data-theme='cupcake'>
+
+  <!--    middle textarea-->
+  <textarea class="textarea textarea-accent" placeholder="Bio">Your notes here.....</textarea>
+
+  <ul class="menu bg-base-200 w-56 rounded-box" data-theme="dark">
+    <div class="menu-title-div">
+      <li class="menu-title">Modules</li>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        files: [],
-        selectedFile: null,
-      };
-    },
-    methods: {
-      addFile(event) {
-        const fileList = event.target.files;
-        for (let i = 0; i < fileList.length; i++) {
-          const file = fileList[i];
-          const reader = new FileReader();
-  
-          reader.onload = () => {
-            this.files.push({
-              name: file.name,
-              content: reader.result,
-              type: file.type,
-            });
-          };
-  
-          // Read the file content based on its type
-          if (this.isImage(file.type)) {
-            reader.readAsDataURL(file); // For images
-          } else {
-            reader.readAsText(file); // For other file types
-          }
-        }
-      },
-      displayFile(file) {
-        this.selectedFile = file;
-      },
-      isImage(fileType) {
-        return fileType.startsWith('image/');
-      },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  /* Add your CSS styling for the component here */
-  .selected-file {
-    padding: 20px;
-  }
-  
-  .image-preview img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-top: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .file-content pre {
-    max-width: 100%;
-    overflow-x: auto;
-  }
-  </style>
-  
+    <li><a class="modules">Module 01</a></li>
+    <li><a class="modules">Module 02</a></li>
+    <li><a class="modules">Module 03</a></li>
+    <li><a class="modules">Module 04</a></li>
+    <li><a class="modules">Module 05</a></li>
+    <li><a class="modules">Module 06</a></li>
+    <li><a class="modules">Module 07</a></li>
+    <li><a class="modules">Module 08</a></li>
+    <li><a class="modules">Module 09</a></li>
+    <li><a class="modules">Module 10</a></li>
+    <li><a class="modules">Module 11</a></li>
+    <li><a class="modules">Module 12</a></li>
+    <li><a class="modules">Module 03</a></li>
+    <li><a class="modules">Module 14</a></li>
+    <li><a class="modules">Module 15</a></li>
+  </ul>
+
+  </html>
+</template>
+
+<script setup>
+
+
+</script>
+
+<style lang="scss" scoped>
+
+//screen resolution set
+@media (max-width: 680px) {
+
+
+}
+
+.textarea-accent {
+  height: 40.5rem;
+  width: 55rem;
+  margin-top: 1.2rem;
+  margin-left: 2rem;
+  border: solid black;
+  border-radius: 2px;
+  overflow: auto;
+
+}
+li{
+  padding: 5px;
+  list-style: none;
+  font-size: 16px;
+}
+
+.rounded-box{
+  height: 40.5rem;
+  width: 20.5rem;
+  position: fixed;
+  bottom: 56.2px;
+  left: 8px;
+  display: block;
+  gap: 5px;
+  text-align: left;
+  background-color: #afc6a3;
+  color: whitesmoke;
+  padding: 20px;
+  border: 3px solid black;
+
+}
+
+.menu-title-div{
+  display: block;
+  height: 35px;
+  width: 100%;
+  color: black;
+  background-color: #778899;
+  text-align: center;
+  margin-bottom: 12px;
+  font-weight: bold;
+  overflow: auto;
+}
+
+</style>
