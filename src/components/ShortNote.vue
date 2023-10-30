@@ -1,4 +1,4 @@
-<template>
+ <template>
     <div class="resourceLibrary">
       <h1>Resource Library</h1>
   

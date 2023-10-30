@@ -5,7 +5,8 @@
         </div>
 
         <h2>Sign Up</h2>
-        <form @submit.prevent="submitForm">
+        <form>
+            <!-- Your form fields go here -->
             <div class="form-group">
                 <div class="name-group">
                     <div class="name-input">
@@ -26,7 +27,6 @@
                 <label for="username">Username:</label>
                 <input type="text" id="username" v-model="username" required />
             </div>
-
             <div class="form-group">
                 <label for="interest">Choose Your Interest:</label>
                 <select id="interest" v-model="interest">
@@ -35,7 +35,6 @@
                     <option value="science">Science</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" v-model="password" required />
@@ -44,14 +43,14 @@
                 <label for="confirm-password">Confirm Password:</label>
                 <input type="password" id="confirm-password" v-model="confirmPassword" required />
             </div>
-            <button type="submit">Sign Up</button>
+            <button @click="submitForm">Sign Up</button>
         </form>
     </div>
 </template>
 
-
-
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -61,64 +60,61 @@ export default {
             username: '',
             password: '',
             confirmPassword: '',
-            interest: '' // Add the 'interest' field to your data
+            interest: 'technology', // Default value
         };
     },
     methods: {
         submitForm() {
-            // You can perform form validation here
-            // For a front-end-only example, you can simply log the form data
-            console.log('Submitted Form Data:', {
+            // Form data to send to the backend
+            const formData = {
                 firstName: this.firstName,
                 lastName: this.lastName,
                 email: this.email,
                 username: this.username,
                 password: this.password,
-                confirmPassword: this.confirmPassword,
-                interest: this.interest // Include the interest field in the data
-            });
+                interest: this.interest
+            };
+
+            axios.post(`${this.$root.backendBaseUrl}/SignUp`, formData)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
         }
     }
 };
 </script>
 
+
 <style scoped>
+
 .signup-form {
     max-width: 400px;
-    margin: 10px auto;
+    margin: 90px auto;
     padding: 20px;
-    border: 1px solid #007bff;
+    border: 1px solid #007bff; /* Change border color to match the button */
     border-radius: 5px;
-    background-color: #f8f8f8;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
-}
+    background-color: #f8f8f8; /* Add a background color */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */}
 
 .form-group {
-    margin-bottom: 10px;
-}
-
-.name-group {
-    display: flex;
-    justify-content: space-between;
-}
-
-.name-input {
-    flex-basis: 48%;
+    margin-bottom: 5px; /* Increase spacing between form groups */
 }
 
 label {
     display: block;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 5px; /* Add space below labels */
 }
 
-input, select {
+input {
     width: 100%;
-    padding: 4px;
+    padding: 4px; /* Increase input padding */
     border: 1px solid #ccc;
     border-radius: 10px;
-    outline: none;
+    outline: none; /* Remove input outline */
 }
 
 button {
@@ -128,10 +124,13 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    margin-top: 15px;
+    font-weight: bold;
+    margin-top: 15px; /* Add space above the button */
+    margin-bottom: 15px;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Change button color on hover */
 }
 </style>
+

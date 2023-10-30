@@ -46,5 +46,14 @@
 }
 </style>
 
-<script setup>
+<script>
+export default {
+  data() {
+    return {
+        backendBaseUrl: 'http://localhost:8081/' //  Java EE backend URL
+    };
+  }
+  // ...other parts of your code
+}
 </script>
+
