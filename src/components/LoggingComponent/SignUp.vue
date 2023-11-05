@@ -42,7 +42,7 @@
             </div>
             <div class="form-group">
                 <label for="confirm-password">Confirm Password:</label>
-                <input type="password" id="confirm-password" v-model="confirmPassword" required />
+                <input type="password" id="confirmpassword" v-model="confirmPassword" required />
             </div>
             <button type="submit">Sign Up</button>
         </form>
@@ -52,33 +52,45 @@
 
 
 <script>
+import axios from 'axios';
+
 export default {
-    data() {
-        return {
-            firstName: '',
-            lastName: '',
-            email: '',
-            username: '',
-            password: '',
-            confirmPassword: '',
-            interest: '' // Add the 'interest' field to your data
-        };
-    },
-    methods: {
-        submitForm() {
-            // You can perform form validation here
-            // For a front-end-only example, you can simply log the form data
-            console.log('Submitted Form Data:', {
-                firstName: this.firstName,
-                lastName: this.lastName,
-                email: this.email,
-                username: this.username,
-                password: this.password,
-                confirmPassword: this.confirmPassword,
-                interest: this.interest // Include the interest field in the data
-            });
-        }
+  data() {
+    return {
+      firstName: '',
+      lastName: '',
+      email: '',
+      username: '',
+      password: '',
+      confirmPassword: '',
+      interest: '',
+      backendURL: 'http://localhost:8080/api/users/signup' // Adjust the URL accordingly
+    };
+  },
+  methods: {
+    submitForm() {
+      const userData = {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        username: this.username,
+        password: this.password,
+        confirmPassword: this.confirmPassword,
+        interest: this.interest
+      };
+
+      // Make a POST request to the backend API using Axios
+      axios.post(this.backendURL, userData)
+        .then(response => {
+          console.log('Successful response:', response.data);
+          // Optionally, handle the response or redirect the user
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          // Handle error scenarios, such as displaying an error message to the user
+        });
     }
+  }
 };
 </script>
 
