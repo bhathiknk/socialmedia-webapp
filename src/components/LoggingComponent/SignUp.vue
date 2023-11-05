@@ -5,7 +5,7 @@
         </div>
 
         <h2>Sign Up</h2>
-        <form @submit.prevent="submitForm">
+        <form @submit="signup">
             <div class="form-group">
                 <div class="name-group">
                     <div class="name-input">
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label for="username">Username:</label>
-                <input type="text" id="username" v-model="username" required />
+                <input type="text" id="userName" v-model="userName" required />
             </div>
 
             <div class="form-group">
@@ -40,9 +40,9 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" v-model="password" required />
             </div>
-            <div class="form-group">
+               <div class="form-group">
                 <label for="confirm-password">Confirm Password:</label>
-                <input type="password" id="confirmpassword" v-model="confirmPassword" required />
+                <input type="password" id="confirm-password" v-model="confirmPassword" required />
             </div>
             <button type="submit">Sign Up</button>
         </form>
@@ -52,45 +52,57 @@
 
 
 <script>
-import axios from 'axios';
-
+import axios from "axios";
+import swal from "sweetalert";
+import baseURL from "@/config";
 export default {
+  props: ["baseURL"],
   data() {
     return {
-      firstName: '',
-      lastName: '',
-      email: '',
-      username: '',
-      password: '',
-      confirmPassword: '',
-      interest: '',
-      backendURL: 'http://localhost:8080/api/users/signup' // Adjust the URL accordingly
+      email: null,
+      firstName: null,
+      lastName: null,
+      userName:null,
+      interest:null,
+      password: null,
+      confirmPassword: null,
+
     };
   },
   methods: {
-    submitForm() {
-      const userData = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        username: this.username,
-        password: this.password,
-        confirmPassword: this.confirmPassword,
-        interest: this.interest
-      };
-
-      // Make a POST request to the backend API using Axios
-      axios.post(this.backendURL, userData)
-        .then(response => {
-          console.log('Successful response:', response.data);
-          // Optionally, handle the response or redirect the user
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          // Handle error scenarios, such as displaying an error message to the user
+    async signup(e) {
+      e.preventDefault();
+      if (this.password === this.confirmPassword) {
+        // call signup api
+        const user = {
+        
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          interest:this.interest,
+          userName:this.userName,
+          password: this.password,
+        };
+        console.log("user", user);
+        await axios
+            .post(`${baseURL}user/signup`, user)
+            .then(() => {
+              this.$router.replace("/");
+              swal({
+                text: "User signup successful, please login",
+                icon: "success",
+              });
+            })
+            .catch((err) => console.log("err", err));
+      } else {
+        // show some error
+        swal({
+          text: "passwords dont match",
+          icon: "error",
         });
-    }
-  }
+      }
+    },
+  },
 };
 </script>
 
