@@ -178,7 +178,7 @@ const submitSubjectData = () => {
   }
 };
 
-//  need to implement the logic to submit the data to your database using SQL.
+// need to implement the logic to submit the data to my database using SQL.
 
 
 
