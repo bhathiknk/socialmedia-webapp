@@ -31,7 +31,7 @@
         <input type="text" v-model="todoText" placeholder="Enter" class="todo-input">
         <button @click="addTodo" class="todo-button add-button">Add</button>
         <button @click="closeTodoPopup" class="todo-button close-button">Close</button>
-      </div>
+  </div>
 
 </template>
 
@@ -84,10 +84,6 @@ input {
   max-width: 300px;
 }
 
-.todo-popup-content {
-  display: flex;
-  flex-direction: column;
-}
 
 h3 {
   font-size: 1.5rem;

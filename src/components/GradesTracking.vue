@@ -12,50 +12,50 @@
           <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 
             <div class="offcanvas-header">
-                  <h5 class="offcanvas-title" id="offcanvasExampleLabel">Enter your Grading method</h5>
-                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Enter your Grading method</h5>
+              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
               <div>
                 you can add your University GPA Grading marks to here. Which means A = 90 / B = 75 / C = 55 /S = 35 Like That
               </div>
 
-             <!-- <div class="dropdown mt-3"> drop down button  -->
+              <!-- <div class="dropdown mt-3"> drop down button  -->
 
-                <!--
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                  Dropdown button
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-                -->
+              <!--
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                Dropdown button
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+              -->
 
 
               <!--need to modify this code with Vue JS-->
-                <div class="gpa-calculator-edit">
-                  <h5>Add your GPA Calculator grades</h5>
-                  <form id="gpa-form">
-                    <div id="subject-list">
-                      <div class="subject-item">
-                        <div class="input-group mb-3">
-                          <input type="text" class="mark" placeholder="A" required>
-                          <input type="number" class="subject-mark" placeholder="Subject Mark" min="0" max="100" required>
-                          <input type="text" class="mark" placeholder="B" required>
-                          <input type="number" class="subject-mark" placeholder="Subject Mark" min="0" max="100" required>
-                          <input type="text" class="mark" placeholder="C" required>
-                          <input type="number" class="subject-mark" placeholder="Subject Mark" min="0" max="100" required>
-                          <input type="text" class="mark" placeholder="S" required>
-                          <input type="number" class="" placeholder="Subject Mark" min="0" max="100" required>
-                        </div>
+              <div class="gpa-calculator-edit">
+                <h5>Add your GPA Calculator grades</h5>
+                <form id="gpa-form">
+                  <div id="subject-list">
+                    <div class="subject-item">
+                      <div class="input-group mb-3">
+                        <input type="text" class="mark" placeholder="A" required>
+                        <input type="number" class="subject-mark" placeholder="Subject Mark" min="0" max="100" required>
+                        <input type="text" class="mark" placeholder="B" required>
+                        <input type="number" class="subject-mark" placeholder="Subject Mark" min="0" max="100" required>
+                        <input type="text" class="mark" placeholder="C" required>
+                        <input type="number" class="subject-mark" placeholder="Subject Mark" min="0" max="100" required>
+                        <input type="text" class="mark" placeholder="S" required>
+                        <input type="number" class="" placeholder="Subject Mark" min="0" max="100" required>
                       </div>
                     </div>
-                    <button type="button" id="add-subject-button">Save</button>
-                    <button type="button" id="calculate-button">Clear</button>
-                  </form>
-                </div>
+                  </div>
+                  <button type="button" id="add-subject-button">Save</button>
+                  <button type="button" id="calculate-button">Clear</button>
+                </form>
+              </div>
               <!--  </div> Drop down button yaf end-->
             </div>
           </div>
@@ -83,15 +83,14 @@
           <div class="subject-item" v-for="(subject, index) in subjects" :key="index">
             <input type="text" class="subject-name" v-model="subject.name" placeholder="Subject Name" required>
             <input type="number" class="subject-mark" v-model="subject.mark" placeholder="Subject Mark" min="0" max="100" required>
-            <button   type="button" class="remove-subject-button"  @click="removeSubject(index)" >Remove  <i class="bi bi-trash"></i></button>
           </div>
         </div>
-        <button type="button" id="add-subject-button" @click="addSubject">  Add Subject <i class="bi bi-plus-square"></i></button>
-        <button type="button" id="calculate-button" @click="calculateGPA">Calculate GPA</button>
+        <button type="button" id="add-subject-button" @click="submitSubjectData">Save</button>
+        <button type="button" id="calculate-button" @click="calculateFinalGPA">Calculate GPA</button>
       </form>
-      <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
-      <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
-    </div>
+           <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
+           <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
+      </div>
   </div>
   <div id="DB-gpa-sub-data-show" class="DB-export-data-scroll">
     <h5 id="DB-gpa-sub-data-topic">Your Subjects</h5>
@@ -106,58 +105,11 @@
       </tr>
       </thead>
       <tbody>
-      <tr class="table-secondary">
-        <th scope="row">Algo</th>
-        <td class="table-light">75</td>
-        <td class="table-info">3.0</td>
-
-      </tr>
-      <tr class="table-secondary">
-        <th scope="row">Database management</th>
-        <td class="table-light">75</td>
-        <td class="table-info">3.0</td>
-
-      </tr>
-      <tr class="table-secondary">
-        <th scope="row">FD Mathematics</th>
-        <td class="table-light">75</td>
-        <td class="table-info">3.0</td>
-      </tr>
-      <tr class="table-secondary">
-        <th scope="row">Advanced Statics</th>
-        <td class="table-light">75</td>
-        <td class="table-info">3.0</td>
-      </tr>
-      <tr class="table-secondary">
-        <th scope="row">Mobile Application Developement</th>
-        <td class="table-light">75</td>
-        <td class="table-info">3.0</td>
-      </tr>
-      <tr class="table-secondary">
-        <th scope="row">Machine Learning</th>
-        <td class="table-light">75</td>
-        <td class="table-info">3.0</td>
-
-      </tr>
-      <tr class="table-secondary">
-        <th scope="row">IOT</th>
-        <td class="table-light">75</td>
-        <td class="table-info">3.0</td>
-      </tr>
-      <tr class="table-secondary">
-        <th scope="row">C#</th>
-        <td class="table-light">75</td>
-        <td class="table-info">3.0</td>
-      </tr>
-      <tr class="table-secondary">
-        <th scope="row">Robotics</th>
-        <td class="table-light">75</td>
-        <td class="table-info">3.0</td>
-      </tr>
-      <tr class="table-secondary">
-        <th scope="row">Artificial Intelegence</th>
-        <td class="table-light">75</td>
-        <td class="table-info">3.0</td>
+      <!-- i used v-for to loop through subjectsDB -->
+      <tr class="table-secondary" v-for="(subjectDB, index) in subjectsDB" :key="index">
+        <th scope="row">{{ subjectDB.name }}</th>
+        <td class="table-light">{{ subjectDB.mark }}</td>
+        <td class="table-info">{{ calculateGradePoints(subjectDB.mark) }}</td>
       </tr>
       </tbody>
     </table>
@@ -172,22 +124,15 @@ import { ref } from 'vue';
 const subjects = ref([{ name: '', mark: '' }]);
 const gpa = ref(null);
 
-const addSubject = () => {
-  subjects.value.push({ name: '', mark: '' });
-};
+// New array to store submitted subjects
+const subjectsDB = ref([]);
 
-const removeSubject = (index) => {
-  subjects.value.splice(index, 1);
-};
-
-const calculateGPA = () => {
+const calculateFinalGPA = () => {
   let totalCredits = 0;
   let totalGradePoints = 0;
 
-
-  subjects.value.forEach((subject) => {
-    const mark = parseFloat(subject.mark);
-    const gradePoints = calculateGradePoints(mark);
+  subjectsDB.value.forEach((subjectDB) => {
+    const gradePoints = calculateGradePoints(subjectDB.mark);
 
     totalCredits += 1;
     totalGradePoints += gradePoints;
@@ -200,7 +145,6 @@ const calculateGPA = () => {
     gpa.value = null;
   }
 };
-
 const calculateGradePoints = (mark) => {
   if (mark >= 90) return 4.0;
   else if (mark >= 85) return 3.7;
@@ -212,7 +156,31 @@ const calculateGradePoints = (mark) => {
   else return 0.0;
 };
 
-//Need to develop Db connection and db
+
+const submitSubjectData = () => {
+  // Filter out empty subjects
+  const validSubjects = subjects.value.filter((subject) => subject.name.trim() !== '' && subject.mark !== '');
+
+  if (validSubjects.length > 0) {
+    const subjectData = validSubjects.map((subject) => ({
+      name: subject.name,
+      mark: parseFloat(subject.mark),
+    }));
+
+    // Push valid submitted data into subjectsDB
+    subjectsDB.value.push(...subjectData);
+
+    // Clear the input fields after submission
+    validSubjects.forEach((subject) => {
+      subject.name = '';
+      subject.mark = '';
+    });
+  }
+};
+
+//  need to implement the logic to submit the data to your database using SQL.
+
+
 
 
 </script>
@@ -284,7 +252,8 @@ input[type="number"]:hover{
 
 .subject-item input[type="text"],
 .subject-item input[type="number"] {
-  width: 45%;
+  width: 50%;
+  margin-right: 10px;
 
 }
 
@@ -296,27 +265,6 @@ input[type="number"]:hover{
   cursor: pointer;
   margin-right: 15px; /* Add space between buttons */
   border-radius: 5px;
-}
-
-
-.remove-subject-button {
-  background-color: #e7132c;
-  color: #fff;
-  border: none;
-  padding: 4px 5px;
-  cursor: pointer;
-  margin-right: 10px; /* Add space between buttons */
-  margin-left: 10px;
-  border-radius: 5px;
-  font-size: 12px;
-}
-
-
-.remove-subject-button:hover{
-  background-color: #100f0f;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-  transition: 0.8s;
-
 }
 
 
