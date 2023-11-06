@@ -1,6 +1,5 @@
 <!-- eslint-disable no-unused-vars -->
 <template>
-  <html data-theme='cupcake'>
   <!--    middle textarea-->
   <div>
     <textarea class="textarea textarea-accent" placeholder="Bio" v-model="noteContent"></textarea>
@@ -10,74 +9,122 @@
     </div>
   </div>
 
+  <div class="module-section">
+    <!-- Modules section -->
+    <ul class="menu bg-base-200 w-56 rounded-box module-box">
+      <li class="menu-title-div">
+        Modules
+      </li>
+      <li v-for="(module, index) in modules" :key="index">
+        <a class="modules">{{ module.name }}</a>
+      </li>
+      <li>
+        <a class="modules-fixed-anchor" @click="showModulePopup = true">
+          <img class="add-btn-modules" src="https://img.icons8.com/ios/50/add--v1.png" alt="add--v1" />
+        </a>
+      </li>
+    </ul>
 
-      <ul class="menu bg-base-200 w-56 rounded-box module-box">
-        <div class="menu-title-div">
-          <li class="menu-title">Modules</li>
-        </div>
-        <li><a class="modules">Module 01</a></li>
-        <li><a class="modules">Module 02</a></li>
-        <li><a class="modules">Module 03</a></li>
-        <li><a class="modules">Module 04</a></li>
-        <li><a class="modules">Module 05</a></li>
-        <li><a class="modules">Module 06</a></li>
-        <li><a class="modules">Module 07</a></li>
-        <li><a class="modules">Module 08</a></li>
-        <li><a class="modules">Module 09</a></li>
-        <li><a class="modules">Module 10</a></li>
-        <li><a class="modules">Module 11</a></li>
-        <li><a class="modules">Module 12</a></li>
-        <li><a class="modules">Module 13</a></li>
-        <li><a class="modules">Module 14</a></li>
-        <li><a class="modules">Module 15</a></li>
-      </ul>
+    <!-- Add Module Popup -->
+    <div class="popup" v-if="showModulePopup">
+      <div class="popup-content">
+        <h2>Add Module</h2>
+        <input type="text" v-model="newModuleName" placeholder="enter the module name">
+        <button class="btn-save" @click="addModule">Save</button>
+        <button class="btn-cancel" @click="showModulePopup = false">Cancel</button>
+      </div>
+    </div>
+  </div>
 
+  <div class="questions-section">
+    <!-- Questions section -->
+    <ul class="menu bg-base-200 w-56 rounded-box questions-box">
+      <li class="menu-title-div">Questions</li>
+      <li v-for="(question, index) in questions" :key="index">
+        <a class="modules">{{ question.name }}</a>
+      </li>
+      <li>
+        <a class="modules-fixed-anchor" @click="showQuestionPopup = true">
+          <img class="add-btn-questions" src="https://img.icons8.com/ios/50/add--v1.png" alt="add--v1" />
+        </a>
+      </li>
+    </ul>
 
-
-      <ul class="menu bg-base-200 w-56 rounded-box questions-box">
-        <div class="menu-title-div">
-          <li class="menu-title">Questions</li>
-        </div>
-        <li><a class="modules">Question 01</a></li>
-        <li><a class="modules">Question 02</a></li>
-        <li><a class="modules">Question 03</a></li>
-        <li><a class="modules">Question 04</a></li>
-        <li><a class="modules">Question 05</a></li>
-        <li><a class="modules">Question 06</a></li>
-        <li><a class="modules">Question 06</a></li>
-        <li><a class="modules">Question 07</a></li>
-        <li><a class="modules">Question 08</a></li>
-      </ul>
-
-  </html>
+    <!-- Add Question Popup -->
+    <div class="popup" v-if="showQuestionPopup">
+      <div class="popup-content">
+        <h2>Add Question</h2>
+        <input type="text" v-model="newQuestionName" placeholder="enter the question">
+        <button class="btn-save" @click="addQuestion">Save</button>
+        <button class="btn-cancel" @click="showQuestionPopup = false">Cancel</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-
 export default {
+  el: "#app",
   data() {
     return {
-      noteContent: "Your notes here....."
+      noteContent: "Your notes here.....",
+      modules: [
+        { name: "" },
+        { name: "" },
+        // ...other initial modules...
+      ],
+      showModulePopup: false,
+      newModuleName: "",
+      questions: [
+        { name: "" },
+        { name: "" },
+        // ...other initial questions...
+      ],
+      showQuestionPopup: false,
+      newQuestionName: "",
     };
   },
   methods: {
     submitNotes() {
+      // Assuming you have a textarea element within your template.
       var noteTextarea = document.querySelector(".textarea");
-      var noteContent = noteTextarea.value;
+      //var noteContent = noteTextarea.value;
 
       // Send the noteContent to your server using an AJAX request or form submission
 
       // After successfully submitting the note, clear the textarea
-      // eslint-disable-next-line no-unused-vars
-      noteContent = "Your notes here.....";
+      noteTextarea.value = "Your notes here.....";
     },
     clearNotes() {
+      // Assuming you have a textarea element within your template.
       var noteTextarea = document.querySelector(".textarea");
       noteTextarea.value = "Your notes here.....";
-    }
-  }
+    },
+    addModule() {
+      if (this.newModuleName) {
+        // Save the module to the database (simulated by adding it to the modules array).
+        this.modules.push({ name: this.newModuleName });
+
+        // Clear the input and hide the popup
+        this.newModuleName = "";
+        this.showModulePopup = false;
+      }
+    },
+    addQuestion() {
+      if (this.newQuestionName) {
+        // Save the question to the database (simulated by adding it to the questions array).
+        this.questions.push({ name: this.newQuestionName });
+
+        // Clear the input and hide the popup
+        this.newQuestionName = "";
+        this.showQuestionPopup = false;
+      }
+    },
+  },
 };
+
 </script>
+
 
 <style lang="scss" scoped>
 
@@ -96,8 +143,6 @@ export default {
   border-radius: 7px;
   position: fixed;
   right: 316px;
-
-
 }
 
 li {
@@ -121,7 +166,6 @@ li {
   border: 3px solid black;
   overflow: auto;
   border-radius: 7px;
-
 }
 
 .menu-title-div {
@@ -161,6 +205,62 @@ li {
   background-color: #778899;
   color: black;
   font-weight: bold;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.add-btn-modules{
+  position: fixed;
+  top: 43px;
+  height: 33px;
+}
+
+.add-btn-questions{
+  position: fixed;
+  top: 43px;
+  height: 33px;
+}
+
+.btn-save{
+  background-color: #778899;
+  color: black;
+  padding: 2px;
+  margin: 10px;
+  width: 70px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.btn-cancel{
+  background-color: #778899;
+  color: black;
+  padding: 2px;
+  width: 70px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+h2{
+  color: black;
 }
 
 
