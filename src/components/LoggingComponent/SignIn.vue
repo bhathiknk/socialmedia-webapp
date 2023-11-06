@@ -1,10 +1,10 @@
 <template>
     <div class="signin-form">
         <h2>Sign In</h2>
-        <form @submit.prevent="submitForm">
+        <form @submit="signin">
             <div class="form-group">
-                <label for="email-username">Email or Username:</label>
-                <input type="text" id="email-username" v-model="emailOrUsername" required />
+                <label for="email">Email:</label>
+                <input type="text" id="email" v-model="email" required />
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
@@ -19,23 +19,38 @@
 </template>
 
 <script>
+import axios from "axios";
+import swal from "sweetalert";
+import baseURL from "@/config";
 export default {
+    props: ["baseURL"],
     data() {
         return {
-            emailOrUsername: '',
-            password: '',
+            email: null,
+            password: null,
         };
     },
     methods: {
-        submitForm() {
-            // You can perform authentication here
-            // For a front-end-only example, you can simply log the form data
-            console.log('Submitted Form Data:', {
-                emailOrUsername: this.emailOrUsername,
+        async signin(e) {
+            e.preventDefault();
+            const body = {
+                email: this.email,
                 password: this.password,
-            });
-        }
-    }
+            };
+            await axios
+                .post(`${baseURL}user/signin`, body)
+                .then((res) => {
+                    localStorage.setItem("token", res.data.token);
+                    swal({
+                        text: "Login successful",
+                        icon: "success",
+                    });
+                    this.$emit("fetchData");
+                    this.$router.push({ name: "Feed" });
+                })
+                .catch((err) => console.log("err", err));
+        },
+    },
 };
 </script>
 
