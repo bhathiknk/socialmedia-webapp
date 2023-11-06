@@ -1,5 +1,5 @@
 <template>
-    <div class="goalSettings">
+    <div class="Discussion">
         <h1></h1>
     </div>
 </template>
