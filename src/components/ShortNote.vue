@@ -1,62 +1,67 @@
-<!-- eslint-disable no-unused-vars -->
 <template>
-  <!--    middle textarea-->
   <div>
-    <textarea class="textarea textarea-accent" placeholder="Bio" v-model="noteContent"></textarea>
-    <div class="join join-vertical lg:join-horizontal">
-      <button class="btn join-item" @click="submitNotes">Submit</button>
-      <button class="btn join-item" @click="clearNotes">Clear</button>
-    </div>
-  </div>
-
-  <div class="module-section">
-    <!-- Modules section -->
-    <ul class="menu bg-base-200 w-56 rounded-box module-box">
-      <li class="menu-title-div">
-        Modules
-      </li>
-      <li v-for="(module, index) in modules" :key="index">
-        <a class="modules">{{ module.name }}</a>
-      </li>
-      <li>
-        <a class="modules-fixed-anchor" @click="showModulePopup = true">
-          <img class="add-btn-modules" src="https://img.icons8.com/ios/50/add--v1.png" alt="add--v1" />
-        </a>
-      </li>
-    </ul>
-
-    <!-- Add Module Popup -->
-    <div class="popup" v-if="showModulePopup">
-      <div class="popup-content">
-        <h2>Add Module</h2>
-        <input type="text" v-model="newModuleName" placeholder="enter the module name">
-        <button class="btn-save" @click="addModule">Save</button>
-        <button class="btn-cancel" @click="showModulePopup = false">Cancel</button>
+    <!-- Middle textarea -->
+    <div>
+      <textarea class="textarea textarea-accent" placeholder="Bio" v-model="noteContent"></textarea>
+      <div class="join join-vertical lg:join-horizontal">
+        <button class="btn join-item" @click="submitNotes">Submit</button>
+        <button class="btn join-item" @click="clearNotes">Clear</button>
       </div>
     </div>
-  </div>
-
-  <div class="questions-section">
-    <!-- Questions section -->
-    <ul class="menu bg-base-200 w-56 rounded-box questions-box">
-      <li class="menu-title-div">Questions</li>
-      <li v-for="(question, index) in questions" :key="index">
-        <a class="modules">{{ question.name }}</a>
-      </li>
-      <li>
-        <a class="modules-fixed-anchor" @click="showQuestionPopup = true">
-          <img class="add-btn-questions" src="https://img.icons8.com/ios/50/add--v1.png" alt="add--v1" />
-        </a>
-      </li>
-    </ul>
-
-    <!-- Add Question Popup -->
-    <div class="popup" v-if="showQuestionPopup">
-      <div class="popup-content">
-        <h2>Add Question</h2>
-        <input type="text" v-model="newQuestionName" placeholder="enter the question">
-        <button class="btn-save" @click="addQuestion">Save</button>
-        <button class="btn-cancel" @click="showQuestionPopup = false">Cancel</button>
+    <!-- Modules section -->
+    <div>
+      <div class="module-section">
+        <ul class="menu bg-base-200 w-56 rounded-box module-box">
+          <li class="menu-title-div">Modules</li>
+          <li v-for="(module, index) in modules" :key="index">
+            <a class="modules">{{ module.name }}</a>
+          </li>
+          <li>
+            <a class="modules-fixed-anchor" @click="showModulePopup = true">
+              <img class="add-btn-modules" src="https://img.icons8.com/ios/50/add--v1.png" alt="add--v1" />
+            </a>
+          </li>
+        </ul>
+        <!-- Add Module Popup -->
+        <div class="popup" v-if="showModulePopup">
+          <div class="popup-content">
+            <h2>Add Module</h2>
+            <input type="text" v-model="newModuleName" placeholder="Enter the module name">
+            <button class="btn-save" @click="addModule">Save</button>
+            <button class="btn-cancel" @click="showModulePopup = false">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <!-- Questions section -->
+      <div class="questions-section">
+        <ul class="menu bg-base-200 w-56 rounded-box questions-box">
+          <li class="menu-title-div">Questions</li>
+          <div class="questions-container"> <!-- Added a container for scrollable area -->
+            <li v-for="(question, index) in questions" :key="index">
+              <a class="modules" @click="openQuestionModal(index)">{{ question.name }}</a>
+            </li>
+          </div>
+          <li>
+            <a class="modules-fixed-anchor" @click="showQuestionPopup = true">
+              <img class="add-btn-questions" src="https://img.icons8.com/ios/50/add--v1.png" alt="add--v1" />
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- Edit Question Modal -->
+      <div class="popup" v-if="activeQuestionIndex !== null || showQuestionPopup">
+        <div class="popup-content">
+          <h2>{{ activeQuestionIndex !== null ? 'Edit Question' : 'Add Question' }}</h2>
+          <input type="text" v-model="editedQuestion" placeholder="Enter the question again" v-if="activeQuestionIndex !== null" />
+          <input type="text" v-model="newQuestionName" placeholder="Enter the question" v-else />
+          <textarea class="textarea-question-edit" v-model="editedAnswer" placeholder="Edit the answer"></textarea>
+          <div class="edit-questions-btn">
+            <button class="btn-save-edit" @click="saveQuestion">Save</button>
+            <button class="btn-clear-edit" @click="clearAnswer">Clear</button>
+            <button class="btn-delete-edit" @click="deleteQuestion">Delete</button>
+            <button class="btn-cancel-edit" @click="closeModal">Cancel</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -64,7 +69,6 @@
 
 <script>
 export default {
-  el: "#app",
   data() {
     return {
       noteContent: "Your notes here.....",
@@ -82,6 +86,9 @@ export default {
       ],
       showQuestionPopup: false,
       newQuestionName: "",
+      activeQuestionIndex: null,
+      editedQuestion: "",
+      editedAnswer: "",
     };
   },
   methods: {
@@ -113,16 +120,43 @@ export default {
     addQuestion() {
       if (this.newQuestionName) {
         // Save the question to the database (simulated by adding it to the questions array).
-        this.questions.push({ name: this.newQuestionName });
+        this.questions.push({ name: this.newQuestionName, answer: "" });
 
         // Clear the input and hide the popup
         this.newQuestionName = "";
         this.showQuestionPopup = false;
       }
     },
+    openQuestionModal(index) {
+      this.activeQuestionIndex = index;
+    },
+    saveQuestion() {
+      if (this.activeQuestionIndex !== null) {
+        this.questions[this.activeQuestionIndex].name = this.editedQuestion;
+        this.questions[this.activeQuestionIndex].answer = this.editedAnswer;
+        this.activeQuestionIndex = null;
+      } else if (this.newQuestionName) {
+        this.questions.push({ name: this.newQuestionName, answer: this.editedAnswer });
+        this.newQuestionName = "";
+        this.editedAnswer = "";
+        this.showQuestionPopup = false;
+      }
+    },
+    clearAnswer() {
+      this.editedAnswer = "";
+    },
+    deleteQuestion() {
+      if (this.activeQuestionIndex !== null) {
+        this.questions.splice(this.activeQuestionIndex, 1);
+        this.activeQuestionIndex = null;
+      }
+    },
+    closeModal() {
+      this.activeQuestionIndex = null;
+      this.showQuestionPopup = false;
+    },
   },
 };
-
 </script>
 
 
@@ -263,5 +297,71 @@ h2{
   color: black;
 }
 
+.popup-content{
+  height: 36rem;
+  width: 50%;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+.textarea-question-edit{
+  height: 25rem;
+  width: 100%;
+  overflow: auto;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+input{
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.edit-questions-btn{
+  display: inline;
+  position: relative;
+  bottom: 4px;
+  margin: 0;
+
+}
+
+.btn-save-edit{
+  background-color: #778899;
+  color: black;
+  padding: 2px;
+  margin: 5px;
+  width: 70px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.btn-cancel-edit{
+  background-color: #778899;
+  color: black;
+  padding: 2px;
+  margin: 5px;
+  width: 70px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.btn-delete-edit{
+  background-color: #778899;
+  color: black;
+  padding: 2px;
+  width: 70px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.btn-clear-edit{
+  background-color: #778899;
+  color: black;
+  padding: 2px;
+  width: 70px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
 
 </style>
