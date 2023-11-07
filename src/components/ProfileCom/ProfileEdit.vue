@@ -1,98 +1,125 @@
 <template>
     <div class="profile-edit">
 
-
-       <div class="circular-button-container">
-            <CircularButton
-                @click="navigateToSignUp"
-                to="/SignUp"
-            icon="fa fa-arrow-right"
-            label="LogIn"
-            style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
-            />
+        <div class="container-1">
+            <div class="circular-button-container">
+                <CircularButton
+                    @click="navigateToSignUp"
+                    to="/SignUp"
+                    v-if="!token"
+                    icon="fa fa-arrow-right"
+                    label="LogIn"
+                    style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
+                />
+            </div>
+            <div class="circular-button-container">
+                <CircularButton
+                    @click="navigateToUserDetailEdit"
+                    to="/UserDetailEdit"
+                    v-if="token"
+                    icon="fa fa-gear"
+                    label="Settings"
+                    style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
+                />
+            </div>
+            <div class="circular-button-container">
+                <CircularButton
+                    @click="signout"
+                    to="/ProfileEdit"
+                    v-if="token"
+                    icon="fa fa-sign-out"
+                    label="Signout"
+                    style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
+                />
+            </div>
         </div>
-        <div class="circular-button-container">
-            <CircularButton
-                @click="navigateToUserDetailEdit"
-                to="/UserDetailEdit"
-                icon="fa fa-gear"
-                label="Settings"
-                style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
-            />
-        </div>
 
-        <div class="container">
-        <!-- Display user information -->
-            <div class="profile-info">
-                <div class="profile-picture-container">
-                    <img :src="user.profileImageUrl" alt="Profile Picture" />
-                </div>
-                <h3>{{ user.username }}</h3>
-                 <p>{{ user.email }}</p>
-                 <p>{{ user.bio }}</p>
-          </div>
-        </div>
 
+
+        <!-- New container for profile picture, bio message, username, and email -->
+        <div class="container-2 profile-info">
+            <div class="profile-picture-container">
+                <img :src="profilePicture" alt="Profile Picture">
+            </div>
+
+            <h3>{{ userName }}</h3>
+            <p>{{ email }}</p>
+            <p>{{ bioMessage }}</p>
+        </div>
     </div>
 </template>
 
 <script>
 import CircularButton from "../CircularButton.vue";
+import axios from "axios";
+import swal from "sweetalert";
+
 export default {
     components: {
         CircularButton,
     },
     data() {
         return {
-            user: {
-                username: 'Kavindya',
-                email: 'user@example.com',
-                profileImageUrl: require('@/assets/profile.jpg'),
-                bio: 'This is my bio.',
-            },
+            token: '',
+            userName: null,
+            email: null,
+            profilePicture:  require('@/assets/profile.jpg'), // Set a default profile picture
+            bioMessage: 'Your bio message here',
         };
     },
     methods: {
-        navigateToSignUp() {
-            // Use Vue Router's push method to navigate to the "SignUp.vue" route
-            this.$router.push("/SignUp");
+        getUserName() {
+            axios.get(`http://localhost:8080/api/user/${this.token}`)
+                .then(response => {
+                    this.userName = response.data.userName;
+                    this.email = response.data.email;
+                })
+                .catch(error => {
+                    console.error(error);
+                    this.userName = null;
+                    this.email = null;
+                });
         },
-        navigateToUserDetailEdit(){
-            this.$router.push("/UserDetailEdit")
+        signout() {
+            localStorage.removeItem("token");
+            this.token = null;
+            this.userName = null; // Clear the userName
+            this.email = null; // Clear the email
+            swal({
+                text: "Logged you out. Visit again",
+                icon: "success",
+            });
         },
+    },
+    mounted() {
+        this.token = localStorage.getItem("token");
+        if (this.token) {
+            this.getUserName(); // Call getUserName when the component is mounted and there's a token
+        }
     },
 };
 </script>
 
-<style scoped>
-/* Add your CSS styles for the profile edit component here */
-</style>
-
 
 <style>
-/* Add CSS styles for the user profile page */
+/* Your existing CSS styles */
 
-body {
-    font-family: Arial, sans-serif;
-}
-
-h2 {
-    color: #333;
-}
-.profile-info {
-    margin: -12% auto;
-    max-width: 60%;
+.container-2.profile-info {
+    margin: 20px auto; /* Adjust margin as needed */
+    max-width: 80%; /* Adjust width as needed */
     padding: 20px;
     background-color: #f7f7f7;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    text-align: center; /* Center the content horizontally */
+    text-align: center;
 }
 
+/* Adjust styles for profile picture and other details */
+/* Modify or add styles as needed for the new profile container */
 .profile-picture-container {
-    width: 150px;
-    height: 150px;
+    width: 200px; /* Adjust size as needed */
+    height: 200px; /* Adjust size as needed */
     border-radius: 50%;
     overflow: hidden;
     margin: 20px auto;
@@ -101,32 +128,20 @@ h2 {
 .profile-picture-container img {
     max-width: 100%;
     height: auto;
-
+    border-radius: 50%; /* Maintain circular shape */
 }
 
 .profile-info h3 {
-
-    font-size: 24px;
+    font-size: 28px;
     margin-top: 10px;
     color: #333;
-    margin-bottom: 60px; /* Add margin below the username */
+    margin-bottom: 20px; /* Adjust margin as needed */
 }
 
 .profile-info p {
-
     color: #666;
-    margin-bottom: 30px;
+    margin-bottom: 15px; /* Adjust margin as needed */
 }
 
-
- .circular-button-container {
-
-     top: 10px;  /* Adjust the top value as needed to control the vertical position */
-     margin-left:5px;  /* Adjust the right value as needed to control the horizontal position */
-     display: block;
-     position: relative;
- }
-
-
-
+/* Additional styles for the new elements */
 </style>
