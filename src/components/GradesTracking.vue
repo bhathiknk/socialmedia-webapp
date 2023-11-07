@@ -12,12 +12,13 @@
           <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Enter your Grading method</h5>
+              <h5 class="offcanvas-title" id="canva-h5-topic">Enter your Grading method</h5> <!-- ID = "offcanvasExampleLabel"-->
               <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-              <div>
-                you can add your University GPA Grading marks to here. Which means A = 90 / B = 75 / C = 55 /S = 35 Like That
+              <div id="canva-description">
+                You can add your university GPA grading cutout marks to the below fields. Which means <br>A = 90 <br> B = 75 <br> C = 55
+                <br> S = 35 <br>Like That.
               </div>
 
               <!-- <div class="dropdown mt-3"> drop down button  -->
@@ -36,7 +37,7 @@
 
               <!--need to modify this code with Vue JS-->
               <div class="gpa-calculator-edit">
-                <h5>Add your GPA Calculator grades</h5>
+                <h5 id="cal-topic">Add your cutout marks</h5>
                 <form id="gpa-form">
                   <div id="subject-list">
                     <div class="subject-item">
@@ -86,7 +87,7 @@
           </div>
         </div>
         <button type="button" id="add-subject-button" @click="submitSubjectData">Save</button>
-        <button type="button" id="calculate-button" @click="calculateFinalGPA">Calculate GPA</button>
+        <button type="button" id="calculate-button" title="Before Click this button, you need to save your Sunject and marks details."  @click="calculateFinalGPA">Calculate GPA</button>
       </form>
            <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
            <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
@@ -204,6 +205,35 @@ body {
   color: #ffffff;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
+
+#canva-h5-topic{
+  max-width: 990px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  background-color: rgb(25, 67, 222);
+  color: #ffffff;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+#canva-description{
+  max-width: 990px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  background-color: rgb(179, 190, 234);
+  color: #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+#canva-description:hover{
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  transition: 0.8s;
+}
 #calculator {
   max-width: 990px;
   margin: 0 auto;
@@ -297,7 +327,6 @@ input[type="number"]:hover{
   font-weight: bold;
   margin-top: 20px;
 }
-
 
 .scroll {
   max-height: 400px; /*  maximum height for the scrollable area (default 500px) */
