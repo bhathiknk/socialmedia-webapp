@@ -1,6 +1,8 @@
 <template>
     <div class="profile-edit">
 
+        <!-- circularbuttons -->
+
         <div class="container-1">
             <div class="circular-button-container">
                 <CircularButton
@@ -36,7 +38,7 @@
 
 
 
-        <!-- New container for profile picture, bio message, username, and email -->
+        <!-- container for profile picture, bio message, username, and email -->
         <div class="container-2 profile-info">
             <div class="profile-picture-container">
                 <img :src="profilePicture" alt="Profile Picture">
@@ -68,8 +70,8 @@ export default {
         };
     },
     methods: {
-        getUserName() {
-            axios.get(`http://localhost:8080/api/user/${this.token}`)
+        getUserDetails() {
+            axios.get(`http://localhost:8080/api/user/${this.token}`) //API endpoint
                 .then(response => {
                     this.userName = response.data.userName;
                     this.email = response.data.email;
@@ -80,6 +82,7 @@ export default {
                     this.email = null;
                 });
         },
+        //Signout method
         signout() {
             localStorage.removeItem("token");
             this.token = null;
@@ -94,7 +97,7 @@ export default {
     mounted() {
         this.token = localStorage.getItem("token");
         if (this.token) {
-            this.getUserName(); // Call getUserName when the component is mounted and there's a token
+            this.getUserDetails(); // Call getUserName when the component is mounted and there's a token
         }
     },
 };

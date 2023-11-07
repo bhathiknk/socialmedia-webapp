@@ -31,14 +31,16 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
     data() {
         return {
+            token: '',
             editedUser: {
                 profileImageUrl: require('@/assets/profile.jpg'),
-                userName: '',
-                email: '',
-                bio: ''
+                userName: 'null',
+                email: 'null',
+                bio: '',
             }
         };
     },
@@ -48,23 +50,27 @@ export default {
             const input = this.$el.querySelector('#profile-picture');
             input.click();
         },
-        /*  updateProfilePicture(event) {
-            // Handle profile picture upload and update editedUser.profilePicture
-            // You can use FileReader API to display the selected image preview
-            // Example:
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.editedUser.profileImageUrl = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        },
-        submitForm() {
-            // You can perform form validation here and save changes to the backend if required
-            // For this example, we will just log the edited user data
-            console.log('Edited User Data:', this.editedUser);
+        getUserDetails() {
+            // Perform an API request to get the user's details
+            axios.get(`http://localhost:8080/api/user/${this.token}`) //API endpoint
+                .then(response => {
+                    this.editedUser.userName = response.data.userName;
+                    this.editedUser.email = response.data.email;
+                    // parameter for API response
+                })
+                .catch(error => {
+                    console.error(error);
+                    this.userName = null;
+                    this.email = null;
+                });
+        }
+    },
+    mounted() {
 
-    }*/
+        this.token = localStorage.getItem("token");
+        if (this.token) {
+            this.getUserDetails(); // Call getUserDetails when the component is mounted and there's a token
+        }
     }
 };
 </script>
