@@ -1,54 +1,164 @@
 <template>
-  <html data-theme='cupcake'>
-
-  <!--    middle textarea-->
-  <textarea class="textarea textarea-accent" placeholder="Bio">Your notes here.....</textarea>
-
-  <ul class="menu bg-base-200 w-56 rounded-box module-box">
-    <div class="menu-title-div">
-      <li class="menu-title">Modules</li>
+  <div>
+    <!-- Middle textarea -->
+    <div>
+      <textarea class="textarea textarea-accent" placeholder="Bio" v-model="noteContent"></textarea>
+      <div class="join join-vertical lg:join-horizontal">
+        <button class="btn join-item" @click="submitNotes">Submit</button>
+        <button class="btn join-item" @click="clearNotes">Clear</button>
+      </div>
     </div>
-    <li><a class="modules">Module 01</a></li>
-    <li><a class="modules">Module 02</a></li>
-    <li><a class="modules">Module 03</a></li>
-    <li><a class="modules">Module 04</a></li>
-    <li><a class="modules">Module 05</a></li>
-    <li><a class="modules">Module 06</a></li>
-    <li><a class="modules">Module 07</a></li>
-    <li><a class="modules">Module 08</a></li>
-    <li><a class="modules">Module 09</a></li>
-    <li><a class="modules">Module 10</a></li>
-    <li><a class="modules">Module 11</a></li>
-    <li><a class="modules">Module 12</a></li>
-    <li><a class="modules">Module 13</a></li>
-    <li><a class="modules">Module 14</a></li>
-    <li><a class="modules">Module 15</a></li>
-  </ul>
-
-  <ul class="menu bg-base-200 w-56 rounded-box questions-box">
-    <div class="menu-title-div">
-      <li class="menu-title">Questions</li>
+    <!-- Modules section -->
+    <div>
+      <div class="module-section">
+        <ul class="menu bg-base-200 w-56 rounded-box module-box">
+          <li class="menu-title-div">Modules</li>
+          <li v-for="(module, index) in modules" :key="index">
+            <a class="modules">{{ module.name }}</a>
+          </li>
+          <li>
+            <a class="modules-fixed-anchor" @click="showModulePopup = true">
+              <img class="add-btn-modules" src="https://img.icons8.com/ios/50/add--v1.png" alt="add--v1" />
+            </a>
+          </li>
+        </ul>
+        <!-- Add Module Popup -->
+        <div class="popup" v-if="showModulePopup">
+          <div class="popup-content">
+            <h2>Add Module</h2>
+            <input type="text" v-model="newModuleName" placeholder="Enter the module name">
+            <button class="btn-save" @click="addModule">Save</button>
+            <button class="btn-cancel" @click="showModulePopup = false">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <!-- Questions section -->
+      <div class="questions-section">
+        <ul class="menu bg-base-200 w-56 rounded-box questions-box">
+          <li class="menu-title-div">Questions</li>
+          <div class="questions-container"> <!-- Added a container for scrollable area -->
+            <li v-for="(question, index) in questions" :key="index">
+              <a class="modules" @click="openQuestionModal(index)">{{ question.name }}</a>
+            </li>
+          </div>
+          <li>
+            <a class="modules-fixed-anchor" @click="showQuestionPopup = true">
+              <img class="add-btn-questions" src="https://img.icons8.com/ios/50/add--v1.png" alt="add--v1" />
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- Edit Question Modal -->
+      <div class="popup" v-if="activeQuestionIndex !== null || showQuestionPopup">
+        <div class="popup-content">
+          <h2>{{ activeQuestionIndex !== null ? 'Edit Question' : 'Add Question' }}</h2>
+          <input type="text" v-model="editedQuestion" placeholder="Enter the question again" v-if="activeQuestionIndex !== null" />
+          <input type="text" v-model="newQuestionName" placeholder="Enter the question" v-else />
+          <textarea class="textarea-question-edit" v-model="editedAnswer" placeholder="Edit the answer"></textarea>
+          <div class="edit-questions-btn">
+            <button class="btn-save-edit" @click="saveQuestion">Save</button>
+            <button class="btn-clear-edit" @click="clearAnswer">Clear</button>
+            <button class="btn-delete-edit" @click="deleteQuestion">Delete</button>
+            <button class="btn-cancel-edit" @click="closeModal">Cancel</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <li><a class="modules">Question 01</a></li>
-    <li><a class="modules">Question 02</a></li>
-    <li><a class="modules">Question 03</a></li>
-    <li><a class="modules">Question 04</a></li>
-    <li><a class="modules">Question 05</a></li>
-    <li><a class="modules">Question 06</a></li>
-    <li><a class="modules">Question 06</a></li>
-    <li><a class="modules">Question 07</a></li>
-    <li><a class="modules">Question 08</a></li>
-
-
-  </ul>
-
-  </html>
+  </div>
 </template>
 
-<script setup>
+<script>
+export default {
+  data() {
+    return {
+      noteContent: "Your notes here.....",
+      modules: [
+        { name: "" },
+        { name: "" },
+        // ...other initial modules...
+      ],
+      showModulePopup: false,
+      newModuleName: "",
+      questions: [
+        { name: "" },
+        { name: "" },
+        // ...other initial questions...
+      ],
+      showQuestionPopup: false,
+      newQuestionName: "",
+      activeQuestionIndex: null,
+      editedQuestion: "",
+      editedAnswer: "",
+    };
+  },
+  methods: {
+    submitNotes() {
+      // Assuming you have a textarea element within your template.
+      var noteTextarea = document.querySelector(".textarea");
+      //var noteContent = noteTextarea.value;
 
+      // Send the noteContent to your server using an AJAX request or form submission
 
+      // After successfully submitting the note, clear the textarea
+      noteTextarea.value = "Your notes here.....";
+    },
+    clearNotes() {
+      // Assuming you have a textarea element within your template.
+      var noteTextarea = document.querySelector(".textarea");
+      noteTextarea.value = "Your notes here.....";
+    },
+    addModule() {
+      if (this.newModuleName) {
+        // Save the module to the database (simulated by adding it to the modules array).
+        this.modules.push({ name: this.newModuleName });
+
+        // Clear the input and hide the popup
+        this.newModuleName = "";
+        this.showModulePopup = false;
+      }
+    },
+    addQuestion() {
+      if (this.newQuestionName) {
+        // Save the question to the database (simulated by adding it to the questions array).
+        this.questions.push({ name: this.newQuestionName, answer: "" });
+
+        // Clear the input and hide the popup
+        this.newQuestionName = "";
+        this.showQuestionPopup = false;
+      }
+    },
+    openQuestionModal(index) {
+      this.activeQuestionIndex = index;
+    },
+    saveQuestion() {
+      if (this.activeQuestionIndex !== null) {
+        this.questions[this.activeQuestionIndex].name = this.editedQuestion;
+        this.questions[this.activeQuestionIndex].answer = this.editedAnswer;
+        this.activeQuestionIndex = null;
+      } else if (this.newQuestionName) {
+        this.questions.push({ name: this.newQuestionName, answer: this.editedAnswer });
+        this.newQuestionName = "";
+        this.editedAnswer = "";
+        this.showQuestionPopup = false;
+      }
+    },
+    clearAnswer() {
+      this.editedAnswer = "";
+    },
+    deleteQuestion() {
+      if (this.activeQuestionIndex !== null) {
+        this.questions.splice(this.activeQuestionIndex, 1);
+        this.activeQuestionIndex = null;
+      }
+    },
+    closeModal() {
+      this.activeQuestionIndex = null;
+      this.showQuestionPopup = false;
+    },
+  },
+};
 </script>
+
 
 <style lang="scss" scoped>
 
@@ -59,26 +169,27 @@
 }
 
 .textarea-accent {
-  height: 40.5rem;
+  height: 41rem;
   width: 55rem;
   margin-top: 1.2rem;
-  margin-left: 24px;
-  border: solid black;
-  border-radius: 2px;
+  border: 3px solid black;
   overflow: auto;
-
+  border-radius: 7px;
+  position: fixed;
+  right: 316px;
 }
-li{
+
+li {
   padding: 5px;
   list-style: none;
   font-size: 16px;
 }
 
-.module-box{
-  height: 40.5rem;
+.module-box {
+  height: 41rem;
   width: 20.5rem;
-  position: fixed;
-  bottom: 56.2px;
+  position: absolute;
+  bottom: 3rem;
   left: 5px;
   display: block;
   gap: 5px;
@@ -88,10 +199,10 @@ li{
   padding: 20px;
   border: 3px solid black;
   overflow: auto;
-
+  border-radius: 7px;
 }
 
-.menu-title-div{
+.menu-title-div {
   display: block;
   height: 35px;
   width: 100%;
@@ -103,20 +214,154 @@ li{
   overflow: auto;
 }
 
-.questions-box{
-  height: 40.5rem;
+.questions-box {
+  height: 41rem;
   width: 19rem;
   background-color: #6d99e3;
   text-align: left;
-  position: fixed;
+  position: absolute;
   right: 5px;
-  bottom: 3.5rem;
+  bottom: 3rem;
   border: 3px solid black;
   padding: 20px;
   overflow: auto;
+  border-radius: 7px;
+}
 
+.btn {
+  display: inline-block;
+  position: relative;
+  top: 39.3rem;
+  width: 16%;
+  border-radius: 7px;
+  padding: 1px;
+  margin: 12px;
+  background-color: #778899;
+  color: black;
+  font-weight: bold;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.add-btn-modules{
+  position: fixed;
+  top: 43px;
+  height: 33px;
+}
+
+.add-btn-questions{
+  position: fixed;
+  top: 43px;
+  height: 33px;
+}
+
+.btn-save{
+  background-color: #778899;
+  color: black;
+  padding: 2px;
+  margin: 10px;
+  width: 70px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.btn-cancel{
+  background-color: #778899;
+  color: black;
+  padding: 2px;
+  width: 70px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+h2{
+  color: black;
+}
+
+.popup-content{
+  height: 36rem;
+  width: 50%;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+.textarea-question-edit{
+  height: 25rem;
+  width: 100%;
+  overflow: auto;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+input{
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.edit-questions-btn{
+  display: inline;
+  position: relative;
+  bottom: 4px;
+  margin: 0;
 
 }
 
+.btn-save-edit{
+  background-color: #778899;
+  color: black;
+  padding: 2px;
+  margin: 5px;
+  width: 70px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.btn-cancel-edit{
+  background-color: #778899;
+  color: black;
+  padding: 2px;
+  margin: 5px;
+  width: 70px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.btn-delete-edit{
+  background-color: #778899;
+  color: black;
+  padding: 2px;
+  width: 70px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.btn-clear-edit{
+  background-color: #778899;
+  color: black;
+  padding: 2px;
+  width: 70px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
 
 </style>
