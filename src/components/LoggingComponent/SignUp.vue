@@ -5,7 +5,7 @@
         </div>
 
         <h2>Sign Up</h2>
-        <form @submit.prevent="submitForm">
+        <form @submit="signup">
             <div class="form-group">
                 <div class="name-group">
                     <div class="name-input">
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label for="username">Username:</label>
-                <input type="text" id="username" v-model="username" required />
+                <input type="text" id="userName" v-model="userName" required />
             </div>
 
             <div class="form-group">
@@ -40,7 +40,7 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" v-model="password" required />
             </div>
-            <div class="form-group">
+               <div class="form-group">
                 <label for="confirm-password">Confirm Password:</label>
                 <input type="password" id="confirm-password" v-model="confirmPassword" required />
             </div>
@@ -52,33 +52,57 @@
 
 
 <script>
+import axios from "axios";
+import swal from "sweetalert";
+import baseURL from "@/config";
 export default {
-    data() {
-        return {
-            firstName: '',
-            lastName: '',
-            email: '',
-            username: '',
-            password: '',
-            confirmPassword: '',
-            interest: '' // Add the 'interest' field to your data
+  props: ["baseURL"],
+  data() {
+    return {
+      email: null,
+      firstName: null,
+      lastName: null,
+      userName:null,
+      interest:null,
+      password: null,
+      confirmPassword: null,
+
+    };
+  },
+  methods: {
+    async signup(e) {
+      e.preventDefault();
+      if (this.password === this.confirmPassword) {
+        // call signup api
+        const user = {
+        
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          interest:this.interest,
+          userName:this.userName,
+          password: this.password,
         };
+        console.log("user", user);
+        await axios
+            .post(`${baseURL}user/signup`, user)
+            .then(() => {
+              this.$router.replace("/");
+              swal({
+                text: "User signup successful, please login",
+                icon: "success",
+              });
+            })
+            .catch((err) => console.log("err", err));
+      } else {
+        // show some error
+        swal({
+          text: "passwords dont match",
+          icon: "error",
+        });
+      }
     },
-    methods: {
-        submitForm() {
-            // You can perform form validation here
-            // For a front-end-only example, you can simply log the form data
-            console.log('Submitted Form Data:', {
-                firstName: this.firstName,
-                lastName: this.lastName,
-                email: this.email,
-                username: this.username,
-                password: this.password,
-                confirmPassword: this.confirmPassword,
-                interest: this.interest // Include the interest field in the data
-            });
-        }
-    }
+  },
 };
 </script>
 
