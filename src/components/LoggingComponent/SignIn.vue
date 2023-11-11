@@ -22,14 +22,9 @@
 import axios from "axios";
 import swal from "sweetalert";
 import baseURL from "@/config";
+
 export default {
-    props: ["baseURL"],
-    data() {
-        return {
-            email: null,
-            password: null,
-        };
-    },
+    // Your existing component setup
     methods: {
         async signin(e) {
             e.preventDefault();
@@ -46,13 +41,24 @@ export default {
                         icon: "success",
                     });
                     this.$emit("fetchData");
-                    this.$router.push({ name: "Feed" });
+                    this.$router.push({ name: "ProfileEdit" });
                 })
-                .catch((err) => console.log("err", err));
+                .catch((err) => {
+                    if (err.response && err.response.status === 400) {
+                        // Incorrect password error
+                        swal({
+                            text: "Incorrect password. Please try again.",
+                            icon: "error",
+                        });
+                    } else {
+                        console.log("err", err);
+                    }
+                });
         },
     },
 };
 </script>
+
 
 <style scoped>
 
