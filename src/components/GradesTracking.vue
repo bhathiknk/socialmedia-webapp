@@ -84,14 +84,15 @@
           <div class="subject-item" v-for="(subject, index) in subjects" :key="index">
             <input type="text" class="subject-name" v-model="subject.name" placeholder="Subject Name" required>
             <input type="number" class="subject-mark" v-model="subject.mark" placeholder="Subject Mark" min="0" max="100" required>
+            <span v-if="subject.mark > 100" style="color: red;">Marks cannot exceed 100</span>
           </div>
         </div>
         <button type="button" id="add-subject-button" @click="submitSubjectData">Save</button>
         <button type="button" id="calculate-button" title="Before Click this button, you need to save your Sunject and marks details."  @click="calculateFinalGPA">Calculate GPA</button>
       </form>
-           <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
-           <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
-      </div>
+      <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
+      <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
+    </div>
   </div>
   <div id="DB-gpa-sub-data-show" class="DB-export-data-scroll">
     <h5 id="DB-gpa-sub-data-topic">Your Subjects</h5>
@@ -116,14 +117,17 @@
     </table>
   </div>
 
+
 </template>
 
 
 <script setup>
+
 import { ref } from 'vue';
 
 const subjects = ref([{ name: '', mark: '' }]);
 const gpa = ref(null);
+
 
 // New array to store submitted subjects
 const subjectsDB = ref([]);
@@ -157,10 +161,18 @@ const calculateGradePoints = (mark) => {
   else return 0.0;
 };
 
-
 const submitSubjectData = () => {
-  // Filter out empty subjects
-  const validSubjects = subjects.value.filter((subject) => subject.name.trim() !== '' && subject.mark !== '');
+  const validSubjects = subjects.value.filter(
+      (subject) => subject.name.trim() !== '' && subject.mark !== ''
+  );
+
+  // Check for marks exceeding 100 before saving
+  const invalidMarks = validSubjects.some((subject) => subject.mark > 100);
+
+  if (invalidMarks) {
+    alert('Marks cannot exceed 100. Please correct the marks.');
+    return;
+  }
 
   if (validSubjects.length > 0) {
     const subjectData = validSubjects.map((subject) => ({
@@ -168,10 +180,8 @@ const submitSubjectData = () => {
       mark: parseFloat(subject.mark),
     }));
 
-    // Push valid submitted data into subjectsDB
     subjectsDB.value.push(...subjectData);
 
-    // Clear the input fields after submission
     validSubjects.forEach((subject) => {
       subject.name = '';
       subject.mark = '';
@@ -179,7 +189,17 @@ const submitSubjectData = () => {
   }
 };
 
-// need to implement the logic to submit the data to my database using SQL.
+// Define new constant variables to store the values of subject.name and subject.mark
+  const subjectName = ref('');
+  const subjectMark = ref(0);
+  const GPA = ref(null);
+
+// This function will be called when the "Get Subject Values" button or action is triggered
+  subjectName.value = subjects.value[0].name;
+  subjectMark.value = subjects.value[0].mark;
+  GPA.value = gpa.value;
+
+
 
 
 
