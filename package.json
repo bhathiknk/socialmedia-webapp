@@ -23,7 +23,8 @@
     "vue-fullcalendar": "^1.0.9",
     "vue-router": "^4.2.5",
     "vue3-calendar": "^0.1.2",
-    "vue3-calendar-composable": "^0.1.5"
+    "vue3-calendar-composable": "^0.1.5",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

@@ -46,7 +46,6 @@
 
             <h3>{{ userName }}</h3>
             <p>{{ email }}</p>
-            <p>{{ bioMessage }}</p>
         </div>
     </div>
 </template>
@@ -63,10 +62,12 @@ export default {
     data() {
         return {
             token: '',
+
+
             userName: null,
             email: null,
             profilePicture:  require('@/assets/profile.jpg'), // Set a default profile picture
-            bioMessage: 'Your bio message here',
+            id: null,
         };
     },
     methods: {
@@ -74,7 +75,7 @@ export default {
             axios.get(`http://localhost:8080/api/user/${this.token}`) //API endpoint
                 .then(response => {
                     this.userName = response.data.userName;
-                    this.email = response.data.email;
+                    this.email = response.data.email
                 })
                 .catch(error => {
                     console.error(error);
