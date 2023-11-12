@@ -46,6 +46,7 @@
 
             <h3>{{ userName }}</h3>
             <p>{{ email }}</p>
+            <p>{{ text }}</p>
         </div>
     </div>
 </template>
@@ -62,10 +63,9 @@ export default {
     data() {
         return {
             token: '',
-
-
             userName: null,
             email: null,
+            text:null,
             profilePicture:  require('@/assets/profile.jpg'), // Set a default profile picture
             id: null,
         };
@@ -75,12 +75,14 @@ export default {
             axios.get(`http://localhost:8080/api/user/${this.token}`) //API endpoint
                 .then(response => {
                     this.userName = response.data.userName;
-                    this.email = response.data.email
+                    this.email = response.data.email;
+                    this.text=response.data.text;
                 })
                 .catch(error => {
                     console.error(error);
                     this.userName = null;
                     this.email = null;
+                    this.email=null;
                 });
         },
         //Signout method
@@ -89,6 +91,7 @@ export default {
             this.token = null;
             this.userName = null; // Clear the userName
             this.email = null; // Clear the email
+            this.email=null;
             swal({
                 text: "Logged you out. Visit again",
                 icon: "success",

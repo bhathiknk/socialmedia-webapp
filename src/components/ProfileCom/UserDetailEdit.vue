@@ -22,11 +22,10 @@
         <label for="user-email">Email:</label>
         <input type="email" id="email" v-model="email" />
       </div>
-     <!--- <div class="form-group">
+      <div class="form-group">
         <label for="bio">Bio:</label>
-        <textarea id="bio" v-model="editedUser.bio"></textarea>
+        <textarea type="text" id="text" v-model="text"></textarea>
       </div>
-      --->
       <button type="submit" @click.prevent="updateUserDetails">Save Changes</button>
     </form>
   </div>
@@ -43,6 +42,7 @@ export default {
       userId:'',
       userName: null,
       email: null,
+      text:null
 
     };
   },
@@ -57,6 +57,7 @@ export default {
             this.id=response.data.id;
             this.userName = response.data.userName;
             this.email = response.data.email;
+            this.text=response.data.text;
             // parameter for API response
           })
           .catch(error => {
@@ -64,12 +65,14 @@ export default {
             this.id=null;
             this.userName = null;
             this.email = null;
+            this.text=null;
           });
     },
     updateUserDetails() {
       const updatedUserDetails = {
         userName: this.userName,
         email: this.email,
+        text:this.text
       };
 
       axios
@@ -90,7 +93,7 @@ export default {
           .catch((error) => {
             console.error(error);
             swal({
-              text: "passwords dont match",
+              text: "User Details Not Updated",
               icon: "error",
             });
           });
