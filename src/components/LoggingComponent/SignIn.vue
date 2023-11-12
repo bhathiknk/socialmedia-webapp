@@ -50,7 +50,14 @@ export default {
                             text: "Incorrect password. Please try again.",
                             icon: "error",
                         });
-                    } else {
+                    }
+                  if (err.response && err.response.status === 500) {
+                    // Incorrect password error
+                    swal({
+                      text: "Incorrect password. Please try again.",
+                      icon: "error",
+                    });
+                  }else {
                         console.log("err", err);
                     }
                 });

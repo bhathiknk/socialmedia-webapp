@@ -91,7 +91,7 @@ export default {
             this.token = null;
             this.userName = null; // Clear the userName
             this.email = null; // Clear the email
-            this.email=null;
+            this.text=null;
             swal({
                 text: "Logged you out. Visit again",
                 icon: "success",
