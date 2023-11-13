@@ -5,6 +5,7 @@ import 'font-awesome/css/font-awesome.css'; // or 'font-awesome/css/font-awesome
 
 
 
+
 //import bootstrap files
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'

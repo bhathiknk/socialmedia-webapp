@@ -46,7 +46,7 @@
 
             <h3>{{ userName }}</h3>
             <p>{{ email }}</p>
-            <p>{{ bioMessage }}</p>
+            <p>{{ text }}</p>
         </div>
     </div>
 </template>
@@ -65,8 +65,9 @@ export default {
             token: '',
             userName: null,
             email: null,
+            text:null,
             profilePicture:  require('@/assets/profile.jpg'), // Set a default profile picture
-            bioMessage: 'Your bio message here',
+            id: null,
         };
     },
     methods: {
@@ -75,11 +76,13 @@ export default {
                 .then(response => {
                     this.userName = response.data.userName;
                     this.email = response.data.email;
+                    this.text=response.data.text;
                 })
                 .catch(error => {
                     console.error(error);
                     this.userName = null;
                     this.email = null;
+                    this.email=null;
                 });
         },
         //Signout method
@@ -88,6 +91,7 @@ export default {
             this.token = null;
             this.userName = null; // Clear the userName
             this.email = null; // Clear the email
+            this.email=null;
             swal({
                 text: "Logged you out. Visit again",
                 icon: "success",
