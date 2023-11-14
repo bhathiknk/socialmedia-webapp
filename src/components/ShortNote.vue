@@ -14,7 +14,7 @@
         <ul class="menu bg-base-200 w-56 rounded-box module-box">
           <li class="menu-title-div">Modules</li>
           <li v-for="(module, index) in modules" :key="index">
-            <a class="modules">{{ module.name }}</a>
+            <a class="modules" @click="loadModuleNotes(module.name)">{{ module.name }}</a>
           </li>
           <li>
             <a class="modules-fixed-anchor" @click="showModulePopup = true">
@@ -36,9 +36,9 @@
       <div class="questions-section">
         <ul class="menu bg-base-200 w-56 rounded-box questions-box">
           <li class="menu-title-div">Questions</li>
-          <div class="questions-container"> <!-- Added a container for scrollable area -->
+          <div class="questions-container">
             <li v-for="(question, index) in questions" :key="index">
-              <a class="modules" @click="openQuestionModal(index)">{{ question.name }}</a>
+              <a class="modules" @click="loadQuestionDetails(index)">{{ question.name }}</a>
             </li>
           </div>
           <li>
@@ -72,11 +72,7 @@ export default {
   data() {
     return {
       noteContent: "Your notes here.....",
-      modules: [
-        { name: "" },
-        { name: "" },
-        // ...other initial modules...
-      ],
+      modules: [],
       showModulePopup: false,
       newModuleName: "",
       questions: [
@@ -93,41 +89,53 @@ export default {
   },
   methods: {
     submitNotes() {
-      // Assuming you have a textarea element within your template.
       var noteTextarea = document.querySelector(".textarea");
-      //var noteContent = noteTextarea.value;
+      var noteContent = noteTextarea.value;
 
-      // Send the noteContent to your server using an AJAX request or form submission
+      const backendEndpoint = "https://your-backend-api.com/save-notes";
 
-      // After successfully submitting the note, clear the textarea
+      fetch(backendEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          noteContent: noteContent,
+        }),
+      })
+          .then(response => response.json())
+          .then(data => {
+            console.log("Notes saved successfully:", data);
+          })
+          .catch(error => {
+            console.error("Error saving notes:", error);
+          });
+
       noteTextarea.value = "Your notes here.....";
     },
     clearNotes() {
-      // Assuming you have a textarea element within your template.
       var noteTextarea = document.querySelector(".textarea");
       noteTextarea.value = "Your notes here.....";
     },
     addModule() {
       if (this.newModuleName) {
-        // Save the module to the database (simulated by adding it to the modules array).
         this.modules.push({ name: this.newModuleName });
-
-        // Clear the input and hide the popup
         this.newModuleName = "";
         this.showModulePopup = false;
       }
     },
+    loadModuleNotes(moduleName) {
+      var noteTextarea = document.querySelector(".textarea");
+      noteTextarea.value = `Notes for ${moduleName} module. Fetch from the database in real application.`;
+    },
     addQuestion() {
       if (this.newQuestionName) {
-        // Save the question to the database (simulated by adding it to the questions array).
         this.questions.push({ name: this.newQuestionName, answer: "" });
-
-        // Clear the input and hide the popup
         this.newQuestionName = "";
         this.showQuestionPopup = false;
       }
     },
-    openQuestionModal(index) {
+    loadQuestionDetails(index) {
       this.activeQuestionIndex = index;
     },
     saveQuestion() {
