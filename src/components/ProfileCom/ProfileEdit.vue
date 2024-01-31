@@ -74,15 +74,18 @@ export default {
         getUserDetails() {
             axios.get(`http://localhost:8080/api/user/${this.token}`) //API endpoint
                 .then(response => {
-                    this.userName = response.data.userName;
-                    this.email = response.data.email;
-                    this.text=response.data.text;
+                  this.userName = response.data.userName;
+                  this.email = response.data.email;
+                  this.text = response.data.text;
+
+                  // Construct the full URL for the profile image using the base URL and the image name from the backend
+                  this.profilePicture = `http://localhost:8080/images/${response.data.profileImage}`;
                 })
                 .catch(error => {
-                    console.error(error);
-                    this.userName = null;
-                    this.email = null;
-                    this.email=null;
+                  console.error(error);
+                  this.userName = null;
+                  this.email = null;
+                  this.text = null;
                 });
         },
         //Signout method

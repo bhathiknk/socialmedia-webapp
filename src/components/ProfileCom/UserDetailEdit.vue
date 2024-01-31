@@ -2,18 +2,11 @@
   <div class="user-detail-edit">
     <h2>Edit User Details</h2>
     <form >
-      <!--
       <div class="form-group">
-        <label for="profile-picture">Profile Picture:</label>
-        <div class="profile-picture-container">
-          <img :src="editedUser.profileImageUrl" alt="Profile Picture" />
-          <button @click="selectProfilePicture" class="plus-button">
-            <i class="fa fa-plus"></i>
-          </button>
-        </div>
-        <input type="file" id="profile-picture" @change="updateProfilePicture" style="display: none" />
+        <label for="imageInput">Select Image:</label>
+        <input type="file" id="imageInput" @change="handleImageChange" accept="image/*" />
+        <img v-if="profileImage" :src="profileImage" alt="Image Preview" style="max-width: 100%; max-height: 200px; margin-top: 10px;" />
       </div>
-      -->
       <div class="form-group">
         <label for="user-name">User Name:</label>
         <input type="text" id="userName" v-model="userName" />
@@ -42,19 +35,19 @@ export default {
       userId:'',
       userName: null,
       email: null,
-      text:null
+      text:null,
+      profileImage:null
 
     };
   },
   methods: {
-
-    // Other methods
 
     getUserDetails() {
       // Perform an API request to get the user's details
       axios.get(`http://localhost:8080/api/user/${this.token}`) //API endpoint
           .then(response => {
             this.id=response.data.id;
+            this.profileImage=response.data.profileImage;
             this.userName = response.data.userName;
             this.email = response.data.email;
             this.text=response.data.text;
@@ -63,32 +56,33 @@ export default {
           .catch(error => {
             console.error(error);
             this.id=null;
+            this.profileImage=null;
             this.userName = null;
             this.email = null;
             this.text=null;
           });
     },
     updateUserDetails() {
-      const updatedUserDetails = {
-        userName: this.userName,
-        email: this.email,
-        text:this.text
-      };
+      const formData = new FormData();
+      formData.append("image", this.imageFile); // Add image file to FormData
+      formData.append("userName", this.userName);
+      formData.append("email", this.email);
+      formData.append("text", this.text);
 
-      axios
-          .post(`http://localhost:8080/api/update/${this.id}`, updatedUserDetails, {
-            headers: {
-              Authorization: `Bearer ${this.token}`,
-
-            },
-
-          })
+      axios.post(`http://localhost:8080/api/update/${this.id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+          "Content-Type": "multipart/form-data", // Important for file upload
+        },
+      })
           .then((response) => {
             console.log(response.data);
             swal({
               text: "User Detail has been updated successfully",
-              icon: "success"
-            })
+              icon: "success",
+            });
+            // You may want to update the user details after successful update
+            this.getUserDetails();
           })
           .catch((error) => {
             console.error(error);
@@ -98,6 +92,16 @@ export default {
             });
           });
     },
+
+
+    handleImageChange(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.imageFile = file; // Update to store the actual file
+        this.profileImage = URL.createObjectURL(file); // For displaying a preview if needed
+      }
+    },
+
   },
   mounted() {
     this.token = localStorage.getItem("token");

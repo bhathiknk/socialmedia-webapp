@@ -75,33 +75,39 @@ export default {
       if (this.password === this.confirmPassword) {
         // call signup api
         const user = {
-        
           firstName: this.firstName,
           lastName: this.lastName,
           email: this.email,
-          interest:this.interest,
-          userName:this.userName,
+          interest: this.interest,
+          userName: this.userName,
           password: this.password,
         };
-        console.log("user", user);
-        await axios
-            .post(`${baseURL}user/signup`, user)
-            .then(() => {
-              this.$router.replace("/");
-              swal({
-                text: "User signup successful, please login",
-                icon: "success",
-              });
-            })
-            .catch((err) => console.log("err", err));
+
+        try {
+          const response = await axios.post(`${baseURL}user/signup`, user);
+
+          if (response.data.status === 'success') {
+            this.$router.replace("/");
+            swal({
+              text: response.data.message,  // Use the message from the backend
+              icon: "success",
+            });
+          } else {
+            // Handle other cases if needed
+          }
+        } catch (error) {
+          console.log("Error:", error);
+          // Handle error cases if needed
+        }
       } else {
         // show some error
         swal({
-          text: "passwords dont match",
+          text: "Passwords don't match",
           icon: "error",
         });
       }
     },
+
   },
 };
 </script>

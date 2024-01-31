@@ -1,54 +1,98 @@
 <template>
-    <div class="add-feed">
-        <div class="container">
-            <h2>Add New Feed</h2>
-            <form @submit.prevent="submitFeed">
-                <div class="form-group">
-                    <label for="imageUpload">Upload Image:</label>
-                    <input type="file" id="imageUpload" ref="imageInput" @change="handleImageUpload" accept="image/*" required>
-                </div>
-                <div class="form-group">
-                    <label for="caption">Caption:</label>
-                    <textarea id="caption" v-model="newFeed.caption" required></textarea>
-                </div>
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    </div>
+  <div class="create-feed-form">
+    <h2>Create Feed</h2>
+    <form @submit.prevent="createFeed">
+      <div class="form-group">
+        <label for="imageInput">Select Image:</label>
+        <input type="file" id="imageInput" @change="handleImageChange" accept="image/*" />
+        <img v-if="imageData" :src="imageData" alt="Image Preview" style="max-width: 100%; max-height: 200px; margin-top: 10px;" />
+      </div>
+      <div class="form-group">
+        <label for="caption">Caption:</label>
+        <textarea id="caption" v-model="caption" required></textarea>
+      </div>
+      <button type="submit">Create Feed</button>
+    </form>
+  </div>
 </template>
 
 <script>
+import axios from "axios";
+import swal from "sweetalert";
+import baseURL from "@/config";
+
 export default {
-    name: 'AddFeed',
-    data() {
-        return {
-            newFeed: {
-                imageUrl: '',
-                caption: ''
-            }
-        };
+  data() {
+    return {
+      id: "",
+      token: "",
+      userId: null,
+      imageFile: null, // Updated to store the image file
+      caption: "",
+    };
+  },
+  methods: {
+    createFeed() {
+      if (!this.userId) {
+        console.error("User not authenticated");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("imageData", this.imageFile); // Append the actual file data
+      formData.append("caption", this.caption);
+
+      axios
+          .post(`${baseURL}api/feed/create?id=${this.userId}`, formData)
+          .then(() => {
+            swal({
+              text: "Feed created successfully",
+              icon: "success",
+            });
+          })
+          .catch((err) => {
+            console.error("Error creating feed", err);
+          });
     },
-    methods: {
-        submitFeed() {
-            // Handle the form submission, e.g., send the new feed data to your backend
-            // You can also clear the form here
-            console.log('New feed:', this.newFeed);
-            // Reset the form fields
-            this.newFeed = {
-                imageUrl: '',
-                caption: ''
-            };
-        },
-        handleImageUpload() {
-            // Handle image upload when a new image is selected in the file input
-            const imageInput = this.$refs.imageInput;
-            if (imageInput.files.length > 0) {
-                // You can now process the selected image, e.g., preview it or upload it to your server
-            }
-        }
+
+    handleImageChange(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.imageFile = file; // Update to store the actual file
+        this.imageData = URL.createObjectURL(file); // For displaying a preview if needed
+      }
+    },
+
+    getUserToken() {
+      axios
+          .get(`http://localhost:8080/api/user/${this.token}`)
+          .then((response) => {
+            this.userId = response.data.id;
+            this.id = response.data.id;
+          })
+          .catch((error) => {
+            console.error(error);
+            this.userId = null;
+            this.id = null;
+          });
+    },
+  },
+
+  mounted() {
+    this.token = localStorage.getItem("token");
+    if (this.token) {
+      this.getUserToken();
     }
+  },
 };
 </script>
+
+<style scoped>
+/* Styles remain the same */
+</style>
+
+
+
 
 <style scoped>
 .add-feed {
@@ -75,8 +119,8 @@ label {
     font-weight: bold;
 }
 
-input[type="file"] {
-    width: 100%;
+input[type="text"] {
+    width: 50%;
     padding: 4px; /* Increase input padding */
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -84,7 +128,7 @@ input[type="file"] {
 }
 
 textarea {
-    width: 100%;
+    width: 50%;
     padding: 4px; /* Increase input padding */
     border: 1px solid #ccc;
     border-radius: 10px;
