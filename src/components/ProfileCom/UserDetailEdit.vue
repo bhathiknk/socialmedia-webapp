@@ -47,7 +47,6 @@ export default {
       axios.get(`http://localhost:8080/api/user/${this.token}`) //API endpoint
           .then(response => {
             this.id=response.data.id;
-            this.profileImage=response.data.profileImage;
             this.userName = response.data.userName;
             this.email = response.data.email;
             this.text=response.data.text;
