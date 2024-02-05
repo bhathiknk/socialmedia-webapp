@@ -39,7 +39,8 @@
     <!-- container for profile picture, bio message, username, and email -->
     <div class="container-2 profile-info">
       <div class="profile-picture-container">
-        <img :src="profilePicture" alt="Profile Picture">
+        <img :src="profilePicture" alt="Profile Picture" />
+
       </div>
 
       <h3>{{ userName }}</h3>
@@ -72,24 +73,27 @@ export default {
     getUserDetails() {
       axios.get(`http://localhost:8080/api/user/${this.token}`)
           .then(response => {
-            this.userName = response.data.userName;//pass the username
-            this.email = response.data.email;//passs the email
-            this.text = response.data.text;//pass the bio
-            this.profilePicture = `http://localhost:8080/images/${response.data.profileImage}`;//pass the picture
+            this.userName = response.data.userName;
+            this.email = response.data.email;
+            this.text = response.data.text;
+            this.profilePicture = this.getProfilePictureUrl(response.data.profileImage);
           })
           .catch(error => {
             console.error(error);
             this.userName = null;
             this.email = null;
             this.text = null;
+            this.profilePicture = null; // Set profilePicture to null if no image is available
           });
     },
-    // Signout method
+    getProfilePictureUrl(imageName) {
+      return imageName ? `http://localhost:8080/api/images/${imageName}?random=${Math.random()}` : null;
+    },
     signout() {
       localStorage.removeItem("token");
       this.token = null;
-      this.userName = null; // Clear the userName
-      this.email = null; // Clear the email
+      this.userName = null;
+      this.email = null;
       this.text = null;
       swal({
         text: "Logged you out. Visit again",
@@ -100,12 +104,11 @@ export default {
   mounted() {
     this.token = localStorage.getItem("token");
     if (this.token) {
-      this.getUserDetails(); // Call getUserName when the component is mounted and there's a token
+      this.getUserDetails();
     }
   },
 };
 </script>
-
 <style scoped>
 /* Your existing CSS styles */
 

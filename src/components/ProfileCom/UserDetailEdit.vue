@@ -1,7 +1,7 @@
 <template>
   <div class="user-detail-edit">
     <h2>Edit User Details</h2>
-    <form >
+    <form @submit.prevent="updateUserDetails">
       <div class="form-group">
         <label for="imageInput">Select Image:</label>
         <input type="file" id="imageInput" @change="handleImageChange" accept="image/*" />
@@ -19,7 +19,7 @@
         <label for="bio">Bio:</label>
         <textarea type="text" id="text" v-model="text"></textarea>
       </div>
-      <button type="submit" @click.prevent="updateUserDetails">Save Changes</button>
+      <button type="submit">Save Changes</button>
     </form>
   </div>
 </template>
@@ -27,89 +27,87 @@
 <script>
 import axios from "axios";
 import swal from "sweetalert";
+
 export default {
   data() {
     return {
-      id:'',
+      id: '',
       token: '',
-      userId:'',
+      userId: '',
       userName: null,
       email: null,
-      text:null,
-      profileImage:null
-
+      text: null,
+      profileImage: null,
+      selectedImage: null,
     };
   },
   methods: {
-
-    getUserDetails() {
-      // Perform an API request to get the user's details
-      axios.get(`http://localhost:8080/api/user/${this.token}`) //API endpoint
-          .then(response => {
-            this.id=response.data.id;
-            this.userName = response.data.userName;
-            this.email = response.data.email;
-            this.text=response.data.text;
-            // parameter for API response
-          })
-          .catch(error => {
-            console.error(error);
-            this.id=null;
-            this.profileImage=null;
-            this.userName = null;
-            this.email = null;
-            this.text=null;
-          });
+    handleImageChange(event) {
+      this.selectedImage = event.target.files[0];
     },
     updateUserDetails() {
       const formData = new FormData();
-      formData.append("image", this.imageFile); // Add image file to FormData
+      formData.append("image", this.selectedImage);
       formData.append("userName", this.userName);
       formData.append("email", this.email);
       formData.append("text", this.text);
 
       axios.post(`http://localhost:8080/api/update/${this.id}`, formData, {
         headers: {
-          Authorization: `Bearer ${this.token}`,
-          "Content-Type": "multipart/form-data", // Important for file upload
+          "Content-Type": "multipart/form-data",
         },
       })
           .then((response) => {
-            console.log(response.data);
             swal({
-              text: "User Detail has been updated successfully",
+              text: response.data,
               icon: "success",
             });
-            // You may want to update the user details after successful update
-            this.getUserDetails();
+
+            // Navigate to the ProfileEdit page
+            this.$router.push('/ProfileEdit');
+
+
+            // Optionally, you can emit an event to notify the parent component to update the profile image
+            this.$emit("updateProfileImage", response.data.profileImage);
           })
           .catch((error) => {
             console.error(error);
             swal({
-              text: "User Details Not Updated",
+              text: "Error updating user details",
               icon: "error",
             });
           });
     },
-
-
-    handleImageChange(event) {
-      const file = event.target.files[0];
-      if (file) {
-        this.imageFile = file; // Update to store the actual file
-        this.profileImage = URL.createObjectURL(file); // For displaying a preview if needed
-      }
+    getUserDetails() {
+      axios.get(`http://localhost:8080/api/user/${this.token}`)
+          .then(response => {
+            this.id = response.data.id;
+            this.userName = response.data.userName;
+            this.email = response.data.email;
+            this.text = response.data.text;
+          })
+          .catch(error => {
+            console.error(error);
+            this.id = null;
+            this.profileImage = null;
+            this.userName = null;
+            this.email = null;
+            this.text = null;
+          });
     },
-
   },
   mounted() {
     this.token = localStorage.getItem("token");
     if (this.token) {
       this.getUserDetails();
     }
-  }
+  },
 };
 </script>
+
+
+
+
 
 
 <style scoped>
