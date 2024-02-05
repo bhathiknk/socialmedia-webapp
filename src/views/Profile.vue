@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="profile">
-
+          <div class="container-1 fixed-left">
             <CircularButton
                 @click="navigateToEventCalendar"
                 icon="fa fa-check"
@@ -46,6 +46,7 @@
             />
 
         </div>
+    </div>
     </div>
     <!-- Include the EventCalendar component here -->
     <EventCalendar v-if="$route.path === '/calendar'" />
@@ -92,3 +93,15 @@ export default {
     },
 };
 </script>
+
+<style>
+.fixed-left {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  background-color: #fff; /* Add your desired background color */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+</style>

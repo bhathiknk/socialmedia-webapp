@@ -3,7 +3,8 @@
 
     <!-- circular buttons -->
 
-    <div class="container-1">
+    <div class="container-1 fixed-left">
+      <!-- Circular buttons for navigation -->
       <div class="circular-button-container">
         <CircularButton
             @click="navigateToSignUp"
@@ -37,10 +38,10 @@
     </div>
 
     <!-- container for profile picture, bio message, username, and email -->
-    <div class="container-2 profile-info">
+    <div class="container-2 profile-info fixed-middle container-md"> <!-- Added Bootstrap class container-md for responsiveness -->
       <div class="profile-picture-container">
-        <img :src="profilePicture" alt="Profile Picture" />
-
+        <!-- Profile picture with responsive classes -->
+        <img :src="profilePicture" alt="Profile Picture" class="img-fluid rounded-circle">
       </div>
 
       <h3>{{ userName }}</h3>
@@ -51,6 +52,7 @@
 </template>
 
 <script>
+// Import necessary dependencies
 import CircularButton from "../CircularButton.vue";
 import axios from "axios";
 import swal from "sweetalert";
@@ -60,6 +62,7 @@ export default {
     CircularButton,
   },
   data() {
+    // Initial data setup
     return {
       token: '',
       userName: null,
@@ -70,6 +73,7 @@ export default {
     };
   },
   methods: {
+    // Fetch user details using Axios
     getUserDetails() {
       axios.get(`http://localhost:8080/api/user/${this.token}`)
           .then(response => {
@@ -86,15 +90,20 @@ export default {
             this.profilePicture = null; // Set profilePicture to null if no image is available
           });
     },
+    // Get full URL for the profile picture
     getProfilePictureUrl(imageName) {
       return imageName ? `http://localhost:8080/api/images/${imageName}?random=${Math.random()}` : null;
     },
+    // Handle signout by removing token and resetting data
     signout() {
       localStorage.removeItem("token");
       this.token = null;
       this.userName = null;
       this.email = null;
       this.text = null;
+      this.profilePicture = require('@/assets/profile.jpg');
+      this.$router.push('/SignIn');
+      // Display a success message using SweetAlert
       swal({
         text: "Logged you out. Visit again",
         icon: "success",
@@ -102,6 +111,7 @@ export default {
     },
   },
   mounted() {
+    // On component mount, check for token and fetch user details if available
     this.token = localStorage.getItem("token");
     if (this.token) {
       this.getUserDetails();
@@ -109,6 +119,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 /* Your existing CSS styles */
 
@@ -150,5 +161,37 @@ export default {
 .profile-info p {
   color: #666;
   margin-bottom: 15px;
+}
+
+.fixed-left {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  background-color: #fff; /* Add your desired background color */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.fixed-middle {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  max-width: 80%;
+  padding: 20px;
+  text-align: center;
+  width: 60%;
+}
+
+@media (max-width: 768px) {
+  .fixed-middle {
+    top: 50%;
+    width: 80%;
+  }
 }
 </style>
