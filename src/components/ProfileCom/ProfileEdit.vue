@@ -80,14 +80,17 @@ export default {
             this.userName = response.data.userName;
             this.email = response.data.email;
             this.text = response.data.text;
-            this.profilePicture = this.getProfilePictureUrl(response.data.profileImage);
+            // Use default profile image if no custom image is available
+            this.profilePicture = response.data.profileImage ?
+                this.getProfilePictureUrl(response.data.profileImage) :
+                require('@/assets/profile.jpg');
           })
           .catch(error => {
             console.error(error);
             this.userName = null;
             this.email = null;
             this.text = null;
-            this.profilePicture = null; // Set profilePicture to null if no image is available
+            this.profilePicture = require('@/assets/profile.jpg');
           });
     },
     // Get full URL for the profile picture
