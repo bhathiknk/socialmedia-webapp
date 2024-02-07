@@ -35,7 +35,7 @@
               -->
 
 
-              <!--need to modify this code with Vue JS-->
+              <!--need to modify this code with Vue JS
               <div class="gpa-calculator-edit">
                 <h5 id="cal-topic">Add your cutout marks</h5>
                 <form id="gpa-form">
@@ -56,7 +56,7 @@
                   <button type="button" id="add-subject-button">Save</button>
                   <button type="button" id="calculate-button">Clear</button>
                 </form>
-              </div>
+              </div>-->
               <!--  </div> Drop down button yaf end-->
             </div>
           </div>
@@ -84,14 +84,16 @@
           <div class="subject-item" v-for="(subject, index) in subjects" :key="index">
             <input type="text" class="subject-name" v-model="subject.name" placeholder="Subject Name" required>
             <input type="number" class="subject-mark" v-model="subject.mark" placeholder="Subject Mark" min="0" max="100" required>
+            <span v-if="subject.mark > 100" style="color: red;">Marks cannot exceed 100</span>
           </div>
         </div>
         <button type="button" id="add-subject-button" @click="submitSubjectData">Save</button>
         <button type="button" id="calculate-button" title="Before Click this button, you need to save your Sunject and marks details."  @click="calculateFinalGPA">Calculate GPA</button>
+        <button type="button"  id="ClearDB-button" @click="clearDatabase" >Clear Database</button>
       </form>
-           <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
-           <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
-      </div>
+      <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
+      <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
+    </div>
   </div>
   <div id="DB-gpa-sub-data-show" class="DB-export-data-scroll">
     <h5 id="DB-gpa-sub-data-topic">Your Subjects</h5>
@@ -116,14 +118,17 @@
     </table>
   </div>
 
+
 </template>
 
 
 <script setup>
+
 import { ref } from 'vue';
 
 const subjects = ref([{ name: '', mark: '' }]);
 const gpa = ref(null);
+
 
 // New array to store submitted subjects
 const subjectsDB = ref([]);
@@ -157,10 +162,18 @@ const calculateGradePoints = (mark) => {
   else return 0.0;
 };
 
-
 const submitSubjectData = () => {
-  // Filter out empty subjects
-  const validSubjects = subjects.value.filter((subject) => subject.name.trim() !== '' && subject.mark !== '');
+  const validSubjects = subjects.value.filter(
+      (subject) => subject.name.trim() !== '' && subject.mark !== ''
+  );
+
+  // Check for marks exceeding 100 before saving
+  const invalidMarks = validSubjects.some((subject) => subject.mark > 100);
+
+  if (invalidMarks) {
+    alert('Marks cannot exceed 100. Please correct the marks.');
+    return;
+  }
 
   if (validSubjects.length > 0) {
     const subjectData = validSubjects.map((subject) => ({
@@ -168,10 +181,8 @@ const submitSubjectData = () => {
       mark: parseFloat(subject.mark),
     }));
 
-    // Push valid submitted data into subjectsDB
     subjectsDB.value.push(...subjectData);
 
-    // Clear the input fields after submission
     validSubjects.forEach((subject) => {
       subject.name = '';
       subject.mark = '';
@@ -179,7 +190,22 @@ const submitSubjectData = () => {
   }
 };
 
-// need to implement the logic to submit the data to my database using SQL.
+// Define new constant variables to store the values of subject.name and subject.mark
+const subjectName = ref('');
+const subjectMark = ref(0);
+const GPA = ref(null);
+
+// This function will be called when the "Get Subject Values" button or action is triggered
+subjectName.value = subjects.value[0].name;
+subjectMark.value = subjects.value[0].mark;
+GPA.value = gpa.value;
+
+const clearDatabase = () => {
+  // Clear the subjectsDB array
+  subjectsDB.value = [];
+  gpa.value="0";
+};
+
 
 
 
@@ -322,6 +348,25 @@ input[type="number"]:hover{
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
+#ClearDB-button {
+  background-color: #e8071a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+  margin-right: 100px;
+  transition: box-shadow 0.3s ease-out, background-color 0.3s ease-out;
+}
+
+#ClearDB-button:hover{
+  background-color: rgb(232, 7, 26);
+  color: #ffffff;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+  transition: box-shadow 0.3s ease-out, background-color 0.3s ease-out;
+}
+
 #result {
   text-align: center;
   font-weight: bold;
@@ -349,7 +394,7 @@ input[type="number"]:hover{
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
-/*showing Gpa result Output*/
+/showing Gpa result Output/
 .gpa-result-show{
   max-width: 1000px;
   margin: 0 auto;
