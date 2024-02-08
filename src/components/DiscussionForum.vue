@@ -1,9 +1,10 @@
+
 <template>
-    <div class="goalSettings">
-        <h1> discussion-forum </h1>
+  <div class="goalSettings">
+    <h1> discussion-forum </h1>
 
 
-        <div>
+    <div>
       <textarea v-model="newPostText" placeholder="What's on your mind?"></textarea>
       <button @click="createPost">Post</button>
     </div>
@@ -21,7 +22,7 @@
 
 
 
-    </div>
+  </div>
 </template>
 <script setup>
 
@@ -46,3 +47,7 @@ const createPost = () => {
 
 
 </script>
+
+
+
+

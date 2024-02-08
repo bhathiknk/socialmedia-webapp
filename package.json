@@ -16,6 +16,7 @@
     "font-awesome": "^4.7.0",
     "fullcalendar": "^6.1.9",
     "v-calendar": "^3.1.0",
+    "veaury": "^2.3.12",
     "vue": "^3.3.4",
     "vue-fullcalendar": "^1.0.9",
     "vue-router": "^4.2.5",
