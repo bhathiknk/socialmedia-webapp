@@ -18,10 +18,6 @@
 
 
 
-
-
-
-
   </div>
 </template>
 <script setup>
@@ -42,12 +38,17 @@ const createPost = () => {
 };
 
 
-
-
-
-
 </script>
 
 
 
+<Style>
 
+  textarea{
+    width: 100%;
+    spadding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+</Style>
