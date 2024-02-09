@@ -1,153 +1,115 @@
 <template>
-  <div class="create-feed-form">
-    <h2>Create Feed</h2>
-    <form @submit.prevent="createFeed">
-      <div class="form-group">
-        <label for="imageInput">Select Image:</label>
-        <input type="file" id="imageInput" @change="handleImageChange" accept="image/*" />
-        <img v-if="imageData" :src="imageData" alt="Image Preview" style="max-width: 100%; max-height: 200px; margin-top: 10px;" />
-      </div>
-      <div class="form-group">
-        <label for="caption">Caption:</label>
-        <textarea id="caption" v-model="caption" required></textarea>
-      </div>
-      <button type="submit">Create Feed</button>
+  <div>
+    <h2>Create a New Post</h2>
+    <form @submit.prevent="submitPost">
+      <label for="image">Image:</label>
+      <input type="file" ref="imageInput" @change="previewImage" accept="image/*" required />
+
+      <img v-if="previewImageUrl" :src="previewImageUrl" alt="Preview" style="max-width: 100%; margin-top: 10px;" />
+
+      <label for="caption">Caption:</label>
+      <textarea v-model="caption" required></textarea>
+
+      <label for="tags">Tags (comma-separated):</label>
+      <input type="text" v-model="tags" />
+
+      <button type="submit">Submit Post</button>
     </form>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import swal from "sweetalert";
-import baseURL from "@/config";
-
 export default {
   data() {
     return {
-      id: "",
-      token: "",
-      userId: null,
-      imageFile: null, // Updated to store the image file
-      caption: "",
+      previewImageUrl: '',
+      caption: '',
+      tags: '',
     };
   },
   methods: {
-    createFeed() {
-      if (!this.userId) {
-        console.error("User not authenticated");
-        return;
+    previewImage() {
+      const input = this.$refs.imageInput;
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.previewImageUrl = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
       }
-
+    },
+    submitPost() {
       const formData = new FormData();
-      formData.append("imageData", this.imageFile); // Append the actual file data
-      formData.append("caption", this.caption);
+      formData.append('image', this.$refs.imageInput.files[0]);
+      formData.append('caption', this.caption);
+      formData.append('tags', this.tags);
 
-      axios
-          .post(`${baseURL}api/feed/create?id=${this.userId}`, formData)
-          .then(() => {
-            swal({
-              text: "Feed created successfully",
-              icon: "success",
-            });
+      // Assuming you have a backend endpoint for creating posts
+      this.$axios.post('/api/posts', formData)
+          .then(response => {
+            console.log('Post created successfully:', response.data);
+            // Optionally, redirect the user to the feed page or do something else
           })
-          .catch((err) => {
-            console.error("Error creating feed", err);
+          .catch(error => {
+            console.error('Error creating post:', error);
+            // Handle errors (show a message to the user, etc.)
           });
-    },
-
-    handleImageChange(event) {
-      const file = event.target.files[0];
-      if (file) {
-        this.imageFile = file; // Update to store the actual file
-        this.imageData = URL.createObjectURL(file); // For displaying a preview if needed
-      }
-    },
-
-    getUserToken() {
-      axios
-          .get(`http://localhost:8080/api/user/${this.token}`)
-          .then((response) => {
-            this.userId = response.data.id;
-            this.id = response.data.id;
-          })
-          .catch((error) => {
-            console.error(error);
-            this.userId = null;
-            this.id = null;
-          });
-    },
-  },
-
-  mounted() {
-    this.token = localStorage.getItem("token");
-    if (this.token) {
-      this.getUserToken();
     }
-  },
+  }
 };
 </script>
 
 <style scoped>
-/* Styles remain the same */
-</style>
-
-
-
-
-<style scoped>
-.add-feed {
-    max-width: 600px;
-    margin: 90px auto;
-    padding: 20px;
-    border: 1px solid #007bff; /* Change border color to match the button */
-    border-radius: 5px;
-    background-color: #f8f8f8; /* Add a background color */
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
-}
-
 h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
 }
 
-.form-group {
-    margin-bottom: 15px;
+form {
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 label {
-    display: block;
-    font-weight: bold;
+  display: block;
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
 }
 
-input[type="text"] {
-    width: 50%;
-    padding: 4px; /* Increase input padding */
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    outline: none; /* Remove input outline */
+input[type="file"] {
+  margin-top: 5px;
 }
 
 textarea {
-    width: 50%;
-    padding: 4px; /* Increase input padding */
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    outline: none; /* Remove input outline */
+  margin-top: 5px;
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
 }
 
 button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 15px; /* Add space above the button */
-    margin-bottom: 15px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 15px;
 }
 
 button:hover {
-    background-color: darkslategrey;
+  background-color: #45a049;
+}
+
+img {
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  max-width: 100%;
 }
 </style>
+
