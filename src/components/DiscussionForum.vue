@@ -2,12 +2,10 @@
   <div class="goalSettings">
     <h1> discussion-forum </h1>
 
-
     <div class="container">
-
       <div class="chat" id="chat">
         <div class="message">
-          <img src="" alt="">
+          <img src="r.png" alt="receiver">
           <p>Hello? 😊</p>
         </div>
         <div class="message user">
@@ -15,8 +13,8 @@
           <p>Hi?</p>
         </div>
         <div class="message">
-          <img src="" alt="">
-          <p>hi</p>
+          <img src="r.png" alt="receiver">
+          <p>d?</p>
         </div>
       </div>
       <div class="footer">
@@ -28,30 +26,33 @@
 
 
 
+
   </div>
 </template>
 <script setup>
 
 
 
+
 </script>
 
 <style>
-
 * {
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
   background-color: #f0f0f0;
 }
 
 .container {
+  margin: auto;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 90vh;
 }
 
 .chat {
@@ -64,6 +65,7 @@ body {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  overflow-y: scroll;
 }
 
 .message img {
@@ -94,11 +96,12 @@ body {
 }
 
 .footer {
+  position: relative;
   display: flex;
+  bottom: 50px;
   align-items: center;
   background-color: white;
   padding: 10px;
-  border-top: 1px solid #ccc;
 }
 
 .footer input {
@@ -115,7 +118,5 @@ body {
   border: none;
   cursor: pointer;
 }
-
-
 
 </style>
