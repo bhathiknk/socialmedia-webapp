@@ -12,11 +12,11 @@
         </div>
         <div class="message user">
           <img src="user.png" alt="User">
-          <p>Hi. Can you help me with something?</p>
+          <p>Hi?</p>
         </div>
         <div class="message">
           <img src="" alt="">
-          <p>Of course. What do you need?</p>
+          <p>hi</p>
         </div>
       </div>
       <div class="footer">
