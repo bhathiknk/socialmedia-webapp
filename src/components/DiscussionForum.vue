@@ -157,21 +157,6 @@ body {
   border-bottom: 1px solid #222;
 }
 
-.nav {
-  display: flex;
-  list-style: none;
-  float: right;
-}
-
-.nav li {
-  margin: 0 10px;
-}
-
-.nav a {
-  color: white;
-  text-decoration: none;
-}
-
 .main {
   display: grid;
   grid-template-columns: 3fr 1fr;
@@ -301,32 +286,8 @@ body {
   background-color: #444;
 }
 
-.footer {
-  background-color: #333;
-  color: white;
-  padding: 10px;
-  border-top: 1px solid #222;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
-.footer p {
-  margin: 0;
-}
 
-.footer-links {
-  display: flex;
-  list-style: none;
-}
 
-.footer-links li {
-  margin: 0 10px;
-}
-
-.footer-links a {
-  color: white;
-  text-decoration: none;
-}
 
 </style>
