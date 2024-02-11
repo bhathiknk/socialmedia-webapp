@@ -7,15 +7,15 @@
 
       <div class="chat" id="chat">
         <div class="message">
-          <img src="copilot.png" alt="Copilot">
-          <p>Hello, this is Copilot. How can I help? 😊</p>
+          <img src="" alt="">
+          <p>Hello? 😊</p>
         </div>
         <div class="message user">
           <img src="user.png" alt="User">
           <p>Hi. Can you help me with something?</p>
         </div>
         <div class="message">
-          <img src="copilot.png" alt="Copilot">
+          <img src="" alt="">
           <p>Of course. What do you need?</p>
         </div>
       </div>
