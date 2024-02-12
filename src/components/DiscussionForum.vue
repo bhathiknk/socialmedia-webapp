@@ -20,10 +20,25 @@
           <div class="post-footer">
             <div class="post-actions">
               <button class="post-like" @click="likePost(post)"><i class="fa fa-thumbs-up"></i> {{ post.likes }}</button>
-              <button class="post-comment" @click="commentPost(post)"><i class="fa fa-comment"></i> {{ post.comments }}</button>
+              <button class="post-comment" @click="commentPost(post)"><i class="fa fa-comment"></i> {{ post.comments.length }}</button>
             </div>
             <div class="post-tags">
               <span v-for="tag in post.tags" :key="tag">{{ tag }}</span>
+            </div>
+            <!-- Add input field for adding comments -->
+            <div class="comment-form">
+              <input type="text" v-model="newCommentContent" placeholder="Add a comment">
+              <button @click="commentPost(post)">Add</button>
+            </div>
+            <!-- Display comments -->
+            <div class="comments">
+              <div class="comment" v-for="(comment, cIndex) in post.comments" :key="cIndex">
+                <div class="comment-avatar"><img :src="comment.avatar" alt="avatar"></div>
+                <div class="comment-content">
+                  <p><strong>{{ comment.author }}</strong>: {{ comment.content }}</p>
+                  <p class="comment-meta">Commented on {{ formatDate(comment.date) }}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -49,8 +64,6 @@
         </form>
       </div>
     </div>
-
-
   </div>
 </template>
 
@@ -64,7 +77,7 @@ export default {
         content: "",
         tags: ""
       },
-      newCommentContent: "", // Add this line to store the content of the new comment
+      newCommentContent: "", // Store the content of the new comment
       user: {
         name: "Charlie",
         avatar: "charlie.jpg"
@@ -103,15 +116,23 @@ export default {
       post.likes++;
     },
     commentPost(post) {
-      // increment the comments of the post
-      const newComment = {
-        author: this.user.name,
-        avatar: this.user.avatar,
-        content: this.newCommentContent,
-        date: new Date().toISOString()
-      };
-      post.comments.push(newComment);
-      this.newCommentContent = ""; // Clear the input field after commenting
+      // validate if comment content is not empty
+      if (this.newCommentContent.trim() !== "") {
+        // create a new comment object
+        const newComment = {
+          author: this.user.name,
+          avatar: this.user.avatar,
+          content: this.newCommentContent,
+          date: new Date().toISOString()
+        };
+        // add the new comment to the post's comments array
+        post.comments.push(newComment);
+        // Clear the input field after commenting
+        this.newCommentContent = "";
+      } else {
+        // alert the user if the comment is empty
+        alert("Please enter your comment.");
+      }
     },
     formatDate(date) {
       // format the date to a readable string
@@ -170,6 +191,7 @@ body {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   border-radius: 5px;
   padding: 20px;
+  margin-bottom: 20px;
 }
 
 .post-header {
@@ -234,45 +256,17 @@ body {
   color: #666;
 }
 
-.post-form {
-  background-color: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  border-radius: 5px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  font-size: 16px;
-  color: #333;
-  display: block;
-  margin-bottom: 5px;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
+.comment-form input[type="text"] {
+  width: calc(100% - 60px); /* Adjusting input width */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  margin-right: 10px;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: #999;
-}
-
-.form-group button {
-  display: block;
-  width: 100%;
-  padding: 10px;
+.comment-form button {
+  padding: 10px 15px;
   border: none;
   border-radius: 5px;
   background-color: #333;
@@ -282,12 +276,44 @@ body {
   cursor: pointer;
 }
 
-.form-group button:hover {
+.comment-form button:hover {
   background-color: #444;
 }
 
+.comments {
+  margin-top: 10px;
+}
 
+.comment {
+  display: flex;
+  margin-bottom: 10px;
+}
 
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
 
+.comment-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.comment-content {
+  flex: 1;
+}
+
+.comment-content p {
+  margin: 5px 0;
+}
+
+.comment-meta {
+  font-size: 12px;
+  color: #666;
+}
 
 </style>
