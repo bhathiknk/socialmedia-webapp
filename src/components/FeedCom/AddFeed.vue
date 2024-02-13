@@ -1,115 +1,129 @@
 <template>
-  <div>
-    <h2>Create a New Post</h2>
-    <form @submit.prevent="submitPost">
-      <label for="image">Image:</label>
-      <input type="file" ref="imageInput" @change="previewImage" accept="image/*" required />
-
-      <img v-if="previewImageUrl" :src="previewImageUrl" alt="Preview" style="max-width: 100%; margin-top: 10px;" />
-
-      <label for="caption">Caption:</label>
-      <textarea v-model="caption" required></textarea>
-
-      <label for="tags">Tags (comma-separated):</label>
-      <input type="text" v-model="tags" />
-
-      <button type="submit">Submit Post</button>
+  <div class="add-feed-form">
+    <h2>Create Post</h2>
+    <form @submit.prevent="createPost">
+      <div class="form-group">
+        <label for="caption">Caption:</label>
+        <input type="text" id="caption" v-model="postDto.caption" required />
+      </div>
+      <div class="form-group">
+        <label for="tags">Tags:</label>
+        <input type="text" id="tags" v-model="postDto.tags" />
+      </div>
+      <div class="form-group">
+        <label for="image">Image:</label>
+        <input type="file" id="image" ref="imageInput" @change="handleImageChange" accept="image/*" required />
+      </div>
+      <button type="submit">Create Post</button>
     </form>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import swal from "sweetalert";
+import baseURL from "@/config";
+
 export default {
   data() {
     return {
-      previewImageUrl: '',
-      caption: '',
-      tags: '',
+      postDto: {
+        caption: "",
+        tags: "",
+      },
+      imageFile: null,
     };
   },
   methods: {
-    previewImage() {
-      const input = this.$refs.imageInput;
-      if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.previewImageUrl = e.target.result;
-        };
-        reader.readAsDataURL(input.files[0]);
+    async createPost() {
+      const token = localStorage.getItem("token");
+
+      const formData = new FormData();
+      formData.append("image", this.imageFile);
+      formData.append("caption", this.postDto.caption);
+      formData.append("tags", this.postDto.tags);
+
+      try {
+        const response = await axios.post(`${baseURL}posts/create`, formData, {
+          headers: {
+            Authorization: token,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        if (response.status === 200) {
+          console.log("Post created successfully");
+          swal({
+            text: "Post created successfully",
+            icon: "success",
+          });
+
+          // Clear input fields after successful post creation
+          this.postDto.caption = "";
+          this.postDto.tags = "";
+          // Reset the file input field (optional)
+          this.$refs.imageInput.value = null;
+
+          this.$router.push('/Feed');
+        }
+      } catch (error) {
+        console.error("Error creating post:", error.message);
+        swal({
+          text: "Error creating post. Please try again.",
+          icon: "error",
+        });
       }
     },
-    submitPost() {
-      const formData = new FormData();
-      formData.append('image', this.$refs.imageInput.files[0]);
-      formData.append('caption', this.caption);
-      formData.append('tags', this.tags);
-
-      // Assuming you have a backend endpoint for creating posts
-      this.$axios.post('/api/posts', formData)
-          .then(response => {
-            console.log('Post created successfully:', response.data);
-            // Optionally, redirect the user to the feed page or do something else
-          })
-          .catch(error => {
-            console.error('Error creating post:', error);
-            // Handle errors (show a message to the user, etc.)
-          });
-    }
-  }
+    handleImageChange(event) {
+      this.imageFile = event.target.files[0];
+    },
+  },
 };
 </script>
 
 <style scoped>
-h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
+.add-feed-form {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-form {
-  max-width: 400px;
-  margin: 0 auto;
+.form-group {
+  margin-bottom: 15px;
 }
 
 label {
   display: block;
-  margin-top: 10px;
-  font-size: 16px;
-  color: #555;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
+input[type="text"],
 input[type="file"] {
-  margin-top: 5px;
-}
-
-textarea {
-  margin-top: 5px;
   width: 100%;
   padding: 8px;
-  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  margin-top: 5px;
 }
 
 button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-weight: bold;
   margin-top: 15px;
 }
 
 button:hover {
-  background-color: #45a049;
-}
-
-img {
-  margin-top: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px;
-  max-width: 100%;
+  background-color: #0056b3;
 }
 </style>
-
