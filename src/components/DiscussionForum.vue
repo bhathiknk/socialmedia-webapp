@@ -79,8 +79,8 @@ export default {
       },
       newCommentContent: "", // Store the content of the new comment
       user: {
-        name: "Charlie",
-        avatar: "charlie.jpg"
+        name: "Ranindu",
+        avatar: "Ranindu.jpg"
       }
     };
   },
