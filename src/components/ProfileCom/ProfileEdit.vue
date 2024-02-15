@@ -47,6 +47,17 @@
       <h3>{{ userName }}</h3>
       <p>{{ email }}</p>
       <p>{{ text }}</p>
+
+
+      <!-- Display user's posts as a grid -->
+      <div v-if="userPosts.length > 0" class="user-posts">
+        <h4>User's Posts:</h4>
+        <div class="post-grid">
+          <div v-for="post in userPosts" :key="post.id" class="post-container">
+            <img :src="getPostImageUrl(post.postImage)" alt="Post Image" class="img-fluid">
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,6 +81,7 @@ export default {
       text: null,
       profilePicture: require('@/assets/profile.jpg'), // Set a default profile picture
       id: null,
+      userPosts: [],
     };
   },
   methods: {
@@ -77,13 +89,23 @@ export default {
     getUserDetails() {
       axios.get(`http://localhost:8080/api/user/${this.token}`)
           .then(response => {
+            console.log('User details response:', response.data);
+            this.id = response.data.id; // Assuming id is present in the response
             this.userName = response.data.userName;
             this.email = response.data.email;
             this.text = response.data.text;
             // Use default profile image if no custom image is available
-            this.profilePicture = response.data.profileImage ?
-                this.getProfilePictureUrl(response.data.profileImage) :
-                require('@/assets/profile.jpg');
+            this.profilePicture = response.data.profileImage
+                ? this.getProfilePictureUrl(response.data.profileImage)
+                : require('@/assets/profile.jpg')
+
+            // Check if this.id is not null before making the API call
+            if (this.id !== null) {
+              // Make the API call to get user posts
+              this.getUserPosts();
+            } else {
+              console.error('Invalid user ID:', this.id);
+            }
           })
           .catch(error => {
             console.error(error);
@@ -92,6 +114,22 @@ export default {
             this.text = null;
             this.profilePicture = require('@/assets/profile.jpg');
           });
+    },
+
+    // Fetch user's posts using Axios
+    getUserPosts() {
+      axios.get(`http://localhost:8080/posts/user/${this.id}/posts`)
+          .then(response => {
+            this.userPosts = response.data;
+          })
+          .catch(error => {
+            console.error(error);
+          });
+    },
+
+    // Get full URL for the post image
+    getPostImageUrl(imageName) {
+      return imageName ? `http://localhost:8080/posts/${imageName}?random=${Math.random()}` : null;
     },
     // Get full URL for the profile picture
     getProfilePictureUrl(imageName) {
@@ -118,6 +156,7 @@ export default {
     this.token = localStorage.getItem("token");
     if (this.token) {
       this.getUserDetails();
+      this.getUserPosts();
     }
   },
 };
@@ -196,5 +235,34 @@ export default {
     top: 50%;
     width: 80%;
   }
+}
+
+.user-posts {
+  margin-top: 20px;
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.post-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.post-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+  transition: transform 0.2s;
+}
+
+.post-container:hover img {
+  transform: scale(1.05);
 }
 </style>
