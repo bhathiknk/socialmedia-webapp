@@ -40,6 +40,7 @@
         <label for="password">Password:</label>
         <input type="password" id="password" v-model="password" required />
         <div v-if="passwordFeedback" class="password-feedback">{{ passwordFeedback }}</div>
+        <div class="password-comment">Password must contain at least one letter, one number, and one symbol.</div>
       </div>
       <div class="form-group">
         <label for="confirm-password">Confirm Password:</label>
