@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ProfileView from '../views/Profile.vue'
 import FeedView from '../views/Feed.vue'
-import ConnectionView from '../views/Connection.vue'
+import ConnectionView from '../views/ConnectionView.vue'
 import CircularButton from '../components/CircularButton.vue'
 import EventCalendar from "@/components/EventCalendar.vue"
 import DiscussionForum from "../components/DiscussionForum.vue"
