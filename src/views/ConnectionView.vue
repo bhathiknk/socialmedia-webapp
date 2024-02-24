@@ -57,10 +57,12 @@
             <li v-for="request in pendingConnections" :key="request.id">
               <div class="user-card">
                 <div class="profile-image-container">
-                  <img :src="getProfileImageUrl(request.sender.profileImage)" alt="Profile Image" class="profile-image" />
+                  <!-- Directly access 'request.profileImage' -->
+                  <img :src="getProfileImageUrl(request.profileImage)" alt="Profile Image" class="profile-image" />
                 </div>
                 <div class="user-info">
-                  <h4>{{ request.sender.userName }}</h4>
+                  <!-- Directly access 'request.userName' -->
+                  <h4>{{ request.userName }}</h4>
                   <button @click="acceptConnection(request)">Accept</button>
                   <button @click="rejectConnection(request)">Reject</button>
                 </div>
@@ -69,6 +71,11 @@
           </ul>
         </div>
       </div>
+
+
+
+
+
     </div>
   </div>
 </template>
@@ -109,7 +116,7 @@ export default {
     },
     getProfileImageUrl(profileImage) {
       // Adjust the URL based on your backend configuration
-      return `http://localhost:8080/static/images/${profileImage}`;
+      return profileImage ? `http://localhost:8080/static/images/${profileImage}` : ''; // Updated to handle undefined profileImage
     },
 
     sendFriendRequest(friendId) {
@@ -134,10 +141,33 @@ export default {
           });
     },
 
+    fetchPendingConnectionRequests() {
+      const userToken = localStorage.getItem('token');
+
+      if (!userToken) {
+        console.error('User token not found');
+        return;
+      }
+
+      axios.get(`http://localhost:8080/connection/pending-connection-requests`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      })
+          .then(response => {
+            console.log('Fetched pending connection requests:', response.data);
+            this.pendingConnections = response.data;
+          })
+          .catch(error => {
+            console.error('Error fetching pending connection requests:', error);
+          });
+    },
+
   },
   mounted() {
     // Fetch initial connections when the component is mounted
     this.fetchSuggestedFriendsDetails();
+    this.fetchPendingConnectionRequests();
     // You may also want to fetch friends and pendingConnections here if needed
   },
 };
