@@ -72,10 +72,6 @@
         </div>
       </div>
 
-
-
-
-
     </div>
   </div>
 </template>
@@ -162,6 +158,30 @@ export default {
             console.error('Error fetching pending connection requests:', error);
           });
     },
+
+
+    acceptConnection(request) {
+      const userToken = localStorage.getItem('token');
+
+      if (!userToken) {
+        console.error('User token not found');
+        return;
+      }
+
+      axios.post(`http://localhost:8080/connection/accept-connection/${request.id}`, null, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      })
+          .then(response => {
+            console.log('Connection accepted successfully:', response.data);
+            // Optionally, you can update the UI to reflect the accepted connection
+          })
+          .catch(error => {
+            console.error('Error accepting connection:', error);
+          });
+    },
+
 
   },
   mounted() {
