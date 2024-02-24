@@ -21,7 +21,7 @@
                 <div class="user-info">
                   <h4>{{ friend.userName }}</h4>
                 </div>
-                <button @click="addFriend(friend.id)" class="add-friend-button">Add Friend</button>
+                <button @click="sendFriendRequest(friend.id)" class="add-friend-button">Add Friend</button>
               </div>
             </li>
           </ul>
@@ -110,6 +110,28 @@ export default {
     getProfileImageUrl(profileImage) {
       // Adjust the URL based on your backend configuration
       return `http://localhost:8080/static/images/${profileImage}`;
+    },
+
+    sendFriendRequest(friendId) {
+      const userToken = localStorage.getItem('token');
+
+      if (!userToken) {
+        console.error('User token not found');
+        return;
+      }
+
+      axios.post(`http://localhost:8080/connection/send-friend-request/${friendId}`, null, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      })
+          .then(response => {
+            console.log('Friend request sent successfully:', response.data);
+            // Optionally, you can update the UI to reflect the request is pending
+          })
+          .catch(error => {
+            console.error('Error sending friend request:', error);
+          });
     },
 
   },
