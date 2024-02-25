@@ -1,11 +1,20 @@
 <template>
   <div class="connections-container">
     <!-- Search Friend Section -->
+    <!-- Inside your Vue component template -->
+
     <div class="search-friend-section">
-      <h3>Search Friends</h3>
-      <input v-model="searchFriendQuery" placeholder="Search friends by username" />
-      <button @click="searchFriend">Search</button>
+      <h3>Sent Friend Requests</h3>
+      <!-- Display profile images as circles -->
+      <div class="sender-profile-images-container">
+        <div v-for="(image, index) in pendingConnectionImages" :key="index" class="sender-profile-image-circle">
+          <img :src="getProfileImageUrl(image)" alt="Profile Image" class="profile-image" />
+        </div>
+      </div>
     </div>
+
+
+
 
     <div class="row">
       <!-- Left Container: Suggested Friends -->
@@ -86,6 +95,7 @@ export default {
       friends: [],
       pendingConnections: [],
       sentFriendRequests: [],
+      pendingConnectionImages: [],
     };
   },
   methods: {
@@ -253,12 +263,36 @@ export default {
           });
     },
 
+
+    fetchPendingConnectionRequestsImages() {
+      const userToken = localStorage.getItem('token');
+
+      if (!userToken) {
+        console.error('User token not found');
+        return;
+      }
+
+      axios.get(`http://localhost:8080/connection/pending-connection-requests-images`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      })
+          .then(response => {
+            console.log('Fetched pending connection requests images:', response.data);
+            this.pendingConnectionImages = response.data;
+          })
+          .catch(error => {
+            console.error('Error fetching pending connection requests images:', error);
+          });
+    },
+
   },
   mounted() {
     // Fetch initial connections when the component is mounted
     this.fetchSuggestedFriendsDetails();
     this.fetchPendingConnectionRequests();
     this.fetchFriends();
+    this.fetchPendingConnectionRequestsImages();
     // You may also want to fetch friends and pendingConnections here if needed
   },
 };
@@ -388,39 +422,40 @@ export default {
   cursor: pointer;
 }
 
-/* Modal styles */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
+/* Inside your Vue component style */
+
+.profile-image-circle {
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.profile-image-circle img {
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
+  object-fit: cover;
+}
+/* Inside your Vue component style */
+
+.sender-profile-images-container {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
 }
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+.sender-profile-image-circle {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 80%;
+  margin-right: 10px;
 }
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+.sender-profile-image-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
 </style>
