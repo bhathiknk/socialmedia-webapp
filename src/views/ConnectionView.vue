@@ -11,7 +11,9 @@
       <!-- Left Container: Suggested Friends -->
       <div class="col-md-4">
         <div class="suggested-friends-container">
-          <h3>Suggested Friends</h3>
+          <h3>
+            Suggested Friends
+          </h3>
           <ul>
             <li v-for="friend in suggestedFriends" :key="friend.id">
               <div class="user-card">
@@ -21,7 +23,7 @@
                 <div class="user-info">
                   <h4>{{ friend.userName }}</h4>
                 </div>
-                <button @click="sendFriendRequest(friend.id)" class="add-friend-button">Add Friend</button>
+                <button @click="sendFriendRequest(friend)" class="add-friend-button">Add Friend</button>
               </div>
             </li>
           </ul>
@@ -30,7 +32,6 @@
 
       <!-- Middle Container: Friends -->
       <div class="col-md-4">
-        <!-- Similar to suggested friends, display friends with profile images -->
         <div class="friends-container">
           <h3>Friends</h3>
           <ul>
@@ -50,18 +51,15 @@
 
       <!-- Right Container: Pending Connection Requests -->
       <div class="col-md-4">
-        <!-- Display Pending Connection Requests with profile images -->
         <div class="pending-requests-container">
           <h3>Pending Requests</h3>
           <ul>
             <li v-for="request in pendingConnections" :key="request.id">
               <div class="user-card">
                 <div class="profile-image-container">
-                  <!-- Directly access 'request.profileImage' -->
                   <img :src="getProfileImageUrl(request.profileImage)" alt="Profile Image" class="profile-image" />
                 </div>
                 <div class="user-info">
-                  <!-- Directly access 'request.userName' -->
                   <h4>{{ request.userName }}</h4>
                   <button @click="acceptConnection(request)">Accept</button>
                   <button @click="rejectConnection(request)">Reject</button>
@@ -76,6 +74,7 @@
   </div>
 </template>
 
+
 <script>
 import axios from 'axios';
 
@@ -86,6 +85,7 @@ export default {
       suggestedFriends: [],
       friends: [],
       pendingConnections: [],
+      sentFriendRequests: [],
     };
   },
   methods: {
@@ -115,7 +115,7 @@ export default {
       return profileImage ? `http://localhost:8080/static/images/${profileImage}` : ''; // Updated to handle undefined profileImage
     },
 
-    sendFriendRequest(friendId) {
+    sendFriendRequest(friend) {
       const userToken = localStorage.getItem('token');
 
       if (!userToken) {
@@ -123,19 +123,32 @@ export default {
         return;
       }
 
-      axios.post(`http://localhost:8080/connection/send-friend-request/${friendId}`, null, {
+      axios.post(`http://localhost:8080/connection/send-friend-request/${friend.id}`, null, {
         headers: {
           Authorization: `Bearer ${userToken}`
         }
       })
           .then(response => {
             console.log('Friend request sent successfully:', response.data);
-            // Optionally, you can update the UI to reflect the request is pending
+
+            // Increment the friend request count for the logged-in user
+            this.sentFriendRequests.push(response.data);
+
+            // Remove the friend from suggestedFriends
+            const index = this.suggestedFriends.indexOf(friend);
+            if (index !== -1) {
+              this.suggestedFriends.splice(index, 1);
+            }
+
+            // Show modal with friend request details
+            this.selectedFriend = response.data;
           })
           .catch(error => {
             console.error('Error sending friend request:', error);
           });
     },
+
+
 
     fetchPendingConnectionRequests() {
       const userToken = localStorage.getItem('token');
@@ -175,19 +188,77 @@ export default {
       })
           .then(response => {
             console.log('Connection accepted successfully:', response.data);
-            // Optionally, you can update the UI to reflect the accepted connection
+
+            // Remove the accepted request from pendingConnections
+            const index = this.pendingConnections.indexOf(request);
+            if (index !== -1) {
+              this.pendingConnections.splice(index, 1);
+            }
+
+            // Add the connection to friends for the receiver
+            this.friends.push(response.data);
+
+            // Fetch and update the sender's friend list
+            this.fetchFriendsForSender();
+
           })
           .catch(error => {
             console.error('Error accepting connection:', error);
           });
     },
 
+    fetchFriendsForSender() {
+      const userToken = localStorage.getItem('token');
+
+      if (!userToken) {
+        console.error('User token not found');
+        return;
+      }
+
+      axios.get(`http://localhost:8080/connection/friends`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      })
+          .then(response => {
+            console.log('Fetched friends for sender:', response.data);
+            this.sentFriendRequests = response.data;
+          })
+          .catch(error => {
+            console.error('Error fetching friends for sender:', error);
+          });
+    },
+
+
+
+    fetchFriends() {
+      const userToken = localStorage.getItem('token');
+
+      if (!userToken) {
+        console.error('User token not found');
+        return;
+      }
+
+      axios.get(`http://localhost:8080/connection/friends`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      })
+          .then(response => {
+            console.log('Fetched friends:', response.data);
+            this.friends = response.data;
+          })
+          .catch(error => {
+            console.error('Error fetching friends:', error);
+          });
+    },
 
   },
   mounted() {
     // Fetch initial connections when the component is mounted
     this.fetchSuggestedFriendsDetails();
     this.fetchPendingConnectionRequests();
+    this.fetchFriends();
     // You may also want to fetch friends and pendingConnections here if needed
   },
 };
@@ -304,5 +375,52 @@ export default {
 
 .add-friend-button:hover {
   background-color: #45a049;
+}
+
+.circle-button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>
