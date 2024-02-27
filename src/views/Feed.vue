@@ -1,6 +1,6 @@
 <template>
 
-  <div class="post-feed" >
+
     <div class="circular-button-container">
       <CircularButton
           @click="navigateToAddFeed"
@@ -10,13 +10,16 @@
           style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
       />
     </div>
+
+  <div class="post-feed" >
+  <div class="post-feed">
     <div class="container">
-      <div class="post" v-for="post in posts" :key="post.id">
+      <div class="post" v-for="post in posts" :key="post.userId">
         <div class="post-header">
           <img :src="post.userAvatar" alt="User Avatar" class="user-avatar" />
           <span class="username">{{ post.username }}</span>
         </div>
-        <img :src="post.imageUrl" alt="Post Image" class="post-image" />
+        <img :src="getFullImageUrl(post.postImage)" alt="Post Image" class="post-image" />
         <div class="post-actions">
           <button @click="likePost(post.id)">
             <i class="fa fa-heart"></i> {{ post.likes }}
@@ -29,65 +32,64 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
 import CircularButton from "@/components/CircularButton.vue";
+import axios from "axios";
 
 export default {
-  name: 'PostFeed',
+  name: "PostFeed",
   components: {CircularButton},
   data() {
     return {
-      posts: [
-        {
-          id: 1,
-          username: "username1",
-          userAvatar:  require('@/assets/profile.jpg'),
-          imageUrl:  require('@/assets/post1.png'),
-          likes: 100,
-          comments: 10,
-          caption: "This is the first post.",
-        },
-        {
-          id: 2,
-          username: "username2",
-          userAvatar: require('@/assets/profile.jpg'),
-          imageUrl: require('@/assets/post2.png'),
-          likes: 200,
-          comments: 20,
-          caption: "Another great post.",
-        },
-        {
-          id: 3,
-          username: "username3",
-          userAvatar: require('@/assets/profile.jpg'),
-          imageUrl: require('@/assets/post3.jpg'),
-          likes: 200,
-          comments: 20,
-          caption: "Another great post.",
-        },
-        // Add more posts here...
-      ],
+      posts: [],
     };
   },
+  mounted() {
+    // Fetch posts from the backend when the component is mounted
+    this.fetchPosts();
+  },
   methods: {
-
-    navigateToAddFeed() {
-      // Use Vue Router's push method to navigate to the "SignUp.vue" route
-      this.$router.push("/AddFeed");
+    fetchPosts() {
+      // Make a GET request to the backend API endpoint to fetch posts
+      axios
+          .get("http://localhost:8080/connection/friends-posts", {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          })
+          .then((response) => {
+            this.posts = response.data;
+            // Log the received data
+            console.log("Received Data:", response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching posts:", error);
+          });
     },
-    /* likePost(postId) {
-         // Implement liking a post (e.g., send a request to the backend).
-     },
-     commentPost(postId) {
-         // Implement commenting on a post (e.g., open a comment modal).
-    },*/
+    getFullImageUrl(fileName) {
+      return `http://localhost:8080/connection/post-images/${fileName}`;
+    }
+
+
   },
 };
 </script>
 
 <style scoped>
+
+.circular-button-container {
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  background-color: #fff; /* Add your desired background color */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);/* Move the circular button to the right */
+}
 .post-feed {
   display: flex;
   justify-content: center;
