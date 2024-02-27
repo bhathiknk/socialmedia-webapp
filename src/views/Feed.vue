@@ -11,12 +11,12 @@
       />
     </div>
 
-  <div class="post-feed" >
+
   <div class="post-feed">
     <div class="container">
       <div class="post" v-for="post in posts" :key="post.userId">
         <div class="post-header">
-          <img :src="post.userAvatar" alt="User Avatar" class="user-avatar" />
+          <img :src="getprofileImageUrl(post.profileImage)" alt="User Profile Image" class="user-profile-image" />
           <span class="username">{{ post.username }}</span>
         </div>
         <img :src="getFullImageUrl(post.postImage)" alt="Post Image" class="post-image" />
@@ -32,7 +32,7 @@
       </div>
     </div>
   </div>
-  </div>
+
 </template>
 
 <script>
@@ -71,15 +71,23 @@ export default {
     },
     getFullImageUrl(fileName) {
       return `http://localhost:8080/connection/post-images/${fileName}`;
+    },
+    getprofileImageUrl(fileName) {
+      return `http://localhost:8080/connection/profile-images/${fileName}`;
     }
-
 
   },
 };
 </script>
 
 <style scoped>
-
+.user-profile-image {
+  width: 70px; /* Adjust the width and height as needed */
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover; /* Ensures the image covers the entire container */
+  margin-right: 10px; /* Adjust margin as needed */
+}
 .circular-button-container {
 
   position: fixed;
