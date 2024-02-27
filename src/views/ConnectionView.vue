@@ -70,8 +70,8 @@
                 </div>
                 <div class="user-info">
                   <h4>{{ request.userName }}</h4>
-                  <button @click="acceptConnection(request)">Accept</button>
-                  <button @click="rejectConnection(request)">Reject</button>
+                  <button @click="acceptConnection(request)" class="add-friend-button accept-button">Accept</button>
+                  <button @click="rejectConnection(request)" class="add-friend-button reject-button">Reject</button>
                 </div>
               </div>
             </li>
@@ -456,6 +456,32 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Add the following styles to your existing style block */
+
+.pending-requests-container .user-card button {
+  margin-top: 8px;
+}
+
+.pending-requests-container .user-card button.accept-button,
+.pending-requests-container .user-card button.reject-button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 10px;
+}
+
+.pending-requests-container .user-card button.accept-button {
+  background-color: #4caf50;
+}
+
+.pending-requests-container .user-card button.reject-button {
+  background-color: #e74c3c;
 }
 
 </style>

@@ -38,20 +38,25 @@
     </div>
 
     <!-- container for profile picture, bio message, username, and email -->
-    <div class="container-2 profile-info fixed-middle container-md"> <!-- Added Bootstrap class container-md for responsiveness -->
-      <div class="profile-picture-container">
-        <!-- Profile picture with responsive classes -->
-        <img :src="profilePicture" alt="Profile Picture" class="img-fluid rounded-circle">
+    <div class="container">
+    <div class="profile-info-container fixed-middle">
+      <div class="profile-info">
+        <div class="profile-picture-container">
+          <!-- Profile picture with responsive classes -->
+          <img :src="profilePicture" alt="Profile Picture" class="img-fluid rounded-circle">
+        </div>
+        <h3>{{ userName }}</h3>
+        <p>{{ email }}</p>
+        <p>{{ text }}</p>
       </div>
+    </div>
+    </div>
 
-      <h3>{{ userName }}</h3>
-      <p>{{ email }}</p>
-      <p>{{ text }}</p>
-
-
-      <!-- Display user's posts as a grid -->
+    <!-- User's posts container with scrollable content -->
+    <div class="container-user-post">
+    <div class="user-posts-container">
       <div v-if="userPosts.length > 0" class="user-posts">
-        <h4>User's Posts:</h4>
+        <h4>My Posts:</h4>
         <div class="post-grid">
           <div v-for="post in userPosts" :key="post.id" class="post-container">
             <img :src="getPostImageUrl(post.postImage)" alt="Post Image" class="img-fluid">
@@ -59,6 +64,8 @@
         </div>
       </div>
     </div>
+    </div>
+
   </div>
 </template>
 
@@ -118,7 +125,12 @@ export default {
 
     // Fetch user's posts using Axios
     getUserPosts() {
-      axios.get(`http://localhost:8080/posts/user/${this.id}/posts`)
+      axios.get(`http://localhost:8080/posts/user/posts`, {
+        headers: {
+          Authorization: this.token
+        }
+      })
+
           .then(response => {
             this.userPosts = response.data;
           })
@@ -126,6 +138,7 @@ export default {
             console.error(error);
           });
     },
+
 
     // Get full URL for the post image
     getPostImageUrl(imageName) {
@@ -163,78 +176,50 @@ export default {
 </script>
 
 <style scoped>
-/* Your existing CSS styles */
-
-.container-2.profile-info {
-  margin: 20px auto;
-  max-width: 80%;
-  padding: 20px;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  text-align: center;
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgb(255, 255, 255); /* Add your desired background color */
 }
 
-.profile-picture-container {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin: 20px auto;
-  border: 3px solid #1c1111;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+.container {
+  max-width: 1200px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.04); /* Container background color */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* Add margin to the top container */
+  margin-top: 20px;
+}
+
+.container-user-post {
+  max-width: 1200px;
+  width: 100%;
+  background-color: #fff; /* Container background color */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto; /* Center the container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-info-container,
+.user-posts-container {
+  text-align: center;
 }
 
 .profile-picture-container img {
-  width: 100%;
-  height: 100%;
+  width: 200px; /* Adjust profile picture size */
+  height: 200px;
   object-fit: cover;
   border-radius: 50%;
-}
-
-.profile-info h3 {
-  font-size: 28px;
-  margin-top: 10px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.profile-info p {
-  color: #666;
-  margin-bottom: 15px;
-}
-
-.fixed-left {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  padding: 20px;
-  background-color: #fff; /* Add your desired background color */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}
-
-.fixed-middle {
-  position: fixed;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  max-width: 80%;
-  padding: 20px;
-  text-align: center;
-  width: 60%;
-}
-
-@media (max-width: 768px) {
-  .fixed-middle {
-    top: 50%;
-    width: 80%;
-  }
 }
 
 .user-posts {
@@ -242,27 +227,24 @@ export default {
 }
 
 .post-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .post-container {
-  position: relative;
-  overflow: hidden;
-  border-radius: 5px;
-  cursor: pointer;
+  width: calc(30.30% - 10px); /* 33.33% width for each post with some margin */
+  margin-bottom: 20px;
 }
 
 .post-container img {
   width: 100%;
-  height: 100%;
+  height: 100%; /* Make post images fill the container */
   object-fit: cover;
-  border-radius: 5px;
-  transition: transform 0.2s;
+  border-radius: 8px;
 }
 
-.post-container:hover img {
-  transform: scale(1.05);
-}
+/* Add any additional styling as needed */
+
 </style>
+
