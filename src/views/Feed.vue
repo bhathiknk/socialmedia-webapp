@@ -16,10 +16,12 @@
     <div class="container">
       <div class="post" v-for="post in posts" :key="post.userId">
         <div class="post-header">
-          <img :src="getprofileImageUrl(post.profileImage)" alt="User Profile Image" class="user-profile-image" />
+          <img :src="getProfileImageUrl(post.profileImage)" alt="User Profile Image" class="user-profile-image" />
+
           <span class="username">{{ post.username }}</span>
         </div>
         <img :src="getFullImageUrl(post.postImage)" alt="Post Image" class="post-image" />
+
         <div class="post-actions">
           <button @click="likePost(post.id)">
             <i class="fa fa-heart"></i> {{ post.likes }}
@@ -41,7 +43,7 @@ import axios from "axios";
 
 export default {
   name: "PostFeed",
-  components: {CircularButton},
+  components: { CircularButton },
   data() {
     return {
       posts: [],
@@ -52,33 +54,34 @@ export default {
     this.fetchPosts();
   },
   methods: {
-    fetchPosts() {
-      // Make a GET request to the backend API endpoint to fetch posts
-      axios
-          .get("http://localhost:8080/connection/friends-posts", {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          })
-          .then((response) => {
-            this.posts = response.data;
-            // Log the received data
-            console.log("Received Data:", response.data);
-          })
-          .catch((error) => {
-            console.error("Error fetching posts:", error);
-          });
-    },
-    getFullImageUrl(fileName) {
-      return `http://localhost:8080/connection/post-images/${fileName}`;
-    },
-    getprofileImageUrl(fileName) {
-      return `http://localhost:8080/connection/profile-images/${fileName}`;
-    }
+    async fetchPosts() {
+      try {
+        const response = await axios.get("http://localhost:8080/posts/friends-posts", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
 
+        if (response.status === 200) {
+          this.posts = [...response.data];
+          // Log the received data
+          console.log("Received Data:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    },
+    getFullImageUrl(imageName) {
+      return imageName ? `http://localhost:8080/posts/postImages/${imageName}?random=${Math.random()}` : null;
+    },
+
+    getProfileImageUrl(fileName) {
+      return `http://localhost:8080/image/profile-images/${fileName}?${new Date().getTime()}`;
+    },
   },
 };
 </script>
+
 
 <style scoped>
 .user-profile-image {

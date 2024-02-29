@@ -59,11 +59,9 @@ export default {
           });
 
           // Clear input fields after successful post creation
-          this.postDto.caption = "";
-          this.postDto.tags = "";
-          // Reset the file input field (optional)
-          this.$refs.imageInput.value = null;
+          this.clearInputFields();
 
+          // Redirect to the Feed page
           this.$router.push('/Feed');
         }
       } catch (error) {
@@ -74,12 +72,19 @@ export default {
         });
       }
     },
+    clearInputFields() {
+      this.postDto.caption = "";
+      this.postDto.tags = "";
+      // Reset the file input field (optional)
+      this.$refs.imageInput.value = null;
+    },
     handleImageChange(event) {
       this.imageFile = event.target.files[0];
     },
   },
 };
 </script>
+
 
 <style scoped>
 .add-feed-form {
