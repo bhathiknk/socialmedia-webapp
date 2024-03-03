@@ -179,7 +179,7 @@ export default {
 .textarea-accent {
   height: 41rem;
   width: 55rem;
-  margin-top: 1.2rem;
+  margin-top: 0.65rem;
   border: 3px solid black;
   overflow: auto;
   border-radius: 7px;
@@ -239,7 +239,7 @@ li {
 .btn {
   display: inline-block;
   position: relative;
-  top: 39.3rem;
+  top: 38.5rem;
   width: 16%;
   border-radius: 7px;
   padding: 1px;
@@ -272,13 +272,13 @@ li {
 
 .add-btn-modules{
   position: fixed;
-  top: 43px;
+  top: 33px;
   height: 33px;
 }
 
 .add-btn-questions{
   position: fixed;
-  top: 43px;
+  top: 33px;
   height: 33px;
 }
 
