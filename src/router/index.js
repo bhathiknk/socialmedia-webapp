@@ -5,7 +5,7 @@ import ConnectionView from '../views/ConnectionView.vue'
 import CircularButton from '../components/CircularButton.vue'
 import EventCalendar from "@/components/EventCalendar.vue"
 import DiscussionForum from "../components/DiscussionForum.vue"
-import DailyJournaling from "@/components/DailyJournaling.vue";
+import DailyJournaling from "@/components/DailyJournal/DailyJournaling.vue";
 import GradesTracking from "@/components/GradesTracking.vue";
 import ShortNote from "@/components/ShortNote.vue";
 import ProfileEdit from "@/components/ProfileCom/ProfileEdit.vue";
@@ -13,6 +13,7 @@ import SignUp from "@/components/LoggingComponent/SignUp.vue";
 import SignIn from "@/components/LoggingComponent/SignIn.vue";
 import UserDetailEdit from "@/components/ProfileCom/UserDetailEdit.vue";
 import AddFeed from "@/components/FeedCom/AddFeed.vue";
+import AddJournal from "@/components/DailyJournal/AddJournal.vue"
 
 const routes = [
   {
@@ -84,6 +85,11 @@ const routes = [
     path:'/AddFeed',
     name:'AddFeed',
     component: AddFeed
+  },
+  {
+    path:'/AddJournal',
+    name:'AddJournal',
+    component: AddJournal
   }
 ]
 

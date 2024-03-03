@@ -26,9 +26,6 @@
           <button @click="likePost(post.id)">
             <i class="fa fa-heart"></i> {{ post.likes }}
           </button>
-          <button @click="commentPost(post.id)">
-            <i class="fa fa-comment"></i> {{ post.comments }}
-          </button>
         </div>
         <div class="post-caption">{{ post.caption }}</div>
       </div>
