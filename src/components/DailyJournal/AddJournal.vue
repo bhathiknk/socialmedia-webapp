@@ -17,7 +17,7 @@
         <label for="entryGoals">Goals:</label>
         <input type="text" v-model="entry.goals" id="entryGoals" />
 
-        <button type="submit" class="form-button">{{ editing ? "Update Entry" : "Save Entry" }}</button>
+        <button type="submit" class="form-button">{{ editing ? "Save Journal" : "Save Entry" }}</button>
       </form>
     </div>
   </div>
@@ -25,6 +25,8 @@
 
 <script>
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 export default {
   components: {
@@ -63,37 +65,7 @@ export default {
     };
   },
   methods: {
-    saveEntry() {
-      if (this.editing) {
-        // Update existing entry
-        this.entries[this.editingIndex] = { ...this.entry };
-      } else {
-        // Save new entry
-        this.entries.push({ ...this.entry });
-      }
 
-      this.clearForm();
-    },
-    editEntry(index) {
-      this.editing = true;
-      this.editingIndex = index;
-      this.entry = { ...this.entries[index] };
-    },
-    deleteEntry(index) {
-      this.entries.splice(index, 1);
-    },
-    selectDate(day) {
-      this.entry.date = `${this.selectedMonth}-${day}`;
-    },
-    updateCalendar() {
-      const daysInMonth = new Date(this.selectedMonth + "-01").getDaysInMonth();
-      this.calendar = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-    },
-    clearForm() {
-      this.entry = { date: "", content: "", mood: "", goals: "" };
-      this.editing = false;
-      this.editingIndex = null;
-    },
     async initializeCKEditor() {
       try {
         const ClassicEditor = await import('@ckeditor/ckeditor5-build-classic');
@@ -102,6 +74,50 @@ export default {
         console.error('Error loading CKEditor', error);
       }
     },
+
+
+    async saveEntry() {
+      try {
+        const response = await axios.post(
+            'http://localhost:8080/journals/create',
+            this.entry,
+            {
+              headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+              }
+            }
+        );
+
+        if (response.status === 201) {
+          // Successfully created the journal entry
+
+          console.log('Journal entry created:');
+
+          // Clear input fields
+          this.entry = {
+            date: "",
+            content: "",
+            mood: "",
+            goals: "",
+          };
+
+          // Show success message using SweetAlert
+          swal({
+            text: 'Journal created successfully!',
+            icon: 'success',
+          });
+
+          // You can handle further actions, such as redirecting the user.
+        } else {
+          // Handle other HTTP response statuses if needed
+          console.error('Failed to create journal entry:', response.status, response.data);
+        }
+      } catch (error) {
+        // Handle network errors or other exceptions
+        console.error('Error creating journal entry:', error);
+      }
+    },
+
   },
   mounted() {
     this.initializeCKEditor();
@@ -110,14 +126,20 @@ export default {
 </script>
 
 <style scoped>
+body {
+  overflow-y: auto; /* Enable vertical scrolling for the entire page */
+  height: 100%; /* Ensure body expands to full height of viewport */
+}
+
 .entry-form {
-  max-width: 800px; /* Adjust the width as needed */
-  margin: 0 auto;
+  max-width: 800px;
+  margin: 100px auto;
+
 }
 
 .entry-form label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 1px;
 }
 
 .entry-form input,

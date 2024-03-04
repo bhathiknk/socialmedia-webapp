@@ -14,6 +14,7 @@ import SignIn from "@/components/LoggingComponent/SignIn.vue";
 import UserDetailEdit from "@/components/ProfileCom/UserDetailEdit.vue";
 import AddFeed from "@/components/FeedCom/AddFeed.vue";
 import AddJournal from "@/components/DailyJournal/AddJournal.vue"
+import JournalDetailsModal from "@/components/DailyJournal/JournalDetailsModal.vue"
 
 const routes = [
   {
@@ -90,6 +91,11 @@ const routes = [
     path:'/AddJournal',
     name:'AddJournal',
     component: AddJournal
+  },
+  {
+    path:'/JournalDetailsModal',
+    name:'JournalDetailsModal',
+    component: JournalDetailsModal
   }
 ]
 
