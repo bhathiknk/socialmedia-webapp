@@ -1,6 +1,14 @@
 <template>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+  <div class="circular-button-container">
+    <CircularButton
+        @click="navigateToAddFeed"
+        to="/AddDiscussion"
+        icon="fa fa-plus"
+        label="Add Feed"
+        style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
+    />
+  </div>
   <div>
     <h2>Friend Questions</h2>
     <div v-if="questions.length === 0">
@@ -21,21 +29,36 @@
           <p>{{ question.content }}</p>
         </div>
 
+        <!-- Eye Icon for Viewing Comments -->
+        <div class="view-comments-icon">
+          <i class="fa fa-eye" @click="showCommentsModal(question.comments)"></i>
+          <span>{{ question.comments.length }}</span> <!-- Display comment count -->
+        </div>
+
         <!-- Comment Section -->
         <div class="comment-section">
           <i class="fas fa-comment comment-icon" @click="toggleCommentField(question.id)"></i> <!-- Comment icon -->
-          <span class="comment-count">{{ question.comments.length }}</span> <!-- Display comment count -->
           <div v-if="showCommentField === question.id" class="comment-field">
             <input type="text" v-model="commentText" placeholder="Enter your comment" />
             <button @click="sendComment(question.id)" class="send-button">
               Send
             </button>
           </div>
-          <!-- Display comments -->
-          <div v-if="question.comments.length > 0" class="comments">
-            <div v-for="comment in question.comments" :key="comment.id" class="comment">
-              <p><strong>{{ comment.user.userName }}:</strong> {{ comment.content }}</p>
-            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comments Modal -->
+    <div v-if="showCommentsModalFlag" class="comments-modal">
+      <div class="comments-modal-content">
+
+        <span class="close" @click="closeCommentsModal">&times;</span>
+        <h3>Comments</h3>
+        <div class="comments">
+          <div v-for="comment in currentComments" :key="comment.id" class="comment">
+
+            <img :src="getProfileImageUrl(comment.user.profileImage)" alt="User Profile Image" class="user-profile-image" />
+            <p><strong>{{ comment.user.userName }}:</strong> {{ comment.content }}</p>
           </div>
         </div>
       </div>
@@ -46,14 +69,18 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+import CircularButton from "@/components/CircularButton.vue";
 /* eslint-disable */
 
 export default {
+  components: {CircularButton},
   data() {
     return {
       questions: [],
       showCommentField: null,
       commentText: "",
+      showCommentsModalFlag: false,
+      currentComments: [],
     };
   },
   mounted() {
@@ -207,6 +234,14 @@ export default {
         text: 'Error saving comment.',
       });
     },
+    showCommentsModal(comments) {
+      this.currentComments = comments;
+      this.showCommentsModalFlag = true;
+    },
+    closeCommentsModal() {
+      this.showCommentsModalFlag = false;
+      this.currentComments = [];
+    },
   },
 };
 </script>
@@ -220,7 +255,16 @@ export default {
   margin: 20px auto; /* Center the container horizontally */
   background-color: #f2f2f2;
 }
+.circular-button-container {
 
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  background-color: #fff; /* Add your desired background color */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);/* Move the circular button to the right */
+}
 .user-info {
   display: flex;
   align-items: flex-start; /* Align items at the start (top) */
@@ -289,6 +333,55 @@ export default {
 
 .comment-icon {
   margin-right: 5px;
+  cursor: pointer;
+}
+
+.view-comments-icon {
+  cursor: pointer;
+}
+
+.view-comments-icon i {
+  cursor: pointer;
+}
+
+.view-comments-icon span {
+  margin-left: 5px;
+}
+
+.comments-modal {
+  display: block;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.comments-modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-height: 70vh; /* Adjust as needed */
+  overflow-y: auto; /* Add scrollbar when content exceeds max-height */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
   cursor: pointer;
 }
 </style>
