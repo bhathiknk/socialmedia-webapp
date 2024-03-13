@@ -23,6 +23,7 @@
 import axios from "axios";
 import swal from "sweetalert";
 import baseURL from "@/config";
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -53,10 +54,7 @@ export default {
 
         if (response.status === 200) {
           console.log("Post created successfully");
-          swal({
-            text: "Post created successfully",
-            icon: "success",
-          });
+          this.showSuccessMessage();
 
           // Clear input fields after successful post creation
           this.clearInputFields();
@@ -80,6 +78,15 @@ export default {
     },
     handleImageChange(event) {
       this.imageFile = event.target.files[0];
+    },
+
+    showSuccessMessage() {
+      // Show success message using SweetAlert
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Post created successfully',
+      });
     },
   },
 };

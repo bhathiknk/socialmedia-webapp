@@ -55,7 +55,7 @@ export default {
       try {
         const response = await axios.get("http://localhost:8080/posts/friends-posts", {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
+            Authorization:localStorage.getItem("token"),
           },
         });
 

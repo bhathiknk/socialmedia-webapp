@@ -26,7 +26,7 @@
 <script>
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import axios from 'axios';
-import swal from 'sweetalert';
+import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -102,10 +102,7 @@ export default {
           };
 
           // Show success message using SweetAlert
-          swal({
-            text: 'Journal created successfully!',
-            icon: 'success',
-          });
+          this.showSuccessMessage();
 
           // You can handle further actions, such as redirecting the user.
         } else {
@@ -116,6 +113,15 @@ export default {
         // Handle network errors or other exceptions
         console.error('Error creating journal entry:', error);
       }
+    },
+
+    showSuccessMessage() {
+      // Show success message using SweetAlert
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Journal saved successfully',
+      });
     },
 
   },

@@ -22,8 +22,8 @@
 
 <script>
 import axios from "axios";
-import swal from "sweetalert";
 import baseURL from "@/config";
+import Swal from "sweetalert2";
 
 export default {
     // Your existing component setup
@@ -40,32 +40,40 @@ export default {
 
                     localStorage.setItem("token", res.data.token);
 
-                    swal({
-                        text: "Login successful",
-                        icon: "success",
-                    });
+                  this.showSuccessMessage();
+
                     this.$emit("fetchData");
                     this.$router.push({ name: "ProfileEdit" });
                 })
                 .catch((err) => {
                     if (err.response && err.response.status === 400) {
                         // Incorrect password error
-                        swal({
-                            text: "Incorrect password. Please try again.",
-                            icon: "error",
-                        });
+                      this.showErrorMessage();
                     }
                   if (err.response && err.response.status === 500) {
                     // Incorrect password error
-                    swal({
-                      text: "Incorrect password. Please try again.",
-                      icon: "error",
-                    });
+                    this.showErrorMessage();
                   }else {
                         console.log("err", err);
                     }
                 });
         },
+      showSuccessMessage() {
+        // Show success message using SweetAlert
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Login successful',
+        });
+      },
+      showErrorMessage() {
+        // Show error message using SweetAlert
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'Incorrect Password.Please Try Again.',
+        });
+      },
     },
 };
 </script>

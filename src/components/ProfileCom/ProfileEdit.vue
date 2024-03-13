@@ -73,7 +73,7 @@
 // Import necessary dependencies
 import CircularButton from "../CircularButton.vue";
 import axios from "axios";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -158,9 +158,15 @@ export default {
       this.profilePicture = require('@/assets/profile.jpg');
       this.$router.push('/SignIn');
       // Display a success message using SweetAlert
-      swal({
-        text: "Logged you out. Visit again",
-        icon: "success",
+      this.showSuccessMessage();
+    },
+
+    showSuccessMessage() {
+      // Show success message using SweetAlert
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Logged You Out.Visit Again',
       });
     },
   },

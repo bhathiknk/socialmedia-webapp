@@ -53,8 +53,8 @@
 
 <script>
 import axios from "axios";
-import swal from "sweetalert";
 import baseURL from "@/config";
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -93,11 +93,10 @@ export default {
           const response = await axios.post(`${baseURL}user/signup`, user);
 
           if (response.data.status === 'success') {
+
             this.$router.replace("/SignIn");
-            swal({
-              text: response.data.message,
-              icon: "success",
-            });
+            this.showSuccessMessage();
+
           } else {
             // Handle other cases if needed
           }
@@ -107,10 +106,7 @@ export default {
         }
       } else {
         // Show password mismatch error
-        swal({
-          text: "Passwords don't match",
-          icon: "error",
-        });
+        this.showErrorMessage();
       }
     },
 
@@ -118,6 +114,23 @@ export default {
       // Password complexity rules: at least 6 characters, one letter, one number, and one symbol
       const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
       return regex.test(this.password);
+    },
+
+    showErrorMessage() {
+      // Show error message using SweetAlert
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Password Do Not Match.',
+      });
+    },
+    showSuccessMessage() {
+      // Show success message using SweetAlert
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Question saved successfully',
+      });
     },
 
   },

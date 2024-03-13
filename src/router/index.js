@@ -4,7 +4,7 @@ import FeedView from '../views/Feed.vue'
 import ConnectionView from '../views/ConnectionView.vue'
 import CircularButton from '../components/CircularButton.vue'
 import EventCalendar from "@/components/EventCalendar.vue"
-import DiscussionForum from "../components/DiscussionForum.vue"
+import DiscussionForum from "../components/DiscussionForum/DiscussionForum.vue"
 import DailyJournaling from "@/components/DailyJournal/DailyJournaling.vue";
 import GradesTracking from "@/components/GradesTracking.vue";
 import ShortNote from "@/components/ShortNote.vue";
@@ -15,6 +15,7 @@ import UserDetailEdit from "@/components/ProfileCom/UserDetailEdit.vue";
 import AddFeed from "@/components/FeedCom/AddFeed.vue";
 import AddJournal from "@/components/DailyJournal/AddJournal.vue"
 import JournalDetailsModal from "@/components/DailyJournal/JournalDetailsModal.vue"
+import AddDiscussion from "@/components/DiscussionForum/AddDiscussion.vue";
 
 const routes = [
   {
@@ -96,6 +97,11 @@ const routes = [
     path:'/JournalDetailsModal',
     name:'JournalDetailsModal',
     component: JournalDetailsModal
+  },
+  {
+    path:'/AddDiscussion',
+    name:'AddDiscussion',
+    component: AddDiscussion
   }
 ]
 

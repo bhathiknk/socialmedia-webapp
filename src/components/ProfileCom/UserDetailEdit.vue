@@ -37,7 +37,7 @@
 <script>
 // Import necessary libraries
 import axios from "axios";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -74,10 +74,7 @@ export default {
         },
       })
           .then((response) => {
-            swal({
-              text: response.data,
-              icon: "success",
-            });
+            this.showSuccessMessage();
 
             // Navigate to the ProfileEdit page
             this.$router.push('/ProfileEdit');
@@ -87,10 +84,8 @@ export default {
           })
           .catch((error) => {
             console.error(error);
-            swal({
-              text: "Error updating user details",
-              icon: "error",
-            });
+
+            this.showErrorMessage();
           });
     },
 
@@ -111,6 +106,23 @@ export default {
             this.email = null;
             this.text = null;
           });
+    },
+
+    showErrorMessage() {
+      // Show error message using SweetAlert
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Error updating user details.',
+      });
+    },
+    showSuccessMessage() {
+      // Show success message using SweetAlert
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Profile Details Updated successfully',
+      });
     },
   },
   // Component lifecycle hooks
