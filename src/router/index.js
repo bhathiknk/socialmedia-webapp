@@ -7,7 +7,7 @@ import EventCalendar from "@/components/EventCalendar.vue"
 import DiscussionForum from "../components/DiscussionForum/DiscussionForum.vue"
 import DailyJournaling from "@/components/DailyJournal/DailyJournaling.vue";
 import GradesTracking from "@/components/GradesTracking.vue";
-import ShortNote from "@/components/ShortNote.vue";
+import ShortNote from "@/components/ShortNote/ShortNote.vue";
 import ProfileEdit from "@/components/ProfileCom/ProfileEdit.vue";
 import SignUp from "@/components/LoggingComponent/SignUp.vue";
 import SignIn from "@/components/LoggingComponent/SignIn.vue";
@@ -16,6 +16,7 @@ import AddFeed from "@/components/FeedCom/AddFeed.vue";
 import AddJournal from "@/components/DailyJournal/AddJournal.vue"
 import JournalDetailsModal from "@/components/DailyJournal/JournalDetailsModal.vue"
 import AddDiscussion from "@/components/DiscussionForum/AddDiscussion.vue";
+import AddShortNote from "@/components/ShortNote/AddShortNote.vue";
 
 const routes = [
   {
@@ -102,6 +103,11 @@ const routes = [
     path:'/AddDiscussion',
     name:'AddDiscussion',
     component: AddDiscussion
+  },
+  {
+    path:'/AddShortNote',
+    name:'AddShortNote',
+    component: AddShortNote
   }
 ]
 
