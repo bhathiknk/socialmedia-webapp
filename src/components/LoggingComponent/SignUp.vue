@@ -75,7 +75,7 @@ export default {
       if (this.password === this.confirmPassword) {
         // call signup api
         const user = {
-        
+
           firstName: this.firstName,
           lastName: this.lastName,
           email: this.email,

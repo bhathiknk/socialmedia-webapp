@@ -1,54 +1,73 @@
 <template>
-    <div>
-        <div class="profile">
+  <div>
+    <div class="profile">
 
-            <CircularButton
-                @click="navigateToEventCalendar"
-                icon="fa fa-check"
-                label="ToDo/Calendar"
-                style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
-                to="/EventCalendar.vue"
-            />
-            <CircularButton
-                @click="navigateToResourceLibrary"
-                icon="fa fa-table"
-                label="ShortNote"
-                style="margin-bottom: 10px; margin-left: 5px"
-                to="/ShortNote.vue"
-            />
-            <CircularButton
-                @click="navigateToGradesTracking"
-                icon="fa fa-file"
-                label="Grades Tracking"
-                style="margin-bottom: 10px; margin-left: 5px"
-                to="/GradesTracking.vue"
-            />
-            <CircularButton
-                @click="navigateToGoalSetting"
-                icon="fa fa-bullseye"
-                label="Discussion Forum"
-                style="margin-bottom: 10px; margin-left: 5px"
-                to="/DiscussionForum.vue"
-            />
-            <CircularButton
-                @click="navigateToDailyJournaling"
-                icon="fa fa-book"
-                label="Daily Journaling"
-                style="margin-bottom: 15px; margin-left: 5px"
-                to="/DailyJournaling.vue"
-            />
-            <CircularButton
-                @click="navigateToProfileEdit"
-                icon="fa fa-user"
-                label="Profile"
-                style="margin-bottom: 10px; margin-left: 5px"
-                to="/ProfileEdit.vue"
-            />
-
+      <!-- First horizontal grid -->
+      <div class="horizontal-grid ">
+        <!-- First grid content -->
+        <div class="grid-item">
+          <!-- Content for the first grid -->
+          <h1>First Grid (add additional APIs)</h1>
         </div>
+      </div>
+
+      <!-- Add space between grids -->
+      <div class="grid-space">
+      </div> <!-- This will create space between the grids -->
+
+      <!-- Second horizontal grid -->
+      <div class="horizontal-grid">
+        <!-- Circular buttons -->
+        <div class="circular-buttons  grid-item">
+          <!-- CircularButton components -->
+          <CircularButton
+              @click="navigateToEventCalendar"
+              icon="fa fa-check"
+              label="ToDo/Calendar"
+              style="margin-bottom: 10px;  margin-left: 100px"
+              to="/EventCalendar.vue"
+          />
+          <CircularButton
+              @click="navigateToResourceLibrary"
+              icon="fa fa-sticky-note"
+              label="Short Note"
+              style="margin-bottom: 10px; margin-left: 100px"
+              to="/ShortNote.vue"
+          />
+          <CircularButton
+              @click="navigateToGradesTracking"
+              icon="fa fa-graduation-cap"
+              label="Grades Tracking"
+              style="margin-bottom: 10px; margin-left: 100px"
+              to="/GradesTracking.vue"
+          />
+          <CircularButton
+              @click="navigateToGoalSetting"
+              icon="fa fa-comments"
+              label="Discussion Forum"
+              style="margin-bottom: 10px; margin-left: 100px"
+              to="/DiscussionForum.vue"
+          />
+          <CircularButton
+              @click="navigateToDailyJournaling"
+              icon="fa fa-book"
+              label="Daily Journaling"
+              style="margin-bottom: 15px; margin-left: 100px"
+              to="/DailyJournaling.vue"
+          />
+          <CircularButton
+              @click="navigateToProfileEdit"
+              icon="fa fa-user"
+              label="Profile"
+              style="margin-bottom: 10px; margin-left: 100px"
+              to="/ProfileEdit.vue"
+          />
+        </div>
+      </div>
     </div>
-    <!-- Include the EventCalendar component here -->
-    <EventCalendar v-if="$route.path === '/calendar'" />
+  </div>
+  <!-- Include the EventCalendar component here -->
+  <EventCalendar v-if="$route.path === '/calendar'" />
 </template>
 
 
@@ -92,3 +111,31 @@ export default {
     },
 };
 </script>
+<style scoped>
+.horizontal-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+
+.circular-buttons {
+  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap to the next line */
+  gap: 10px; /* Adjust space between buttons */
+}
+
+/* Styles for CircularButton component can be added here or in its own stylesheet */
+.grid-item {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+  border-radius: 5px;
+  margin: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+
+
+</style>

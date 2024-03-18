@@ -22,7 +22,7 @@ export default {
     },
     computed: {
         iconClass() {
-            return this.icon ? this.icon : ''; // Use the provided icon class, if available
+            return this.icon ? this.icon : '';
         },
     },
     methods: {
@@ -35,10 +35,13 @@ export default {
 
 <style scoped>
 .circular-button {
-    width: 80px;
-    height: 80px;
+
+    width: 190px;
+    height: 190px;
+    margin-top: 60px;
+    margin-bottom: 60px !important;
     background-color: lightslategrey;
-    border-radius: 50%;
+    border-radius: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,7 +54,9 @@ export default {
 }
 
 .circular-button:hover {
-    transform: scale(1.2);
+  box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.1);
+  transition: 0.5s;
+  transform: scale(1.2);
 }
 
 .button-content {
@@ -63,7 +68,7 @@ export default {
 }
 
 .button-icon {
-    font-size: 24px; /* Adjust the icon size as needed */
+    font-size: 48px;
 }
 
 .label {
@@ -77,23 +82,22 @@ export default {
 
 .label {
     position: absolute;
-    top: 0;
-    right: -135px; /* Adjust the value to control the label's position */
-    width: 140px; /* Adjust the width of the label as needed */
+    top: -40px; /* Adjust the value to position the label on top of the button */
+    left: 50%; /* Position the label horizontally at the center */
+    transform: translateX(-50%); /* Center the label horizontally */
     text-align: left; /* Align label text to the left */
     display: none;
     white-space: nowrap; /* Prevent label text from wrapping */
     background-color: rgba(0, 0, 0, 0.8); /* Add a background color for better visibility */
     color: white; /* Text color for the label */
-    padding: 5px; /* Add some padding for better styling */
-    border-top-left-radius: 5px; /* Round the top-left corner */
-    border-bottom-left-radius: 5px; /* Round the bottom-left corner */
-    border-top-right-radius: 5px; /* Round the top-left corner */
-    border-bottom-right-radius: 5px; /* Round the bottom-left corner */
+    padding: 20px; /* Add some padding for better styling */
+    border-radius: 10px;
     z-index: 1; /* Ensure label is on top of the button */
 }
 
 .circular-button:hover .label {
     display: block;
+
 }
+
 </style>

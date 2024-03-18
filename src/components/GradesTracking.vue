@@ -35,7 +35,7 @@
               -->
 
 
-              <!--need to modify this code with Vue JS-->
+              <!--need to modify this code with Vue JS
               <div class="gpa-calculator-edit">
                 <h5 id="cal-topic">Add your cutout marks</h5>
                 <form id="gpa-form">
@@ -56,7 +56,7 @@
                   <button type="button" id="add-subject-button">Save</button>
                   <button type="button" id="calculate-button">Clear</button>
                 </form>
-              </div>
+              </div>-->
               <!--  </div> Drop down button yaf end-->
             </div>
           </div>
@@ -203,7 +203,9 @@ GPA.value = gpa.value;
 const clearDatabase = () => {
   // Clear the subjectsDB array
   subjectsDB.value = [];
+  gpa.value="0";
 };
+
 
 
 
