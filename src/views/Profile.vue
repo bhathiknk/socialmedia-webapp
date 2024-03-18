@@ -3,9 +3,9 @@
     <div class="profile">
 
       <!-- First horizontal grid -->
-      <div class="horizontal-grid ">
+      <div class="horizontal-grid">
         <!-- First grid content -->
-        <div class="grid-item">
+        <div class="grid-item larger-grid">
           <!-- Content for the first grid -->
           <h1>First Grid (add additional APIs)</h1>
         </div>
@@ -116,9 +116,22 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
 }
 
+.grid-space {
+  height: 10px;
+}
+
+/*Handling first Grid*/
+.larger-grid {
+  width: 290px;
+  height: 498px;
+  margin-top: 60px;
+  border-radius: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .circular-buttons {
   display: flex;
@@ -134,8 +147,6 @@ export default {
   border-radius: 5px;
   margin: 20px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
 }
-
-
-
 </style>
