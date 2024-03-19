@@ -109,6 +109,8 @@ export default {
 
 .container {
   max-width: 600px;
+  padding: 20px;
+  box-shadow: 10px 10px 10px black;
 
 }
 

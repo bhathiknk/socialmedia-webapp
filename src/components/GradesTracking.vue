@@ -1,77 +1,12 @@
 
 <template>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 
   <div class="container">
     <div id="margin-top">
       <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
         <div class="col"></div>
-        <div class="col">
-          <!--
-           <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-          </button>
-          -->
-          <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="canva-h5-topic">Enter your Grading method</h5> <!-- ID = "offcanvasExampleLabel"-->
-              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-              <div id="canva-description">
-                You can add your university GPA grading cutout marks to the below fields. Which means <br>A = 90 <br> B = 75 <br> C = 55
-                <br> S = 35 <br>Like That.
-              </div>
-
-              <!-- <div class="dropdown mt-3"> drop down button  -->
-
-              <!--
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                Dropdown button
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-              -->
-
-
-              <!--need to modify this code with Vue JS-->
-              <div class="gpa-calculator-edit">
-                <h5 id="cal-topic">Add your cutout marks</h5>
-                <form id="gpa-form">
-                  <div id="subject-list">
-                    <div class="subject-item">
-                      <div class="input-group mb-3">
-                        <input type="text" class="mark" placeholder="A" required>
-                        <input type="number" class="subject-mark" placeholder="Subject Mark" min="0" max="100" required>
-                        <input type="text" class="mark" placeholder="B" required>
-                        <input type="number" class="subject-mark" placeholder="Subject Mark" min="0" max="100" required>
-                        <input type="text" class="mark" placeholder="C" required>
-                        <input type="number" class="subject-mark" placeholder="Subject Mark" min="0" max="100" required>
-                        <input type="text" class="mark" placeholder="S" required>
-                        <input type="number" class="" placeholder="Subject Mark" min="0" max="100" required>
-                      </div>
-                    </div>
-                  </div>
-                  <button type="button" id="add-subject-button">Save</button>
-                  <button type="button" id="calculate-button">Clear</button>
-                </form>
-              </div>
-              <!--  </div> Drop down button yaf end-->
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <!--<div class="p-3 border bg-light">Reset</div>-->
-          <button class="add-gpa-method-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-            Add your GPA method
-          </button>
-        </div>
-        <div class="col">
-          <!--<button class="btn btn-primary">Add your GPA method 3</button>-->
-        </div>
         <div class="col"></div>
       </div>
     </div>
@@ -89,128 +24,170 @@
           </div>
         </div>
         <button type="button" id="add-subject-button" @click="submitSubjectData">Save</button>
-        <button type="button" id="calculate-button" title="Before Click this button, you need to save your Sunject and marks details."  @click="calculateFinalGPA">Calculate GPA</button>
-        <button type="button"  id="ClearDB-button" @click="clearDatabase" >Clear Database</button>
+        <button type="button" id="calculate-button" title="Before Click this button, you need to save your Subject and marks details."  @click="calculateFinalGPA">Calculate GPA</button>
       </form>
       <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
       <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
     </div>
   </div>
+
   <div id="DB-gpa-sub-data-show" class="DB-export-data-scroll">
     <h5 id="DB-gpa-sub-data-topic">Your Subjects</h5>
-    <!-- Still testing this-->
     <table class="table table-hover">
       <thead>
       <tr class="tbl-topic">
         <th scope="col" class="table-primary">Subject Name</th>
-        <th scope="col"  class="table-dark">Marks</th>
-        <th scope="col"  class="table-danger">GPA</th>
-
+        <th scope="col" class="table-dark">Marks</th>
+        <th scope="col" class="table-danger">GPA</th>
+        <th scope="col" class="table-info">Actions</th> <!-- New column for delete icon -->
       </tr>
       </thead>
       <tbody>
-      <!-- i used v-for to loop through subjectsDB -->
       <tr class="table-secondary" v-for="(subjectDB, index) in subjectsDB" :key="index">
         <th scope="row">{{ subjectDB.name }}</th>
         <td class="table-light">{{ subjectDB.mark }}</td>
-        <td class="table-info">{{ calculateGradePoints(subjectDB.mark) }}</td>
+        <td class="table-info">{{ subjectDB.gpa }}</td>
+        <td class="table-info"><button @click="deleteSubject(index)"><i class="fas fa-trash-alt"></i></button></td> <!-- Delete icon -->
       </tr>
       </tbody>
     </table>
   </div>
 
-
 </template>
 
+<script>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import Swal from 'sweetalert2'; // Import SweetAlert
 
-<script setup>
+export default {
+  setup() {
+    const subjects = ref([{ name: '', mark: '' }]);
+    const gpa = ref(null);
+    const subjectsDB = ref([]);
 
-import { ref } from 'vue';
+    const calculateFinalGPA = () => {
+      let totalCredits = 0;
+      let totalGradePoints = 0;
 
-const subjects = ref([{ name: '', mark: '' }]);
-const gpa = ref(null);
+      subjectsDB.value.forEach((subjectDB) => {
+        totalCredits += 1;
+        totalGradePoints += subjectDB.gpa;
+      });
 
+      if (totalCredits > 0) {
+        const calculatedGPA = (totalGradePoints / totalCredits).toFixed(2);
+        gpa.value = calculatedGPA;
+      } else {
+        gpa.value = null;
+      }
+    };
 
-// New array to store submitted subjects
-const subjectsDB = ref([]);
+    const submitSubjectData = async () => {
+      const validSubjects = subjects.value.filter((subject) => subject.name.trim() !== '' && subject.mark !== '');
 
-const calculateFinalGPA = () => {
-  let totalCredits = 0;
-  let totalGradePoints = 0;
+      const invalidMarks = validSubjects.some((subject) => subject.mark > 100);
 
-  subjectsDB.value.forEach((subjectDB) => {
-    const gradePoints = calculateGradePoints(subjectDB.mark);
+      if (invalidMarks) {
+        alert('Marks cannot exceed 100. Please correct the marks.');
+        return;
+      }
 
-    totalCredits += 1;
-    totalGradePoints += gradePoints;
-  });
+      if (validSubjects.length > 0) {
+        const token = localStorage.getItem('token');
+        try {
+          for (const subject of validSubjects) {
+            const subjectData = {
+              name: subject.name,
+              mark: subject.mark,
+            };
 
-  if (totalCredits > 0) {
-    const calculatedGPA = (totalGradePoints / totalCredits).toFixed(2);
-    gpa.value = ` ${calculatedGPA}`;
-  } else {
-    gpa.value = null;
-  }
-};
-const calculateGradePoints = (mark) => {
-  if (mark >= 90) return 4.0;
-  else if (mark >= 85) return 3.7;
-  else if (mark >= 80) return 3.3;
-  else if (mark >= 75) return 3.0;
-  else if (mark >= 65) return 2.7;
-  else if (mark >= 55) return 2.3;
-  else if (mark >= 45) return 2.0;
-  else return 0.0;
-};
+            await axios.post('http://localhost:8080/api/subjects/save', subjectData, {
+              headers: {
+                Authorization: token,
+              },
+            });
+          }
 
-const submitSubjectData = () => {
-  const validSubjects = subjects.value.filter(
-      (subject) => subject.name.trim() !== '' && subject.mark !== ''
-  );
+          validSubjects.forEach((subject) => {
+            subject.name = '';
+            subject.mark = '';
+          });
+          // After saving the subjects, fetch the data again
+          fetchSubjectsData();
 
-  // Check for marks exceeding 100 before saving
-  const invalidMarks = validSubjects.some((subject) => subject.mark > 100);
+          showSuccessMessage();
+        } catch (error) {
+          console.error('Failed to save subject data', error);
+          // Handle error, show message, etc.
+        }
+      }
+    };
 
-  if (invalidMarks) {
-    alert('Marks cannot exceed 100. Please correct the marks.');
-    return;
-  }
+    const showSuccessMessage = () => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Subject details added successfully',
+      });
+    };
 
-  if (validSubjects.length > 0) {
-    const subjectData = validSubjects.map((subject) => ({
-      name: subject.name,
-      mark: parseFloat(subject.mark),
-    }));
+    const fetchSubjectsData = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get('http://localhost:8080/api/subjects/all', {
+          headers: {
+            Authorization: token,
+          },
+        });
+        subjectsDB.value = response.data;
+      } catch (error) {
+        console.error('Failed to fetch subjects data', error);
+        // Handle error, show message, etc.
+      }
+    };
 
-    subjectsDB.value.push(...subjectData);
+    const deleteSubject = async (index) => {
+      const subjectIdToDelete = subjectsDB.value[index].id; // Assuming each subject has an ID
+      const token = localStorage.getItem('token');
+      try {
+        await axios.delete(`http://localhost:8080/api/subjects/delete/${subjectIdToDelete}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        // After successfully deleting, fetch the updated data
+        fetchSubjectsData();
+        showDeleteSuccessMessage();
+      } catch (error) {
+        console.error('Failed to delete subject', error);
+        // Handle error, show message, etc.
+      }
+    };
 
-    validSubjects.forEach((subject) => {
-      subject.name = '';
-      subject.mark = '';
+    const showDeleteSuccessMessage = () => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Subject deleted successfully',
+      });
+    };
+
+    onMounted(() => {
+      fetchSubjectsData();
     });
-  }
+
+    return {
+      subjects,
+      gpa,
+      subjectsDB,
+      calculateFinalGPA,
+      submitSubjectData,
+      deleteSubject,
+    };
+  },
 };
-
-// Define new constant variables to store the values of subject.name and subject.mark
-const subjectName = ref('');
-const subjectMark = ref(0);
-const GPA = ref(null);
-
-// This function will be called when the "Get Subject Values" button or action is triggered
-subjectName.value = subjects.value[0].name;
-subjectMark.value = subjects.value[0].mark;
-GPA.value = gpa.value;
-
-const clearDatabase = () => {
-  // Clear the subjectsDB array
-  subjectsDB.value = [];
-};
-
-
-
-
 </script>
-
 
 <style>
 

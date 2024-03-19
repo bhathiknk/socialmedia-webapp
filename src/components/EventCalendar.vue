@@ -1,79 +1,91 @@
 <template>
-  <div class="app">
-    <div class="container">
-      <h2>Todo List</h2>
-      <ul class="todo-list">
-        <li v-for="(todo, index) in todos" :key="index">{{ todo }}</li>
-      </ul>
+  <div class="container">
+    <div class="left-container">
+      <h2>Left Container</h2>
+      <!-- Content for the left container -->
     </div>
-    <div class="container">
-      <h2>Calendar</h2>
-      <div class="calendar">
-        <!-- Calendar component goes here -->
-        <p>Current Date: {{ currentDate }}</p>
+    <div class="right-container">
+      <div>
+        <label for="date">Select Date:</label>
+        <input type="date" id="date" v-model="selectedDate">
       </div>
-      <input type="text" v-model="newTodo" placeholder="Enter new todo">
-      <button @click="addTodo">Add Todo</button>
+      <div>
+        <label for="time">Select Time:</label>
+        <input type="time" id="time" v-model="selectedTime">
+      </div>
+      <div>
+        <label for="todo">Add Todo:</label>
+        <input type="text" id="todo" v-model="newTodo">
+      </div>
+      <button @click="saveTodo">Save</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'HorizontalContainers', // Component name
   data() {
     return {
-      todos: [],
-      newTodo: '',
-      currentDate: new Date().toLocaleDateString()
-    };
+      selectedDate: '', // Data property to store selected date
+      selectedTime: '', // Data property to store selected time
+      newTodo: '', // Data property to store new todo input
+    }
   },
   methods: {
-    addTodo() {
-      if (this.newTodo.trim() !== '') {
-        this.todos.push(this.newTodo);
-        this.newTodo = '';
-      }
+    saveTodo() {
+      // Implement logic to save todo
+      console.log('Todo saved:', {
+        date: this.selectedDate,
+        time: this.selectedTime,
+        todo: this.newTodo
+      });
+      // Clear input fields after saving
+      this.selectedDate = '';
+      this.selectedTime = '';
+      this.newTodo = '';
     }
   }
-};
+}
 </script>
 
-<style>
+<style scoped>
 .container {
-  display: inline-block;
-  width: 45%;
-  padding: 20px;
-  margin: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex; /* Use Flexbox to arrange items horizontally */
+  height: 100vh; /* Set container height to 100% of viewport height */
 }
 
-.todo-list {
-  list-style-type: none;
-  padding: 0;
+.left-container, .right-container {
+  flex: 1; /* Make both containers flexible, taking up equal space */
+  padding: 10px; /* Add padding for spacing */
+  border: 1px solid #ccc; /* Optional: Add borders for visualization */
+  box-shadow: 5px 10px 10px black;
+  height: 100%; /* Set container height to 100% of parent container height */
+  display: flex; /* Use Flexbox to align items vertically */
+  flex-direction: column; /* Align items vertically */
+  justify-content: center; /* Center items vertically */
+  align-items: center; /* Center items horizontally */
+  margin:10px 10px;
+  ;
 }
 
-.calendar {
-  /* Calendar styles go here */
-}
-
-input[type="text"] {
-  width: calc(100% - 80px);
-  padding: 5px;
-  margin-right: 10px;
+input[type="date"],
+input[type="time"],
+input[type="text"],
+button {
+  margin-bottom: 10px; /* Add margin between input fields and button */
+  padding: 8px; /* Add padding to input fields and button */
+  border: 1px solid #ccc; /* Add border to input fields and button */
+  border-radius: 5px; /* Add border radius to input fields and button */
 }
 
 button {
-  padding: 5px 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
+  background-color: #007bff; /* Set background color for button */
+  color: #fff; /* Set text color for button */
+  cursor: pointer; /* Set cursor to pointer for button */
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #0056b3; /* Change background color on hover */
 }
 </style>

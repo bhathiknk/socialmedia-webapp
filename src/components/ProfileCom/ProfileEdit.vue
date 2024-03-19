@@ -192,33 +192,44 @@ body {
   background-color: rgb(255, 255, 255); /* Add your desired background color */
 }
 
+
+
 .container {
   max-width: 1200px;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.04); /* Container background color */
-  padding: 20px;
+
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   margin-bottom: 20px; /* Add margin to the top container */
-  margin-top: 20px;
+  margin-top: -150px;
+  border: 1px solid;
+  padding: 20px;
+  box-shadow: 5px 10px 10px black;
 }
 
 .container-user-post {
   max-width: 1200px;
   width: 100%;
-  background-color: #fff; /* Container background color */
-  padding: 20px;
+  background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: 0 auto; /* Center the container */
+  margin: 100px auto; /* Center the container */
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
+  box-shadow: 5px 10px 10px black;
 }
 
-.profile-info-container,
+.profile-info-container
+ {
+  text-align: center;
+  margin-top: 100px;
+}
+
 .user-posts-container {
   text-align: center;
+
 }
 
 .profile-picture-container img {

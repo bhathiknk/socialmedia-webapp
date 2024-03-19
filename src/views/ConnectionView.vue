@@ -306,15 +306,17 @@ export default {
 
 .suggested-friends-container,
 .friends-container,
-.pending-requests-container,
-.add-friend-container {
+.pending-requests-container
+ {
   background-color: #f7f7f7;
   border: 1px solid #ddd;
   border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
   padding: 20px;
   margin-bottom: 20px;
   height: 100%;
+
+  box-shadow: 5px 10px 10px black;
 }
 
 .suggested-friends-container h3,
@@ -350,7 +352,8 @@ export default {
 }
 
 .user-card:hover {
-  transform: scale(1.05); /* Scale the card slightly on hover for an interactive effect */
+  transform: scale(1.05);
+
 }
 
 .profile-image-container {
@@ -442,6 +445,9 @@ export default {
 .sender-profile-images-container {
   display: flex;
   align-items: center; /* Align items vertically in the center */
+}
+.search-friend-section{
+  box-shadow: 5px 10px 10px black;
 }
 
 .sender-profile-image-circle {
