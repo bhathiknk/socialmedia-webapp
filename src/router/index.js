@@ -17,6 +17,7 @@ import AddJournal from "@/components/DailyJournal/AddJournal.vue"
 import JournalDetailsModal from "@/components/DailyJournal/JournalDetailsModal.vue"
 import AddDiscussion from "@/components/DiscussionForum/AddDiscussion.vue";
 import AddShortNote from "@/components/ShortNote/AddShortNote.vue";
+import CircularButtonProfile from "@/components/CircularButtonProfile.vue";
 
 const routes = [
   {
@@ -38,6 +39,11 @@ const routes = [
     path:'/string ',
     name:'CircularButton ',
     component: CircularButton
+  },
+  {
+    path:'/string ',
+    name:'CircularButtonProfile ',
+    component: CircularButtonProfile
   },
   {
     path: '/calendar',

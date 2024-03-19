@@ -1,3 +1,4 @@
+
 <template>
 
   <div class="container">
@@ -12,12 +13,13 @@
           <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Enter your Grading method</h5>
+              <h5 class="offcanvas-title" id="canva-h5-topic">Enter your Grading method</h5> <!-- ID = "offcanvasExampleLabel"-->
               <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-              <div>
-                you can add your University GPA Grading marks to here. Which means A = 90 / B = 75 / C = 55 /S = 35 Like That
+              <div id="canva-description">
+                You can add your university GPA grading cutout marks to the below fields. Which means <br>A = 90 <br> B = 75 <br> C = 55
+                <br> S = 35 <br>Like That.
               </div>
 
               <!-- <div class="dropdown mt-3"> drop down button  -->
@@ -36,7 +38,7 @@
 
               <!--need to modify this code with Vue JS-->
               <div class="gpa-calculator-edit">
-                <h5>Add your GPA Calculator grades</h5>
+                <h5 id="cal-topic">Add your cutout marks</h5>
                 <form id="gpa-form">
                   <div id="subject-list">
                     <div class="subject-item">
@@ -83,14 +85,16 @@
           <div class="subject-item" v-for="(subject, index) in subjects" :key="index">
             <input type="text" class="subject-name" v-model="subject.name" placeholder="Subject Name" required>
             <input type="number" class="subject-mark" v-model="subject.mark" placeholder="Subject Mark" min="0" max="100" required>
+            <span v-if="subject.mark > 100" style="color: red;">Marks cannot exceed 100</span>
           </div>
         </div>
         <button type="button" id="add-subject-button" @click="submitSubjectData">Save</button>
-        <button type="button" id="calculate-button" @click="calculateFinalGPA">Calculate GPA</button>
+        <button type="button" id="calculate-button" title="Before Click this button, you need to save your Sunject and marks details."  @click="calculateFinalGPA">Calculate GPA</button>
+        <button type="button"  id="ClearDB-button" @click="clearDatabase" >Clear Database</button>
       </form>
-           <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
-           <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
-      </div>
+      <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
+      <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
+    </div>
   </div>
   <div id="DB-gpa-sub-data-show" class="DB-export-data-scroll">
     <h5 id="DB-gpa-sub-data-topic">Your Subjects</h5>
@@ -115,14 +119,17 @@
     </table>
   </div>
 
+
 </template>
 
 
 <script setup>
+
 import { ref } from 'vue';
 
 const subjects = ref([{ name: '', mark: '' }]);
 const gpa = ref(null);
+
 
 // New array to store submitted subjects
 const subjectsDB = ref([]);
@@ -156,10 +163,18 @@ const calculateGradePoints = (mark) => {
   else return 0.0;
 };
 
-
 const submitSubjectData = () => {
-  // Filter out empty subjects
-  const validSubjects = subjects.value.filter((subject) => subject.name.trim() !== '' && subject.mark !== '');
+  const validSubjects = subjects.value.filter(
+      (subject) => subject.name.trim() !== '' && subject.mark !== ''
+  );
+
+  // Check for marks exceeding 100 before saving
+  const invalidMarks = validSubjects.some((subject) => subject.mark > 100);
+
+  if (invalidMarks) {
+    alert('Marks cannot exceed 100. Please correct the marks.');
+    return;
+  }
 
   if (validSubjects.length > 0) {
     const subjectData = validSubjects.map((subject) => ({
@@ -167,10 +182,8 @@ const submitSubjectData = () => {
       mark: parseFloat(subject.mark),
     }));
 
-    // Push valid submitted data into subjectsDB
     subjectsDB.value.push(...subjectData);
 
-    // Clear the input fields after submission
     validSubjects.forEach((subject) => {
       subject.name = '';
       subject.mark = '';
@@ -178,7 +191,20 @@ const submitSubjectData = () => {
   }
 };
 
-// need to implement the logic to submit the data to my database using SQL.
+// Define new constant variables to store the values of subject.name and subject.mark
+const subjectName = ref('');
+const subjectMark = ref(0);
+const GPA = ref(null);
+
+// This function will be called when the "Get Subject Values" button or action is triggered
+subjectName.value = subjects.value[0].name;
+subjectMark.value = subjects.value[0].mark;
+GPA.value = gpa.value;
+
+const clearDatabase = () => {
+  // Clear the subjectsDB array
+  subjectsDB.value = [];
+};
 
 
 
@@ -203,6 +229,35 @@ body {
   background-color: rgb(100, 122, 204);
   color: #ffffff;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+#canva-h5-topic{
+  max-width: 990px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  background-color: rgb(25, 67, 222);
+  color: #ffffff;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+#canva-description{
+  max-width: 990px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  background-color: rgb(179, 190, 234);
+  color: #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+#canva-description:hover{
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  transition: 0.8s;
 }
 #calculator {
   max-width: 990px;
@@ -292,12 +347,30 @@ input[type="number"]:hover{
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
+#ClearDB-button {
+  background-color: #e8071a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+  margin-right: 100px;
+  transition: box-shadow 0.3s ease-out, background-color 0.3s ease-out;
+}
+
+#ClearDB-button:hover{
+  background-color: rgb(232, 7, 26);
+  color: #ffffff;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+  transition: box-shadow 0.3s ease-out, background-color 0.3s ease-out;
+}
+
 #result {
   text-align: center;
   font-weight: bold;
   margin-top: 20px;
 }
-
 
 .scroll {
   max-height: 400px; /*  maximum height for the scrollable area (default 500px) */

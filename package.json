@@ -27,6 +27,7 @@
     "vue-fullcalendar": "^1.0.9",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^4.2.5",
+    "vue-simple-calendar": "^7.1.0",
     "vue3-calendar": "^0.1.2",
     "vue3-calendar-composable": "^0.1.5",
     "vuex": "^4.1.0"

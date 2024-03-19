@@ -52,10 +52,11 @@ export default {
   },
   methods: {
     async fetchPosts() {
+      const userToken = localStorage.getItem('token');
       try {
         const response = await axios.get("http://localhost:8080/posts/friends-posts", {
           headers: {
-            Authorization:localStorage.getItem("token"),
+            Authorization: `Bearer ${userToken}`
           },
         });
 
