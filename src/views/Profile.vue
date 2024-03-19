@@ -116,6 +116,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: -60px;
 }
 
 .grid-space {

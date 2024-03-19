@@ -36,10 +36,9 @@ export default {
 <style scoped>
 .circular-button {
 
-  width: 190px;
-  height: 190px;
-  margin-top: 60px;
-  margin-bottom: 60px !important;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px !important;
   background-color: lightslategrey;
   border-radius: 10%;
   display: flex;
