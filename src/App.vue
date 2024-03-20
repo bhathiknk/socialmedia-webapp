@@ -19,7 +19,8 @@
 }
 
 .custom-navbar {
-  background-color: lightslategrey;
+  background: rgb(255,255,255);
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(90,115,255,1) 82%);
   color: white;
   position: fixed;
   bottom: 0; /* Fixed to the top */

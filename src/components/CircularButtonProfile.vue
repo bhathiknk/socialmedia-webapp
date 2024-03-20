@@ -39,7 +39,7 @@ export default {
   width: 100px;
   height: 100px;
   margin-bottom: 10px !important;
-  background-color: lightslategrey;
+  background-color: rgb(8, 19, 93);
   border-radius: 10%;
   display: flex;
   justify-content: center;
