@@ -15,6 +15,7 @@
   <div id="scr-pg">
     <div id="calculator" class="scroll">
       <h3 id="cal-topic">GPA Calculator</h3>
+      <div class="gpa-result-show" id="result">Please add subjects and marks first.</div>
       <form id="gpa-form">
         <div id="subject-list">
           <div class="subject-item" v-for="(subject, index) in subjects" :key="index">
@@ -24,15 +25,15 @@
           </div>
         </div>
         <button type="button" id="add-subject-button" @click="submitSubjectData">Save</button>
-        <button type="button" id="calculate-button" title="Before Click this button, you need to save your Subject and marks details."  @click="calculateFinalGPA">Calculate GPA</button>
       </form>
-      <div class="gpa-result-show" id="result" v-if="gpa !== null">Your GPA is: {{ gpa }}</div>
-      <div class="gpa-result-show" id="result" v-else>Please add subjects and marks first.</div>
     </div>
   </div>
 
   <div id="DB-gpa-sub-data-show" class="DB-export-data-scroll">
     <h5 id="DB-gpa-sub-data-topic">Your Subjects</h5>
+    <div class="gpa-result-show" id="result" v-if="finalGPA !== null">Your final Calculated GPA: {{ finalGPA.toFixed(2) }}</div>
+    <div class="gpa-result-show" id="result" v-else>No data available.</div>
+
     <table class="table table-hover">
       <thead>
       <tr class="tbl-topic">
@@ -65,21 +66,21 @@ export default {
     const subjects = ref([{ name: '', mark: '' }]);
     const gpa = ref(null);
     const subjectsDB = ref([]);
+    const finalGPA = ref(null);
 
-    const calculateFinalGPA = () => {
-      let totalCredits = 0;
-      let totalGradePoints = 0;
-
-      subjectsDB.value.forEach((subjectDB) => {
-        totalCredits += 1;
-        totalGradePoints += subjectDB.gpa;
-      });
-
-      if (totalCredits > 0) {
-        const calculatedGPA = (totalGradePoints / totalCredits).toFixed(2);
-        gpa.value = calculatedGPA;
-      } else {
-        gpa.value = null;
+    const fetchSubjectsDataWithFinalGPA = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await axios.get('http://localhost:8080/api/subjects/allWithFinalGPA', {
+          headers: {
+            Authorization: token,
+          },
+        });
+        subjectsDB.value = response.data.subjects;
+        finalGPA.value = response.data.finalGPA;
+      } catch (error) {
+        console.error('Failed to fetch subjects data with final GPA', error);
+        // Handle error, show message, etc.
       }
     };
 
@@ -175,15 +176,16 @@ export default {
 
     onMounted(() => {
       fetchSubjectsData();
+      fetchSubjectsDataWithFinalGPA();
     });
 
     return {
       subjects,
       gpa,
       subjectsDB,
-      calculateFinalGPA,
       submitSubjectData,
       deleteSubject,
+      finalGPA,
     };
   },
 };
@@ -347,6 +349,7 @@ input[type="number"]:hover{
   text-align: center;
   font-weight: bold;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .scroll {
