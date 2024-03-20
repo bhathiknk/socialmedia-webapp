@@ -1,21 +1,33 @@
 <template>
   <div class="container">
+    <!-- Left container -->
     <div class="left-container">
-      <h2>Left Container</h2>
-      <!-- Content for the left container -->
+      <div v-for="todo in todos" :key="todo.id">
+        <div class="todo-container">
+          <ul class="todo-show" id="todo">
+            <h3>{{ todo.todo }}</h3>
+            <p>Date: {{ todo.date }}</p>
+            <p>Time: {{ todo.time }}</p>
+            <!-- Delete icon -->
+            <i class="fa fa-trash-o" @click="deleteTodo(todo.id)" style="cursor: pointer;"></i>
+          </ul>
+        </div>
+      </div>
     </div>
+
+    <!-- Right container -->
     <div class="right-container">
-      <div>
+      <div class="input-group">
         <label for="date">Select Date:</label>
         <input type="date" id="date" v-model="selectedDate">
       </div>
-      <div>
+      <div class="input-group">
         <label for="time">Select Time:</label>
         <input type="time" id="time" v-model="selectedTime">
       </div>
-      <div>
+      <div class="input-group">
         <label for="todo">Add Todo:</label>
-        <input type="text" id="todo" v-model="newTodo">
+        <textarea id="todo" v-model="newTodo" placeholder="Add Todo"></textarea>
       </div>
       <button @click="saveTodo">Save</button>
     </div>
@@ -23,69 +35,213 @@
 </template>
 
 <script>
+import axios from 'axios';
+import Swal from "sweetalert2";
+
 export default {
-  name: 'HorizontalContainers', // Component name
+  name: 'HorizontalContainers',
   data() {
     return {
-      selectedDate: '', // Data property to store selected date
-      selectedTime: '', // Data property to store selected time
-      newTodo: '', // Data property to store new todo input
+      selectedDate: '',
+      selectedTime: '',
+      newTodo: '',
+      todos: []
     }
   },
+  mounted() {
+    // Set the selectedDate to the current date when the component is mounted
+    this.selectedDate = new Date().toISOString().substr(0, 10);
+
+    // Fetch todos when the component is mounted
+    this.fetchTodos();
+  },
   methods: {
-    saveTodo() {
-      // Implement logic to save todo
-      console.log('Todo saved:', {
-        date: this.selectedDate,
-        time: this.selectedTime,
-        todo: this.newTodo
+    async saveTodo() {
+      try {
+        const todoData = {
+          date: this.selectedDate,
+          time: this.selectedTime,
+          todo: this.newTodo
+        };
+
+        // Get the user's token from local storage
+        const token = localStorage.getItem('token');
+
+        // Send POST request to the backend API endpoint
+        await axios.post('http://localhost:8080/api/todos/save', todoData, {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+        this.fetchTodos();
+        // Clear input fields after saving
+        this.selectedDate = '';
+        this.selectedTime = '';
+        this.newTodo = '';
+
+        this.showSuccessMessage();
+      } catch (error) {
+        this.showErrorMessage();
+      }
+    },
+
+    async fetchTodos() {
+      try {
+        const token = localStorage.getItem('token');
+
+        // Fetch todos using the token
+        const response = await axios.get('http://localhost:8080/api/todos/fetch', {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+        // Update todos array with fetched data
+        this.todos = response.data;
+      } catch (error) {
+        console.error('Error fetching todos:', error);
+      }
+    },
+
+    async deleteTodo(todoId) {
+      try {
+        // Send DELETE request to the backend API endpoint
+        const token = localStorage.getItem('token');
+        await axios.delete(`http://localhost:8080/api/todos/${todoId}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+
+        this.todos = this.todos.filter(todo => todo.id !== todoId);
+
+        this.showDeleteSuccessMessage();
+      } catch (error) {
+        this.showDeleteErrorMessage();
+      }
+    },
+
+    showSuccessMessage() {
+      // Show success message using SweetAlert
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Todo saved successfully',
       });
-      // Clear input fields after saving
-      this.selectedDate = '';
-      this.selectedTime = '';
-      this.newTodo = '';
-    }
+    },
+
+    showErrorMessage() {
+      // Show error message using SweetAlert
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Error saving todo. Please Try Again.',
+      });
+    },
+
+    showDeleteSuccessMessage() {
+      // Show delete success message using SweetAlert
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Todo deleted successfully',
+      });
+    },
+
+    showDeleteErrorMessage() {
+      // Show delete error message using SweetAlert
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Error deleting todo. Please Try Again.',
+      });
+    },
   }
 }
 </script>
 
 <style scoped>
 .container {
-  display: flex; /* Use Flexbox to arrange items horizontally */
-  height: 100vh; /* Set container height to 100% of viewport height */
+  display: flex;
+  height: 100vh;
+
 }
 
-.left-container, .right-container {
-  flex: 1; /* Make both containers flexible, taking up equal space */
-  padding: 10px; /* Add padding for spacing */
-  border: 1px solid #ccc; /* Optional: Add borders for visualization */
+.left-container {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
   box-shadow: 5px 10px 10px black;
-  height: 100%; /* Set container height to 100% of parent container height */
-  display: flex; /* Use Flexbox to align items vertically */
-  flex-direction: column; /* Align items vertically */
-  justify-content: center; /* Center items vertically */
-  align-items: center; /* Center items horizontally */
-  margin:10px 10px;
-  ;
+  margin: 10px;
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
-input[type="date"],
-input[type="time"],
-input[type="text"],
-button {
-  margin-bottom: 10px; /* Add margin between input fields and button */
-  padding: 8px; /* Add padding to input fields and button */
-  border: 1px solid #ccc; /* Add border to input fields and button */
-  border-radius: 5px; /* Add border radius to input fields and button */
+.todo-show {
+  max-width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 5px rgba(37, 80, 166, 0.2);
 }
 
-button {
-  background-color: #007bff; /* Set background color for button */
-  color: #fff; /* Set text color for button */
-  cursor: pointer; /* Set cursor to pointer for button */
+.todo-container {
+  width: 600px;
+  padding: 0;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 
-button:hover {
-  background-color: #0056b3; /* Change background color on hover */
+.fa {
+  font-size: 25px;
+  color: red; /* Change color as needed */
+}
+
+.right-container {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 5px 10px 10px black;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px; /* Add margin to separate each input field */
+}
+
+.input-group label {
+  margin-bottom: 5px; /* Add margin between label and input */
+}
+
+.input-group input[type="date"],
+.input-group input[type="time"],
+.input-group input[type="text"],
+.input-group textarea {
+  width: 100%; /* Set width to 100% */
+  padding: 10px; /* Adjust padding as needed */
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.right-container button {
+  width: 100%; /* Make button full width */
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.right-container button:hover {
+  background-color: #0056b3;
 }
 </style>

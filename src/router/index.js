@@ -6,7 +6,7 @@ import CircularButton from '../components/CircularButton.vue'
 import EventCalendar from "@/components/EventCalendar.vue"
 import DiscussionForum from "../components/DiscussionForum/DiscussionForum.vue"
 import DailyJournaling from "@/components/DailyJournal/DailyJournaling.vue";
-import GradesTracking from "@/components/GradesTracking.vue";
+import GradesTracking from "@/components/GradesTracking/GradesTracking.vue";
 import ShortNote from "@/components/ShortNote/ShortNote.vue";
 import ProfileEdit from "@/components/ProfileCom/ProfileEdit.vue";
 import SignUp from "@/components/LoggingComponent/SignUp.vue";
@@ -18,6 +18,7 @@ import JournalDetailsModal from "@/components/DailyJournal/JournalDetailsModal.v
 import AddDiscussion from "@/components/DiscussionForum/AddDiscussion.vue";
 import AddShortNote from "@/components/ShortNote/AddShortNote.vue";
 import CircularButtonProfile from "@/components/CircularButtonProfile.vue";
+import MyQuestions from "@/components/DiscussionForum/MyQuestions.vue";
 
 const routes = [
   {
@@ -114,7 +115,12 @@ const routes = [
     path:'/AddShortNote',
     name:'AddShortNote',
     component: AddShortNote
-  }
+  },
+  {
+    path:'/MyQuestions',
+    name:'MyQuestions',
+    component: MyQuestions
+  },
 ]
 
 const router = createRouter({

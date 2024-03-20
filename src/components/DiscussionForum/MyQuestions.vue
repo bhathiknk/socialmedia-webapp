@@ -4,22 +4,14 @@
 
     <CircularButton
         @click="navigateToAddFeed"
-        to="/AddDiscussion"
-        icon="fa fa-plus"
-        label="Add Question"
-        style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
-    />
-
-    <CircularButton
-        @click="navigateToAddFeed"
-        to="/MyQuestions"
-        icon="fa fa-question"
-        label="My Question"
+        to="/DiscussionForum"
+        icon="fa fa-arrow-left"
+        label="Back to Discussion Forum"
         style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
     />
   </div>
   <div>
-    <h2>Friend Questions</h2>
+    <h2>My Questions</h2>
     <div v-if="questions.length === 0">
       <p>No questions from friends</p>
     </div>
@@ -44,16 +36,7 @@
           <span>{{ question.comments.length }}</span> <!-- Display comment count -->
         </div>
 
-        <!-- Comment Section -->
-        <div class="comment-section">
-          <i class="fas fa-comment comment-icon" @click="toggleCommentField(question.id)"></i> <!-- Comment icon -->
-          <div v-if="showCommentField === question.id" class="comment-field">
-            <input type="text" v-model="commentText" placeholder="Enter your comment" />
-            <button @click="sendComment(question.id)" class="send-button">
-              Send
-            </button>
-          </div>
-        </div>
+
       </div>
     </div>
 
@@ -93,10 +76,10 @@ export default {
     };
   },
   mounted() {
-    this.fetchFriendQuestions();
+    this.fetchMyQuestions();
   },
   methods: {
-    async fetchFriendQuestions() {
+    async fetchMyQuestions() {
       try {
         const token = localStorage.getItem("token");
         const config = {
@@ -104,7 +87,7 @@ export default {
             Authorization: token,
           },
         };
-        const response = await axios.get(`http://localhost:8080/questions/friends`, config);
+        const response = await axios.get(`http://localhost:8080/questions/my`, config);
         console.log("Response from backend:", response);
 
         this.questions = response.data.map(question => ({

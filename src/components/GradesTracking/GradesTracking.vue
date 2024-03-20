@@ -308,42 +308,6 @@ input[type="number"]:hover{
   transition: 0.8s;
 }
 
-#calculate-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin-top: 10px;
-  border-radius: 5px;
-  margin-right: 100px;
-
-}
-
-#calculate-button:hover{
-  background-color: #3636ef;
-  transition: 0.8s;
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
-}
-
-#ClearDB-button {
-  background-color: #e8071a;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin-top: 10px;
-  border-radius: 5px;
-  margin-right: 100px;
-  transition: box-shadow 0.3s ease-out, background-color 0.3s ease-out;
-}
-
-#ClearDB-button:hover{
-  background-color: rgb(232, 7, 26);
-  color: #ffffff;
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
-  transition: box-shadow 0.3s ease-out, background-color 0.3s ease-out;
-}
 
 #result {
   text-align: center;
