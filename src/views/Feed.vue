@@ -18,15 +18,9 @@
         <div class="post-header">
           <img :src="getProfileImageUrl(post.profileImage)" alt="User Profile Image" class="user-profile-image" />
 
-          <span class="username">{{ post.username }}</span>
+          <h1 class="username">{{ post.username }}</h1>
         </div>
         <img :src="getFullImageUrl(post.postImage)" alt="Post Image" class="post-image" />
-
-        <div class="post-actions">
-          <button @click="likePost(post.id)">
-            <i class="fa fa-heart"></i> {{ post.likes }}
-          </button>
-        </div>
         <div class="post-caption">{{ post.caption }}</div>
       </div>
     </div>
@@ -96,7 +90,7 @@ export default {
   left: 0;
   bottom: 0;
   padding: 20px;
-  background-color: #fff; /* Add your desired background color */
+  background-color: #000000; /* Add your desired background color */
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);/* Move the circular button to the right */
 }
 .post-feed {
@@ -104,21 +98,29 @@ export default {
   justify-content: center;
   padding: 20px;
   margin-bottom: 20px;
-  background-color: #f2f2f2;
+  background: rgb(158,158,158);
+  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
 }
 
 .container {
   max-width: 600px;
   padding: 20px;
-  box-shadow: 10px 10px 10px black;
+  box-shadow: 0 0 100px rgb(0, 0, 0);
+  background-color: rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  border: 1px solid;
 
+}
+.container h1{
+  color: white;
+  font-size: 25px;
 }
 
 .post {
   margin: 20px 0;
-  border: 3px solid lightslategrey;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 3px solid #040609;
+  border-radius: 10px;
+  box-shadow: 0 0 100px rgb(0, 0, 0);
 
 }
 

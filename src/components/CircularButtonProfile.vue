@@ -39,8 +39,7 @@ export default {
   width: 100px;
   height: 100px;
   margin-bottom: 5px !important;
-  background: rgb(49,214,9);
-  background: radial-gradient(circle, rgba(49,214,9,1) 0%, rgba(15,64,6,1) 100%);
+  background: rgb(0, 47, 255);
   border-radius: 10%;
   display: flex;
   justify-content: center;

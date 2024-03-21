@@ -300,30 +300,48 @@ export default {
 
 <style scoped>
 .connections-container {
-  margin-top: 20px;
-  height: 100vh;
+  background: rgb(158,158,158);
+  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  height: 100%;
+  min-height: 100vh;
+  margin-top: 0;
 }
 
 .suggested-friends-container,
 .friends-container,
 .pending-requests-container
  {
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-
+  box-shadow: 0 0 50px rgb(28, 17, 17);
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid #000000;
+  border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
   height: 100%;
+  overflow-y: auto;
+}
+/* Styling the scrollbar */
+.suggested-friends-container::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
 
-  box-shadow: 5px 10px 10px black;
+.suggested-friends-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track color */
+}
+
+.suggested-friends-container::-webkit-scrollbar-thumb {
+  background: #888; /* Thumb color */
+}
+
+.suggested-friends-container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Thumb color on hover */
 }
 
 .suggested-friends-container h3,
-.friends-container h2,
+.friends-container h3,
 .pending-requests-container h3,
 .add-friend-container h3 {
-  color: #333;
+  color: #ffffff;
 }
 
 .suggested-friends-container ul,
@@ -374,16 +392,16 @@ export default {
 }
 
 .search-friend-section {
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 50px rgb(28, 17, 17);
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid #000000;
+  border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
 }
 
 .search-friend-section h3 {
-  color: #333;
+  color: #ffffff;
 }
 
 .search-friend-section input {
@@ -401,29 +419,21 @@ export default {
 }
 
 .add-friend-button {
-  background-color: #4caf50;
+  background-color: #007bff;
   color: #fff;
-  padding: 8px 16px;
   border: none;
-  border-radius: 5px;
+  padding: 10px 20px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  margin-right: 15px; /* Add space between buttons */
+  border-radius: 5px;
 }
 
 .add-friend-button:hover {
-  background-color: #45a049;
+  background-color: #3636ef;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  transition: 0.8s;
 }
 
-.circle-button {
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin-left: 10px;
-  cursor: pointer;
-}
 
 /* Inside your Vue component style */
 
@@ -472,18 +482,23 @@ export default {
 
 .pending-requests-container .user-card button.accept-button,
 .pending-requests-container .user-card button.reject-button {
-  background-color: #4caf50;
+  background-color: #007bff;
   color: #fff;
-  padding: 8px 16px;
   border: none;
-  border-radius: 5px;
+  padding: 10px 20px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin: 10px;
+  margin-right: 15px; /* Add space between buttons */
+  border-radius: 5px;
 }
 
 .pending-requests-container .user-card button.accept-button {
-  background-color: #4caf50;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 15px; /* Add space between buttons */
+  border-radius: 5px;
 }
 
 .pending-requests-container .user-card button.reject-button {
