@@ -1,11 +1,6 @@
 <template>
-  <div class="profile-edit">
-
-    <!-- circular buttons -->
-
-    <div class="container-1 fixed-left">
+    <div class="circular-button-container">
       <!-- Circular buttons for navigation -->
-      <div class="circular-button-container">
         <CircularButton
             @click="navigateToSignUp"
             to="/SignUp"
@@ -14,8 +9,7 @@
             label="LogIn"
             style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
         />
-      </div>
-      <div class="circular-button-container">
+
         <CircularButton
             @click="navigateToUserDetailEdit"
             to="/UserDetailEdit"
@@ -24,8 +18,7 @@
             label="Settings"
             style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
         />
-      </div>
-      <div class="circular-button-container">
+
         <CircularButton
             @click="signout"
             to="/ProfileEdit"
@@ -35,9 +28,10 @@
             style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
         />
       </div>
-    </div>
+
 
     <!-- container for profile picture, bio message, username, and email -->
+  <div class="profile-edit">
     <div class="container">
     <div class="profile-info-container fixed-middle">
       <div class="profile-info">
@@ -65,8 +59,8 @@
       </div>
     </div>
     </div>
-
   </div>
+
 </template>
 
 <script>
@@ -182,49 +176,63 @@ export default {
 </script>
 
 <style scoped>
-body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: rgb(255, 255, 255); /* Add your desired background color */
+
+.profile-edit{
+  background: rgb(158,158,158);
+  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  height: 100%;
+  min-height: 100vh;
+
+
+
+
 }
-
-
 
 .container {
   max-width: 1200px;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.04); /* Container background color */
-
   border-radius: 10px;
-
-  margin-bottom: 20px; /* Add margin to the top container */
-  margin-top: -150px;
   border: 1px solid;
   padding: 20px;
-  box-shadow: 5px 10px 10px black;
+  box-shadow: 0 0 100px rgb(0, 0, 0);
+  height: auto;
+
 }
 
 .container-user-post {
   max-width: 1200px;
   width: 100%;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.04);
   border-radius: 10px;
-  margin: 100px auto; /* Center the container */
+  margin: 10px auto; /* Center the container */
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  box-shadow: 5px 10px 10px black;
+  box-shadow: 0 0 100px rgb(0, 0, 0);
+  height: auto;
+  min-height: 100vh;
+}
+
+.container p{
+  color: white;
+  font-size: 17px;
+}
+.container h3{
+  color: white;
+  font-size: 30px;
+}
+
+.container-user-post h4{
+  color: white;
 }
 
 .profile-info-container
  {
   text-align: center;
-  margin-top: 100px;
+  margin-top: 10px;
+
 }
 
 .user-posts-container {

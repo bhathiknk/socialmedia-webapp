@@ -107,7 +107,7 @@ export default {
   left: 0;
   bottom: 0;
   padding: 20px;
-  background-color: #fff; /* Add your desired background color */
+  background: rgb(24, 15, 15);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 .body{
@@ -143,14 +143,14 @@ export default {
 }
 
 .journal-card {
-  border: 1px solid #ccc;
+  box-shadow: 0 0 50px rgb(0, 0, 0);
   padding: 10px;
   margin: 10px;
   border-radius: 5px;
   max-width: 300px;
   width: 100%;
   cursor: pointer; /* Add pointer cursor on hover */
-  background-color: rgb(49, 49, 49);
+  background-color: rgb(136, 133, 133);
 }
 
 .card-header {

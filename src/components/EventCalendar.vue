@@ -185,9 +185,7 @@ export default {
   left: 0;
   bottom: 0;
   padding: 20px;
-  background: rgb(62,240,16);
-  background: radial-gradient(circle, rgba(62,240,16,1) 0%, rgba(0,0,0,1) 100%);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgb(24, 15, 15);
 }
 .main-container{
   background: rgb(158,158,158);

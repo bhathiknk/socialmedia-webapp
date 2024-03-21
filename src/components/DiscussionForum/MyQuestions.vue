@@ -235,7 +235,8 @@ export default {
 
 <style scoped>
 .question-background{
-  height: auto;
+  height: auto ;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: rgb(158,158,158);
@@ -258,7 +259,7 @@ export default {
   left: 0;
   bottom: 0;
   padding: 20px;
-  background-color: #fff; /* Add your desired background color */
+  background: rgb(24, 15, 15);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);/* Move the circular button to the right */
 }
 .user-info {
@@ -281,42 +282,6 @@ export default {
   margin: 10px; /* Remove default margin */
 }
 
-.comment-section {
-  margin-top: 10px;
-}
-
-.comment-button {
-  background-color: #007bff;
-  color: #fff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.comment-button:hover {
-  background-color: #0056b3;
-}
-
-.comment-field {
-  margin-top: 10px;
-}
-
-.send-button {
-  background-color: #007bff;
-  color: #fff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.send-button:hover {
-  background-color: #0056b3;
-}
-
 .comments {
   margin-top: 10px;
 }
@@ -327,10 +292,6 @@ export default {
   margin-top: 5px;
 }
 
-.comment-icon {
-  margin-right: 5px;
-  cursor: pointer;
-}
 
 .view-comments-icon {
   cursor: pointer;

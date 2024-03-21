@@ -152,7 +152,7 @@ export default {
   left: 0;
   bottom: 0;
   padding: 20px;
-  background-color: #fff; /* Add your desired background color */
+  background: rgb(24, 15, 15);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 body {
