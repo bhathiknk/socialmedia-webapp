@@ -18,8 +18,8 @@
         style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
     />
   </div>
-  <div>
-    <h2>Friend Questions</h2>
+  <div  class="question-background">
+    <h1>Friend Questions</h1>
     <div v-if="questions.length === 0">
       <p>No questions from friends</p>
     </div>
@@ -251,6 +251,13 @@ export default {
 </script>
 
 <style scoped>
+.question-background{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: rgb(158,158,158);
+  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+}
 .question-container {
   display: flex;
   flex-direction: column;
@@ -258,6 +265,7 @@ export default {
   padding: 20px;
   margin: 20px auto; /* Center the container horizontally */
   background-color: #f2f2f2;
+  border-radius: 5px;
 }
 .circular-button-container {
 
@@ -387,5 +395,9 @@ export default {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+.question-background h1{
+  color: white;
+  margin-top: 5px;
 }
 </style>

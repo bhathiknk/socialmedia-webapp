@@ -270,8 +270,7 @@ body {
   justify-content: space-between;
   width: 100%;
   flex: 1;
-  background: rgb(158,158,158);
-  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  background: rgb(0, 8, 49);
 
 
 }
@@ -279,7 +278,7 @@ body {
   padding: 20px;
   border-radius: 5px;
   margin: 10px;
-  box-shadow: 0 0 5px rgb(28, 17, 17);
+  box-shadow: 0 0 5px rgb(255, 255, 255);
   flex: 1;
   overflow-y: auto;
   max-height: calc(100vh - 220px);
@@ -305,7 +304,7 @@ body {
   padding: 20px;
   border-radius: 5px;
   margin: 10px;
-  box-shadow: 0 0 5px rgb(28, 17, 17);
+  box-shadow: 0 0 5px rgb(255, 255, 255);
   flex: 1;
 
 }
@@ -313,7 +312,7 @@ body {
   padding: 20px;
   border-radius: 5px;
   margin: 10px;
-  box-shadow: 0 0 5px rgb(28, 17, 17);
+  box-shadow: 0 0 5px rgb(255, 255, 255);
   flex: 1;
 }
 .circular-buttons {
@@ -351,7 +350,7 @@ body {
   font-size: 16px;
 }
 .todo-show {
-  max-width: 100%;
+  max-width: 90%;
   background-color: rgb(255, 255, 255);
   padding: 20px;
   border-radius: 10px;

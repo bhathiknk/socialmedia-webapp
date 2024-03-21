@@ -37,7 +37,8 @@ export default {
 .circular-button {
     width: 80px;
     height: 80px;
-    background-color: lightslategrey;
+  background: rgb(255,255,255);
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(90,115,255,1) 82%);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -82,8 +83,8 @@ export default {
   width: 140px; /* Adjust the width of the label as needed */
   text-align: left; /* Align label text to the left */
   white-space: nowrap; /* Prevent label text from wrapping */
-  background-color: rgba(0, 0, 0, 0.8); /* Add a background color for better visibility */
-  color: white; /* Text color for the label */
+  background-color: rgb(255, 255, 255); /* Add a background color for better visibility */
+  color: #000000; /* Text color for the label */
   padding: 5px; /* Add some padding for better styling */
   border-top-left-radius: 5px; /* Round the top-left corner */
   border-bottom-left-radius: 5px; /* Round the bottom-left corner */
