@@ -15,6 +15,7 @@
     "flowbite": "^1.8.1",
     "font-awesome": "^4.7.0",
     "fullcalendar": "^6.1.9",
+    "serve": "^14.2.1",
     "v-calendar": "^3.1.0",
     "veaury": "^2.3.12",
     "vue": "^3.3.4",
