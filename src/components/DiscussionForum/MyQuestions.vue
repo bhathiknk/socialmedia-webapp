@@ -6,7 +6,7 @@
         @click="navigateToAddFeed"
         to="/DiscussionForum"
         icon="fa fa-arrow-left"
-        label="Back to Discussion Forum"
+        label="Back to Discussion"
         style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
     />
   </div>
@@ -235,11 +235,12 @@ export default {
 
 <style scoped>
 .question-background{
-  height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   background: rgb(158,158,158);
   background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  margin-bottom: 50px;
 }
 .question-container {
   display: flex;

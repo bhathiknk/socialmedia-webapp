@@ -1,13 +1,23 @@
 
 <template>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <div>
+    <div class="circular-button-container">
+      <CircularButton
+          @click="navigateToAddFeed"
+          to="/"
+          icon="fa fa-arrow-left"
+          label="Back to Home"
+          style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
+      />
+    </div>
+  </div>
 
-
+<div class="body">
   <div class="container">
     <div id="margin-top">
       <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-        <div class="col"></div>
-        <div class="col"></div>
+
       </div>
     </div>
   </div>
@@ -48,20 +58,23 @@
         <th scope="row">{{ subjectDB.name }}</th>
         <td class="table-light">{{ subjectDB.mark }}</td>
         <td class="table-info">{{ subjectDB.gpa }}</td>
-        <td class="table-info"><button @click="deleteSubject(index)"><i class="fas fa-trash-alt"></i></button></td> <!-- Delete icon -->
+        <td class="table-info"><button @click="deleteSubject(index)"><i class="fas fa-trash-alt"></i></button></td>
+
       </tr>
       </tbody>
     </table>
   </div>
-
+</div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import Swal from 'sweetalert2'; // Import SweetAlert
+import Swal from 'sweetalert2';
+import CircularButton from "@/components/CircularButton.vue"; // Import SweetAlert
 
 export default {
+  components: {CircularButton},
   setup() {
     const subjects = ref([{ name: '', mark: '' }]);
     const gpa = ref(null);
@@ -192,11 +205,23 @@ export default {
 </script>
 
 <style>
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
+.circular-button-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  background: rgb(62,240,16);
+  background: radial-gradient(circle, rgba(62,240,16,1) 0%, rgba(0,0,0,1) 100%);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
+.body{
+  background: rgb(158,158,158);
+  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  height: 110vh;
+  margin-bottom: 0px;
+}
+
 
 #cal-topic{
   max-width: 990px;
@@ -205,56 +230,26 @@ body {
   border-radius: 5px;
   margin-top: 15px;
   margin-bottom: 20px;
-  background-color: rgb(100, 122, 204);
+  background-color: rgb(45, 79, 213);
   color: #ffffff;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-#canva-h5-topic{
-  max-width: 990px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 5px;
-  margin-top: 15px;
-  margin-bottom: 20px;
-  background-color: rgb(25, 67, 222);
-  color: #ffffff;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-}
 
-#canva-description{
-  max-width: 990px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 5px;
-  margin-top: 15px;
-  margin-bottom: 20px;
-  background-color: rgb(179, 190, 234);
-  color: #ffffff;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-}
-
-#canva-description:hover{
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-  transition: 0.8s;
-}
 #calculator {
   max-width: 990px;
   margin: 0 auto;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.04);
   padding: 20px;
   border-radius: 15px;
-  margin-top: 80px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin-top: 10px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
 }
 
-#calculator:hover{
-  box-shadow: 0 0 5px rgba(37, 80, 166, 0.2);
-}
 
 h1 {
   text-align: center;
-  color: #333;
+  color: rgb(45, 79, 213);
 }
 
 label {
@@ -316,26 +311,11 @@ input[type="number"]:hover{
   margin-bottom: 20px;
 }
 
-.scroll {
-  max-height: 400px; /*  maximum height for the scrollable area (default 500px) */
-  overflow-y: scroll;
-  scroll-behavior: smooth;
-}
-
 
 #margin-top{
-  padding-top: 80px;
+  padding-top: 10px;
 }
 
-.gpa-calculator-edit{
-  max-width: 1000px;
-  margin: 0 auto;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  margin-top: 80px;
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
-}
 
 /*showing Gpa result Output*/
 .gpa-result-show{
@@ -372,18 +352,34 @@ h5{
 #DB-gpa-sub-data-show{
   max-width: 990px;
   margin: 0 auto;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.04);
   padding: 20px;
   border-radius: 15px;
   margin-top: 50px;
   margin-bottom: 200px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
 }
 
 .DB-export-data-scroll{
   max-height: 310px; /*  maximum height for the scrollable area */
   overflow-y: scroll;
   scroll-behavior: smooth;
+}
+/* Styling the scrollbar */
+.DB-export-data-scroll::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+.DB-export-data-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track color */
+}
+
+.DB-export-data-scroll::-webkit-scrollbar-thumb {
+  background: #888; /* Thumb color */
+}
+
+.DB-export-data-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Thumb color on hover */
 }
 
 #DB-gpa-sub-data-topic{

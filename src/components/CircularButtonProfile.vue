@@ -38,8 +38,9 @@ export default {
 
   width: 100px;
   height: 100px;
-  margin-bottom: 10px !important;
-  background-color: rgb(8, 19, 93);
+  margin-bottom: 5px !important;
+  background: rgb(49,214,9);
+  background: radial-gradient(circle, rgba(49,214,9,1) 0%, rgba(15,64,6,1) 100%);
   border-radius: 10%;
   display: flex;
   justify-content: center;
@@ -72,6 +73,7 @@ export default {
 
 .label {
   display: none; /* Initially hide the label */
+
 }
 
 .circular-button:hover .label {
@@ -81,18 +83,19 @@ export default {
 
 .label {
   position: absolute;
-  top: -40px; /* Adjust the value to position the label on top of the button */
-  left: 50%; /* Position the label horizontally at the center */
-  transform: translateX(-50%); /* Center the label horizontally */
-  text-align: left; /* Align label text to the left */
-  display: none;
+  top: 100%; /* Place the top edge of the label at the center of the button */
+  left: 50%; /* Place the left edge of the label at the center of the button */
+  transform: translate(-50%, -50%); /* Translate the label to center both horizontally and vertically */
+  text-align: center; /* Center-align the label text */
   white-space: nowrap; /* Prevent label text from wrapping */
   background-color: rgba(0, 0, 0, 0.8); /* Add a background color for better visibility */
   color: white; /* Text color for the label */
-  padding: 20px; /* Add some padding for better styling */
-  border-radius: 10px;
+  padding: 10px; /* Add padding for better styling */
+  border-radius: 5px;
   z-index: 1; /* Ensure label is on top of the button */
+  max-width: 150%; /* Ensure label doesn't exceed the width of the button */
 }
+
 
 .circular-button:hover .label {
   display: block;

@@ -8,14 +8,23 @@
           label="Add Feed"
           style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
       />
+
+      <CircularButton
+          @click="navigateToAddFeed"
+          to="/"
+          icon="fa fa-arrow-left"
+          label="Back to Home"
+          style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
+      />
     </div>
 
+    <div class="body">
     <div class="centered-container">
       <h2>Journal Entries</h2>
       <div class="card-container">
         <div v-for="entry in entries" :key="entry.id" class="journal-card" @click="openModal(entry)">
           <div class="card-header">
-            <p>Created Date: {{ entry.date }}</p>
+            Created Date: {{ entry.date }}
           </div>
           <div class="card-content">
             <p><strong>Mood:</strong> {{ entry.mood }}</p>
@@ -23,6 +32,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
 
     <!-- Include the modal component -->
@@ -100,6 +110,15 @@ export default {
   background-color: #fff; /* Add your desired background color */
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
+.body{
+  background: rgb(158,158,158);
+  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
 
 .centered-container {
   max-width: 1200px;
@@ -107,16 +126,20 @@ export default {
   background-color: rgba(255, 255, 255, 0.04); /* Container background color */
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin: auto; /* Horizontally center the container */
-  margin-top: 20px; /* Adjust as needed */
-  margin-bottom: 20px; /* Adjust as needed */
+  box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
+  margin:10px auto; /* Horizontally center the container */
+
+}
+.centered-container h2,
+.centered-container p{
+  color: white;
 }
 
 .card-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
 }
 
 .journal-card {
@@ -127,6 +150,7 @@ export default {
   max-width: 300px;
   width: 100%;
   cursor: pointer; /* Add pointer cursor on hover */
+  background-color: rgb(49, 49, 49);
 }
 
 .card-header {

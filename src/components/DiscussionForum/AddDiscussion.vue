@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="question-form-body">
     <h2>Add Question</h2>
-    <form @submit.prevent="saveQuestion">
+    <form @submit.prevent="saveQuestion" class="question-form">
       <div class="form-group">
         <label for="content">Question Content:</label>
-        <textarea id="content" v-model="questionContent" required></textarea>
+        <textarea id="content" v-model="questionContent" class="question-textarea" required></textarea>
       </div>
       <button type="submit">Submit</button>
     </form>
@@ -62,7 +62,42 @@ export default {
 </script>
 
 <style scoped>
-/* Add your component's styling here */
+.question-form-body {
+  background: rgb(158,158,158);
+  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.question-form-body h2{
+  color: white;
+}
+.question-form-body label {
+  color: black;
+}
+.question-form {
+  width: 150%;
+  max-width: 700px; /* Adjust as needed */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
+  border-radius: 10px;
+
+}
+
+.question-textarea {
+  width: 100%;
+  height: 150px;
+  resize: none;
+  border: 1px solid #ccc;
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
 h2 {
   color: #333;
 }
@@ -75,26 +110,19 @@ label {
   font-weight: bold;
 }
 
-textarea {
-  width: 100%;
-  height: 100px;
-  resize: none;
-  border: 1px solid #ccc;
-  padding: 5px;
-  font-size: 16px;
-}
-
 button {
-  margin-top: 10px;
-  padding: 8px 16px;
   background-color: #007bff;
   color: #fff;
   border: none;
-  border-radius: 4px;
+  padding: 10px 20px;
   cursor: pointer;
+  margin-right: 15px; /* Add space between buttons */
+  border-radius: 5px;
 }
 
-button:hover {
-  background-color: #0056b3;
+button:hover{
+  background-color: #3636ef;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  transition: 0.8s;
 }
 </style>

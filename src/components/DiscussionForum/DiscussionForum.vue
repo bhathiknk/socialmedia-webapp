@@ -252,11 +252,12 @@ export default {
 
 <style scoped>
 .question-background{
-  height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   background: rgb(158,158,158);
   background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  margin-bottom: 50px;
 }
 .question-container {
   display: flex;
@@ -275,7 +276,7 @@ export default {
   bottom: 0;
   padding: 20px;
   background-color: #fff; /* Add your desired background color */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);/* Move the circular button to the right */
+  box-shadow: rgb(0, 8, 49);
 }
 .user-info {
   display: flex;

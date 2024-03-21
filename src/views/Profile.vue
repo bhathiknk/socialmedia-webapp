@@ -1,55 +1,53 @@
 <template>
   <div class="profile">
-
-
     <!-- Second horizontal grid -->
     <div class="horizontal-grid-button">
       <div class="profile-picture-container">
         <img :src="profilePicture" alt="Profile Picture" class="img-fluid rounded-circle">
       </div>
       <!-- Circular buttons -->
-      <div class="circular-buttons  grid-item">
+      <div class="circular-buttons grid-item">
         <!-- CircularButton components -->
         <CircularButtonProfile
             @click="navigateToEventCalendar"
             icon="fa fa-check"
-            label="ToDo/Calendar"
-            style="margin-bottom: 10px;  margin-left: 100px;color: white"
+            label="ToDo"
+            style="color: white"
             to="/EventCalendar.vue"
         />
         <CircularButtonProfile
             @click="navigateToResourceLibrary"
             icon="fa fa-sticky-note"
             label="Short Note"
-            style="margin-bottom: 10px; margin-left: 100px;color: white"
+            style="color: white"
             to="/ShortNote.vue"
         />
         <CircularButtonProfile
             @click="navigateToGradesTracking"
             icon="fa fa-graduation-cap"
             label="Grades Tracking"
-            style="margin-bottom: 10px; margin-left: 100px;color: white"
+            style="color: white"
             to="/GradesTracking.vue"
         />
         <CircularButtonProfile
             @click="navigateToGoalSetting"
             icon="fa fa-comments"
             label="Discussion Forum"
-            style="margin-bottom: 10px; margin-left: 100px;color: white"
+            style="color: white"
             to="/DiscussionForum.vue"
         />
         <CircularButtonProfile
             @click="navigateToDailyJournaling"
             icon="fa fa-book"
             label="Daily Journaling"
-            style="margin-bottom: 15px; margin-left: 100px;color: white"
+            style="color: white"
             to="/DailyJournaling.vue"
         />
         <CircularButtonProfile
             @click="navigateToProfileEdit"
             icon="fa fa-user"
             label="Profile"
-            style="margin-bottom: 10px; margin-left: 100px;color: white"
+            style="color: white"
             to="/ProfileEdit.vue"
         />
 
@@ -59,30 +57,25 @@
             v-if="token"
             icon="fa fa-sign-out"
             label="Signout"
-            style="margin-bottom: 10px; margin-left: 100px;color: white"
+            style="color: white"
         />
       </div>
-
     </div>
 
-
-    <!-- Second horizontal grid -->
+    <!-- Main content grid -->
     <div class="horizontal-grid">
       <!-- Container 1 -->
       <div class="container1">
         <div class="left-container">
           <h3 class="container1-text">Your Today Task</h3>
-          <div v-for="todo in todos" :key="todo.id">
-            <div class="todo-container">
-              <ul class="todo-show" id="todo">
-                <h3>{{ todo.todo }}</h3>
-                <p>Date: {{ todo.date }}</p>
-                <p>Time: {{ todo.time }}</p>
-              </ul>
-            </div>
+          <div v-for="todo in todos" :key="todo.id" class="todo-container">
+            <ul class="todo-show">
+              <h3>{{ todo.todo }}</h3>
+              <p>Date: {{ todo.date }}</p>
+              <p>Time: {{ todo.time }}</p>
+            </ul>
           </div>
         </div>
-
       </div>
 
       <!-- Container 2 -->
@@ -104,16 +97,11 @@
         </div>
       </div>
     </div>
-    </div>
-
-
-  <!-- Include the EventCalendar component here -->
-  <EventCalendar v-if="$route.path === '/calendar'" />
+  </div>
 </template>
 
 <script>
 import CircularButtonProfile from '../components/CircularButtonProfile.vue';
-import EventCalendar from '../components/EventCalendar.vue';
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -121,7 +109,6 @@ export default {
   name: 'ProfileView',
   components: {
     CircularButtonProfile,
-    EventCalendar,
   },
   data() {
     return {
@@ -248,14 +235,30 @@ export default {
 </script>
 
 <style scoped>
-body {
-  overflow: hidden;
-}
 .profile {
-  height: 100vh;
+  height: 110vh;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
+.profile-picture-container {
+  position: absolute; /* Position the container absolutely */
+  padding-left: 50px;
+  right: 83%; /* Position it in the center horizontally */
+  transform: translateX(-50%); /* Center the container horizontally */
+  z-index: 1; /* Ensure the profile picture container is above other content */
+  top: 0px;
+
+}
+
+.profile-picture-container img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+
+}
+
 .horizontal-grid-button {
   display: flex;
   flex-direction: row;
@@ -264,24 +267,24 @@ body {
   background: rgb(255,255,255);
   background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 91%);
 }
+
 .horizontal-grid {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
-  flex: 1;
-  background: rgb(0, 8, 49);
-
-
+  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  height: 100vh;
 }
+
 .container1 {
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 10px;
-  box-shadow: 0 0 5px rgb(255, 255, 255);
   flex: 1;
   overflow-y: auto;
-  max-height: calc(100vh - 220px);
+
+  background-color: rgba(255, 255, 255, 0.01);
+  box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
 }
 
 /* Styling the scrollbar */
@@ -302,78 +305,102 @@ body {
 }
 .container2 {
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 10px;
-  box-shadow: 0 0 5px rgb(255, 255, 255);
+  box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
   flex: 1;
+  background-color: rgba(255, 255, 255, 0.2);
 
 }
 .container3 {
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 10px;
-  box-shadow: 0 0 5px rgb(255, 255, 255);
+  box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
   flex: 1;
+  background-color: rgba(255, 255, 255, 0.01);
 }
 .circular-buttons {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 50px;
+  padding: 20px;
 }
+
+
 .grid-item {
   flex: 1;
   text-align: center;
-  padding: 20px;
+  padding: 5px;
   border-radius: 5px;
-  margin: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  background: rgb(255,255,255);
-  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(90,115,255,1) 82%);
+  box-shadow: 0 0 50px rgb(28, 17, 17);
+  background: rgb(0,0,0);
+  background: radial-gradient(circle, rgba(0,0,0,1) 46%, rgba(2,60,246,1) 100%);
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  position: relative;
+  margin-left: 80px;
+}
+
+.grid-item:before{
+  content: '';
+  width: 155px;
+  height: 155px;
+  background: #f1f1f1;
+  position: absolute;
+  top: 0px;
+  left: -50%;
+
+  border-radius: 100%;
+
 }
 .stopwatch {
   text-align: center;
-  max-width: 100%;
+  max-width: 90%;
   background-color: rgb(255, 255, 255);
   padding: 20px;
   border-radius: 10px;
-  margin-bottom: 10px;
+  margin: 10px auto;
   box-shadow: 0 0 5px rgb(28, 17, 17);
+
 }
+
 .stopwatch-timer {
   font-size: 24px;
   margin-bottom: 10px;
 }
+
 .stopwatch-buttons button {
   margin: 5px;
   padding: 10px 20px;
   font-size: 16px;
 }
+
 .todo-show {
-  max-width: 90%;
+  max-width: 70%;
   background-color: rgb(255, 255, 255);
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 10px;
   box-shadow: 0 0 5px rgb(28, 17, 17);
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 15px; /* Add space between buttons */
+  border-radius: 10px;
 }
+
 .todo-container {
   width: 600px;
   padding: 0;
   margin-top: 10px;
   margin-bottom: 30px;
 }
+
 .container1-text {
   color: white; /* Change the font color to white */
 }
-.profile-picture-container img {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-left: 5px;
-  margin-top: 10px;
-}
+
+
 #stopwatch-buttons {
   background-color: #007bff;
   color: #fff;
@@ -389,5 +416,49 @@ body {
   background-color: #3636ef;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   transition: 0.8s;
+}
+
+/* Adjustments for smaller screens */
+@media screen and (max-width: 14in) {
+  .profile {
+    height: auto;
+  }
+
+  .horizontal-grid-button {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .horizontal-grid {
+    flex-direction: column;
+  }
+
+  .container1,
+  .container2,
+  .container3 {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .circular-buttons {
+    padding: 10px;
+  }
+
+  .stopwatch {
+    max-width: 100%;
+  }
+
+  .profile-picture-container img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .stopwatch-buttons button {
+    font-size: 14px;
+  }
+
+  .todo-container {
+    width: 100%;
+  }
 }
 </style>

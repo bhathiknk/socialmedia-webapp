@@ -1,4 +1,16 @@
 <template>
+
+  <div>
+    <div class="circular-button-container">
+      <CircularButton
+          @click="navigateToAddFeed"
+          to="/"
+          icon="fa fa-arrow-left"
+          label="Back to Home"
+          style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
+      />
+    </div>
+  </div>
   <div class="main-container">
   <div class="container">
     <!-- Left container -->
@@ -39,9 +51,11 @@
 <script>
 import axios from 'axios';
 import Swal from "sweetalert2";
+import CircularButton from "@/components/CircularButton.vue";
 
 export default {
   name: 'HorizontalContainers',
+  components: {CircularButton},
   data() {
     return {
       selectedDate: '',
@@ -165,6 +179,16 @@ export default {
 </script>
 
 <style scoped>
+.circular-button-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  background: rgb(62,240,16);
+  background: radial-gradient(circle, rgba(62,240,16,1) 0%, rgba(0,0,0,1) 100%);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 .main-container{
   background: rgb(158,158,158);
   background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
@@ -179,11 +203,11 @@ export default {
 .left-container {
   flex: 1;
   padding: 10px;
-  border: 1px solid #ccc;
-  box-shadow: 5px 10px 10px black;
   margin: 10px;
   overflow-y: auto; /* Enable vertical scrolling */
-  background: rgb(0, 8, 49);
+  background-color: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
+  border-radius: 10px;
 }
 
 /* Styling the scrollbar */
@@ -230,14 +254,14 @@ export default {
 .right-container {
   flex: 1;
   padding: 10px;
-  border: 1px solid #ccc;
-  box-shadow: 5px 10px 10px black;
+  border-radius: 10px;
+  box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center; /* Center horizontally */
   justify-content: center; /* Center vertically */
   margin-top: 10px;
-  background: rgb(0, 8, 49);
+  background-color: rgba(255, 255, 255, 0.04);
 }
 
 .input-group {
