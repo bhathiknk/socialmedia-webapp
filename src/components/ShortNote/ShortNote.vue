@@ -11,6 +11,7 @@
         <button class="addModuleButton" @click="redirectToAddShortNote">Add Module</button>
         <div v-for="(module, index) in modules" :key="index" class="card" @click="selectModule(module.id)" :class="{ 'selected': selectedModuleId === module.id }">
           <p class="moduleName">{{ module.moduleName }}</p>
+          <i class="fas fa-trash-alt delete-icon" @click="deleteModule(module.id)"></i>
         </div>
 
 
@@ -186,12 +187,83 @@ export default {
           // Remove the deleted question from the moduleRecords array
           this.moduleRecords = this.moduleRecords.filter(record => record.id !== questionId);
           console.log("Question deleted successfully");
+          Swal.fire(
+              'Deleted!',
+              'Your Answer has been deleted.',
+              'success'
+          );
         } else {
           console.error("Failed to delete question:", response.status, response.data);
         }
       } catch (error) {
         console.error("Error deleting question:", error);
       }
+    },
+
+    deleteModule(moduleId) {
+      // Method to delete a module
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will Erase all Answers And not be able to recover this module!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+              console.error("Token not found in localStorage");
+              return;
+            }
+
+            axios.delete(`http://localhost:8080/modules/${moduleId}`, {
+              headers: {
+                Authorization: token,
+              },
+            }).then(response => {
+              if (response.status === 200) {
+                // Remove the deleted module from the modules array
+                this.modules = this.modules.filter(module => module.id !== moduleId);
+                console.log("Module deleted successfully");
+                Swal.fire(
+                    'Deleted!',
+                    'Your module has been deleted.',
+                    'success'
+                );
+              } else {
+                console.error("Failed to delete module:", response.status, response.data);
+                Swal.fire(
+                    'Error!',
+                    'Failed to delete module. Please try again.',
+                    'error'
+                );
+              }
+            }).catch(error => {
+              console.error("Error deleting module:", error);
+              Swal.fire(
+                  'Error!',
+                  'Failed to delete module. Please try again.',
+                  'error'
+              );
+            });
+          } catch (error) {
+            console.error("Error deleting module:", error);
+            Swal.fire(
+                'Error!',
+                'Failed to delete module. Please try again.',
+                'error'
+            );
+          }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire(
+              'Cancelled',
+              'Your module is safe :)',
+              'error'
+          );
+        }
+      });
     },
 
 
