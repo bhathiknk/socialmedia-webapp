@@ -80,9 +80,20 @@
 
       <!-- Container 2 -->
       <div class="container2">
-        <!-- Content for Container 2 -->
-        Container 2 Content
+        <h2>Google Books Library</h2>
+        <input type="text" v-model="searchQuery" placeholder="Search books">
+        <div class="books">
+          <div v-for="book in books" :key="book.id" class="book">
+            <h3>{{ book.volumeInfo.title }}</h3>
+            <p v-if="book.volumeInfo.authors">Authors: {{ book.volumeInfo.authors.join(', ') }}</p>
+            <p v-if="book.volumeInfo.publisher">Publisher: {{ book.volumeInfo.publisher }}</p>
+            <img v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.thumbnail" alt="Book Cover">
+            <p v-if="book.volumeInfo.description">{{ book.volumeInfo.description }}</p>
+            <a v-if="book.volumeInfo.previewLink" :href="book.volumeInfo.previewLink" target="_blank">Preview</a>
+          </div>
+        </div>
       </div>
+
 
       <!-- Container 3 -->
       <div class="container3">
@@ -122,6 +133,15 @@ export default {
       timerRunning: false,
       elapsedTime: 0,
       timerInterval: null,
+      searchQuery: '',
+      books: []
+    }
+  },
+  watch: {
+    searchQuery: function(newQuery) {
+      if (newQuery.length >= 3) {
+        this.searchBooks(newQuery);
+      }
     }
   },
   computed: {
@@ -159,6 +179,15 @@ export default {
     },
     navigateToProfileEdit() {
       this.$router.push("/ProfileEdit");
+    },
+
+    async searchBooks(query) {
+      try {
+        const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
+        this.books = response.data.items;
+      } catch (error) {
+        console.error('Error searching books:', error);
+      }
     },
     async fetchTodos() {
       try {
@@ -235,11 +264,14 @@ export default {
 </script>
 
 <style scoped>
+body {
+  overflow: hidden; /* Disable scrolling for the entire page */
+}
 .profile {
   height: 110vh;
   display: flex;
   flex-direction: column;
-  position: relative;
+
 }
 .profile-picture-container {
   position: absolute; /* Position the container absolutely */
@@ -273,7 +305,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
-  height: 100vh;
+  overflow-x: hidden;
 }
 
 .container1 {
@@ -282,7 +314,6 @@ export default {
   margin: 10px;
   flex: 1;
   overflow-y: auto;
-
   background-color: rgba(255, 255, 255, 0.01);
   box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
 }
@@ -310,7 +341,12 @@ export default {
   box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
   flex: 1;
   background-color: rgba(255, 255, 255, 0.2);
+  overflow-y: auto; /* Enable vertical scrolling for Container 2 */
+}
 
+/* Adjustments for smaller screens */
+@media screen and (max-width: 14in) {
+  /* Media queries for smaller screens */
 }
 .container3 {
   padding: 20px;
@@ -460,5 +496,13 @@ export default {
   .todo-container {
     width: 100%;
   }
+}
+
+.books h3,
+.books p{
+  color: white;
+}
+.container2 h2{
+  color: black;
 }
 </style>

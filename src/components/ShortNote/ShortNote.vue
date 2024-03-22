@@ -1,12 +1,19 @@
 <template>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-zXMk3IuTbjgbGvFHS5JGtVStCN3yvCizV1/aBw9EYS6ztlM9R38Ap2+Jl2GJK5xM0C7uwZHQa1jn/Zpz65GCOQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
   <div class="resourceLibrary">
     <!-- First container -->
     <div class="container1">
       <div class="container-content">
-        <button class="addModuleButton" @click="redirectToAddShortNote">Add Module</button> <!-- Button added here -->
-        <div v-for="(name, index) in moduleNames" :key="index" class="card" @click="selectModule(index)" :class="{ 'selected': selectedIndex === index }">
-          <p class="moduleName">{{ name }}</p>
+        <button class="addModuleButton" @click="redirectToAddShortNote">Add Module</button>
+        <div v-for="(module, index) in modules" :key="index" class="card" @click="selectModule(module.id)" :class="{ 'selected': selectedModuleId === module.id }">
+          <p class="moduleName">{{ module.moduleName }}</p>
         </div>
+
+
       </div>
     </div>
 
@@ -23,9 +30,7 @@
         <label for="text2">Answer:</label>
         <textarea id="Answer" v-model="Answer" class="form-control" rows="4"></textarea>
       </div>
-
-      <!-- Save Changes Button -->
-      <button @click="saveQuection" class="btn btn-primary">Save</button>
+      <button @click="saveQuestion" class="btn btn-primary">Save</button>
     </div>
 
     <!-- Third container -->
@@ -33,10 +38,10 @@
       <div v-for="(record, index) in moduleRecords" :key="index" class="record">
         <p class="questionName">{{ index + 1 }}. {{ record.moduleQuestion }}</p>
         <p class="answer">★ {{ record.moduleAnswer }}</p>
+        <i class="fas fa-trash-alt delete-icon" @click="deleteQuestion(record.id)"></i>
+
       </div>
     </div>
-
-
   </div>
 </template>
 
@@ -44,83 +49,57 @@
 import axios from 'axios';
 import Swal from "sweetalert2";
 
-
 export default {
   data() {
     return {
-      moduleNames: [],
-      selectedIndex: null, // Added variable to store the index of the selected module
+      modules: [],
+      selectedModuleId: null,
       Question: '',
       Answer: '',
-      moduleRecords: [] // Added variable to store module records
+      moduleRecords: [],
     };
   },
   mounted() {
-    this.fetchModuleNames();
+    this.fetchModules();
   },
   methods: {
-    async fetchModuleNames() {
+    async fetchModules() {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
           console.error("Token not found in localStorage");
           return;
         }
-
-        const response = await axios.get(
-            "http://localhost:8080/modules",
-            {
-              headers: {
-                Authorization: token,
-              },
-            }
-        );
-
+        const response = await axios.get("http://localhost:8080/modules", {
+          headers: {
+            Authorization: token,
+          },
+        });
         if (response.status === 200) {
-          this.moduleNames = response.data.map(module => module.moduleName) || [];
+          this.modules = response.data || [];
+          console.log("Received modules:", response.data);
+
         } else {
-          console.error("Failed to fetch module names:", response.status, response.data);
+          console.error("Failed to fetch modules:", response.status, response.data);
         }
       } catch (error) {
-        console.error("Error fetching module names:", error);
+        console.error("Error fetching modules:", error);
       }
     },
+
+
     redirectToAddShortNote() {
-      this.$router.push('/AddShortNote'); // Redirect to AddShortNote route
+      this.$router.push('/AddShortNote');
     },
-    selectModule(index) {
-      this.selectedIndex = index; // Set the selected index
-      this.fetchModuleRecords(); // Fetch module records when module is selected
+
+
+    selectModule(id) {
+      this.selectedModuleId = id;
+      this.fetchModuleQuestions(id);
     },
-    async fetchModuleRecords() {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token || this.selectedIndex === null) {
-          console.error("Token not found in localStorage or module not selected");
-          return;
-        }
 
-        const moduleId = this.selectedIndex + 1; // Adjusted to send the module ID (index + 1)
 
-        const response = await axios.get(
-            `http://localhost:8080/module-questions/${moduleId}`,
-            {
-              headers: {
-                Authorization: token,
-              },
-            }
-        );
-
-        if (response.status === 200) {
-          this.moduleRecords = response.data || [];
-        } else {
-          console.error("Failed to fetch module records:", response.status, response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching module records:", error);
-      }
-    },
-    async saveQuection() {
+    saveQuestion() {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -128,94 +107,164 @@ export default {
           return;
         }
 
-        if (this.selectedIndex === null) {
-          this.showErrorMessage();
+        // Ensure both moduleId and moduleName are available
+        if (!this.selectedModuleId) {
+          console.error("Module ID or Module Name is not available");
           return;
         }
 
         const data = {
-          moduleId: this.selectedIndex + 1, // Adjusted to send the module ID (index + 1)
+          moduleId: this.selectedModuleId,
           moduleQuestion: this.Question,
           moduleAnswer: this.Answer
         };
 
-        const response = await axios.post(
-            "http://localhost:8080/module-question",
-            data,
-            {
-              headers: {
-                Authorization: token,
-              },
-            }
-        );
-
-        if (response.status === 201) {
-          this.showsavequectionSuccessMessage()
-          // Clear input fields after successful save
-          this.Question = '';
-          this.Answer = '';
-          this.selectedIndex = null; // Reset selected index
-        } else {
-          console.error("Failed to save module question:", response.status, response.data);
-        }
+        axios.post("http://localhost:8080/module-question-create", data, {
+          headers: {
+            Authorization: token,
+          },
+        }).then(response => {
+          if (response.status === 201) {
+            this.showSaveQuestionSuccessMessage();
+            // Clear input fields after successful save
+            this.Question = '';
+            this.Answer = '';
+            this.selectedModuleId = null; // Reset selected index
+          } else {
+            console.error("Failed to save question:", response.status, response.data);
+          }
+        }).catch(error => {
+          console.error("Error saving question:", error);
+          this.showErrorMessage();
+        });
       } catch (error) {
-        console.error("Error saving module question:", error);
+        console.error("Error saving question:", error);
+        this.showErrorMessage();
       }
     },
 
-    showsavequectionSuccessMessage() {
-      // Show success message using SweetAlert
+    async fetchModuleQuestions(moduleId) {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("Token not found in localStorage");
+          return;
+        }
+
+        const response = await axios.get(`http://localhost:8080/module-questions/${moduleId}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+        if (response.status === 200) {
+          this.moduleRecords = response.data || [];
+          console.log("Received module questions:", response.data);
+        } else {
+          console.error("Failed to fetch module questions:", response.status, response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching module questions:", error);
+      }
+    },
+
+    async deleteQuestion(questionId) {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("Token not found in localStorage");
+          return;
+        }
+
+        const response = await axios.delete(`http://localhost:8080/module-question/${questionId}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+        if (response.status === 200) {
+          // Remove the deleted question from the moduleRecords array
+          this.moduleRecords = this.moduleRecords.filter(record => record.id !== questionId);
+          console.log("Question deleted successfully");
+        } else {
+          console.error("Failed to delete question:", response.status, response.data);
+        }
+      } catch (error) {
+        console.error("Error deleting question:", error);
+      }
+    },
+
+
+
+    showSaveQuestionSuccessMessage() {
       Swal.fire({
         icon: 'success',
         title: 'Success!',
-        text: 'Login successful',
+        text: 'Question saved successfully',
       });
     },
     showErrorMessage() {
-      // Show error message using SweetAlert
       Swal.fire({
         icon: 'error',
         title: 'Error!',
-        text: 'Incorrect Password.Please Try Again.',
+        text: 'Failed to save question. Please try again.',
       });
     },
-  }
+  },
 };
 </script>
 
+
+
+
 <style scoped>
-/* Add your CSS styling for the component here */
+.circular-button-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  background: rgb(24, 15, 15);
+
+}
 .resourceLibrary {
   display: flex;
   flex-wrap: wrap;
   width: 100vw;
   height: 100vh;
+  background: rgb(158,158,158);
+  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
 }
 
 .container1 {
-  flex: 0.5;
   display: flex;
-  flex-direction: column; /* Display module names vertically */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   color: white;
   font-size: 2em;
-  margin: 10px; /* Add margin between containers */
-  background-color: #eeeeee;
-  position: relative; /* Position relative for button positioning */
-  overflow-y: auto; /* Add scrollbar if content exceeds */
+  position: relative;
+  border-radius: 10px;
+  padding: 20px;
+  flex: 0.7;
+  background-color: rgba(255, 255, 255, 0.01);
+  box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
+  margin-left: 7%;
+  margin-top: 10px;
+  max-height: calc(100vh - 100px);
+
 }
+
 .container1 .container-content {
-  max-height: 300px; /* Set a maximum height for Container 1 */
-  overflow-y: auto; /* Add scrollbar if content exceeds */
+  max-height: 400px;
+  overflow-y: auto;
+  margin-left: 20px;
 }
 .addModuleButton {
-  position: absolute; /* Position the button absolutely within the container */
-  top: 10px; /* Adjust top position */
-  right: 10px; /* Adjust right position */
-  background-color: #4CAF50; /* Green */
+  position: absolute;
+  top: 10px;
+  right: 10px;
   border: none;
-  color: white;
   padding: 10px 20px;
   text-align: center;
   text-decoration: none;
@@ -224,21 +273,26 @@ export default {
   cursor: pointer;
   border-radius: 5px;
   width: 150px;
+  background-color: #3636ef;
+  color: #fff;
+  margin-right: 15px;
 }
 
 .container1 .card.selected {
-  background-color: #4CAF50; /* Change background color for selected module */
+  background-color: #3636ef;
+  color: white;
 
 }
 
 .container2 {
-  flex: 0.8;
-  display: flex;
-  flex-direction: column; /* Display items vertically */
-  color: white;
-  font-size: 2em;
-  margin: 10px; /* Add margin between containers */
-  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.2);
+  /* Set maximum height for container3 */
+  max-height: calc(100vh - 100px); /* Adjust 100px according to your design */
 }
 
 .form-group {
@@ -262,34 +316,37 @@ textarea {
 }
 
 button {
-  width: 100%;
+  width: 50%;
   padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
-  background-color: #4CAF50; /* Change background color for selected module */
+  background-color: #007bff;
+  margin: 10px auto;
 
 }
 
 /* Optional: Style the Save Changes button on hover */
 button:hover {
-  background-color: #143f17;
+  background-color: #3636ef;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  transition: 0.8s;
 }
 .container3 {
-  flex: 1;
-  display: flex;
-
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  box-shadow: 0 0 50px rgba(17, 15, 15, 0.2);
+  flex: 1.2;
+  background-color: rgba(255, 255, 255, 0.01);
   color: white;
   font-size: 2em;
-  margin: 10px; /* Add margin between containers */
-  background-color: #eeeeee;
-  flex-direction: column; /* Display items vertically */
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: flex-start; /* Align flex items to the start (left side) */
   align-items: flex-start;
-  padding: 10px;
-  overflow-y: auto; /* Add scrollbar if content exceeds */
-
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
 }
 
 .card {
@@ -312,12 +369,26 @@ button:hover {
 
 .questionName {
   font-weight: bold;
-  color: black;
+  color: #ffffff;
   font-size: 20px;
 }
 
 .answer {
-  color: black;
-  font-size: 15px;
+  color: #ffffff;
+  font-size: 16px;
+}
+.record {
+  margin-bottom: 20px;
+  text-align: left; /* Align text to the left within the record */
+}
+.delete-icon {
+  cursor: pointer;
+  color: red;
+  margin-left: 10px; /* Adjust the margin as needed */
+  font-size: 15px; /* Adjust the font size to make the icon smaller */
+}
+
+.small {
+  font-size: 20px; /* Adjust the font size as needed */
 }
 </style>
