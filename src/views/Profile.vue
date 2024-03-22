@@ -305,7 +305,9 @@ body {
   flex-direction: row;
   justify-content: space-between;
   background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
-  overflow-x: hidden;
+  overflow: hidden;
+  height: 100vh;
+
 }
 
 .container1 {
@@ -342,6 +344,7 @@ body {
   flex: 1;
   background-color: rgba(255, 255, 255, 0.2);
   overflow-y: auto; /* Enable vertical scrolling for Container 2 */
+  max-height: calc(100vh - 100px);
 }
 
 /* Adjustments for smaller screens */

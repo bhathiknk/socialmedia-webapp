@@ -1,5 +1,15 @@
 <template>
+    <div class="circular-button-container">
+      <CircularButton
+          @click="navigateToAddFeed"
+          to="/ProfileEdit"
+          icon="fa fa-arrow-left"
+          label="Back to Profile"
+          style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
+      />
+    </div>
   <!-- User Detail Edit Component -->
+  <div class="user-detail-edit-container">
   <div class="user-detail-edit container mt-4">
     <h2 class="mb-4">Edit User Details</h2>
     <form @submit.prevent="updateUserDetails">
@@ -32,14 +42,17 @@
       <button type="submit" class="btn btn-primary">Save Changes</button>
     </form>
   </div>
+  </div>
 </template>
 
 <script>
 // Import necessary libraries
 import axios from "axios";
 import Swal from "sweetalert2";
+import CircularButton from "@/components/CircularButton.vue";
 
 export default {
+  components: {CircularButton},
   data() {
     return {
       id: '',
@@ -148,12 +161,20 @@ export default {
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;
-  border: 1px solid #007bff;
+  box-shadow: 0 0 50px rgb(0, 0, 0);
   border-radius: 5px;
-  background-color: #f8f8f8;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.01);
+  max-height: calc(100vh - 100px);
 }
 
+.user-detail-edit-container{
+  background: rgb(158,158,158);
+  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  display: flex;
+  flex-wrap: wrap;
+  width: 100vw;
+  height: 100vh;
+}
 .form-group {
   margin-bottom: 15px;
 }
@@ -162,13 +183,16 @@ export default {
 label {
   display: block;
   font-weight: bold;
+  border-radius: 10px;
+  color: black;
 }
 
 input[type="file"] {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  box-shadow: 0 0 50px rgb(28, 17, 17);
+  border-radius: 10px;
+  color: black;
 }
 
 img {
@@ -183,20 +207,24 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 5px;
   outline: none;
+  box-shadow: 0 0 50px rgb(0, 0, 0);
 }
 
 button {
-  width: 100%;
-  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
   border: none;
-  border-radius: 5px;
+  padding: 10px 20px;
   cursor: pointer;
-  font-weight: bold;
+  margin-right: 15px; /* Add space between buttons */
+  border-radius: 5px;
 }
 
 /* Optional: Style the Save Changes button on hover */
 button:hover {
-  background-color: #0056b3;
+  background-color: #3636ef;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  transition: 0.8s;
 }
 
 </style>

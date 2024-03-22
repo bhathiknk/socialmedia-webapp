@@ -2,7 +2,17 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-zXMk3IuTbjgbGvFHS5JGtVStCN3yvCizV1/aBw9EYS6ztlM9R38Ap2+Jl2GJK5xM0C7uwZHQa1jn/Zpz65GCOQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
+  <div>
+    <div class="circular-button-container">
+      <CircularButton
+          @click="navigateToAddFeed"
+          to="/"
+          icon="fa fa-arrow-left"
+          label="Back to Note"
+          style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
+      />
+    </div>
+  </div>
 
   <div class="resourceLibrary">
     <!-- First container -->
@@ -49,8 +59,10 @@
 <script>
 import axios from 'axios';
 import Swal from "sweetalert2";
+import CircularButton from "@/components/CircularButton.vue";
 
 export default {
+  components: {CircularButton},
   data() {
     return {
       modules: [],
@@ -126,7 +138,11 @@ export default {
           },
         }).then(response => {
           if (response.status === 201) {
-            this.showSaveQuestionSuccessMessage();
+            Swal.fire({
+              icon: 'success',
+              title: 'Success!',
+              text: 'Question and Answer saved successfully',
+            });
             // Clear input fields after successful save
             this.Question = '';
             this.Answer = '';
@@ -263,16 +279,6 @@ export default {
               'error'
           );
         }
-      });
-    },
-
-
-
-    showSaveQuestionSuccessMessage() {
-      Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: 'Question saved successfully',
       });
     },
     showErrorMessage() {

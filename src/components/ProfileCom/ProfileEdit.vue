@@ -1,65 +1,61 @@
 <template>
-    <div class="circular-button-container">
-      <!-- Circular buttons for navigation -->
-        <CircularButton
-            @click="navigateToSignUp"
-            to="/SignUp"
-            v-if="!token"
-            icon="fa fa-arrow-right"
-            label="LogIn"
-            style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
-        />
+  <div class="circular-button-container">
+    <!-- Circular buttons for navigation -->
+    <CircularButton
+        @click="navigateToSignUp"
+        to="/SignUp"
+        v-if="!token"
+        icon="fa fa-arrow-right"
+        label="LogIn"
+        style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
+    />
 
-        <CircularButton
-            @click="navigateToUserDetailEdit"
-            to="/UserDetailEdit"
-            v-if="token"
-            icon="fa fa-gear"
-            label="Settings"
-            style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
-        />
+    <CircularButton
+        @click="navigateToUserDetailEdit"
+        to="/UserDetailEdit"
+        v-if="token"
+        icon="fa fa-gear"
+        label="Settings"
+        style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
+    />
 
-        <CircularButton
-            @click="signout"
-            to="/ProfileEdit"
-            v-if="token"
-            icon="fa fa-sign-out"
-            label="Signout"
-            style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
-        />
-      </div>
+    <CircularButton
+        @click="signout"
+        to="/ProfileEdit"
+        v-if="token"
+        icon="fa fa-sign-out"
+        label="Signout"
+        style="margin-bottom: 10px; margin-top: 5px; margin-left: 5px"
+    />
+  </div>
 
 
-    <!-- container for profile picture, bio message, username, and email -->
+  <!-- container for profile picture, bio message, username, and email -->
   <div class="profile-edit">
     <div class="container">
-    <div class="profile-info-container fixed-middle">
-      <div class="profile-info">
-        <div class="profile-picture-container">
-          <!-- Profile picture with responsive classes -->
-          <img :src="profilePicture" alt="Profile Picture" class="img-fluid rounded-circle">
+      <div class="profile-info-container fixed-middle">
+        <div class="profile-info">
+          <div class="profile-picture-container">
+            <!-- Profile picture with responsive classes -->
+            <img :src="profilePicture" alt="Profile Picture" class="img-fluid rounded-circle">
+          </div>
+          <h3>{{ userName }}</h3>
+          <p>{{ email }}</p>
+          <p>{{ text }}</p>
         </div>
-        <h3>{{ userName }}</h3>
-        <p>{{ email }}</p>
-        <p>{{ text }}</p>
       </div>
-    </div>
     </div>
 
     <!-- User's posts container with scrollable content -->
     <div class="container-user-post">
-    <div class="user-posts-container">
-      <div v-if="userPosts.length > 0" class="user-posts">
-        <h4>My Posts:</h4>
-        <div class="post-grid">
-          <div v-for="post in userPosts" :key="post.id" class="post-container">
-            <img :src="getPostImageUrl(post.postImage)" alt="Post Image" class="img-fluid">
+
+          <div class="post-container" v-for="post in myPosts" :key="post.id">
+            <img :src="getFullImageUrl(post.postImage)" alt="Post Image" class="post-image" />
           </div>
         </div>
       </div>
-    </div>
-    </div>
-  </div>
+
+
 
 </template>
 
@@ -82,7 +78,7 @@ export default {
       text: null,
       profilePicture: require('@/assets/profile.jpg'), // Set a default profile picture
       id: null,
-      userPosts: [],
+      myPosts: [],
     };
   },
   methods: {
@@ -90,7 +86,6 @@ export default {
     getUserDetails() {
       axios.get(`http://localhost:8080/api/user/${this.token}`)
           .then(response => {
-            console.log('User details response:', response.data);
             this.id = response.data.id; // Assuming id is present in the response
             this.userName = response.data.userName;
             this.email = response.data.email;
@@ -100,13 +95,6 @@ export default {
                 ? this.getProfilePictureUrl(response.data.profileImage)
                 : require('@/assets/profile.jpg')
 
-            // Check if this.id is not null before making the API call
-            if (this.id !== null) {
-              // Make the API call to get user posts
-              this.getUserPosts();
-            } else {
-              console.error('Invalid user ID:', this.id);
-            }
           })
           .catch(error => {
             console.error(error);
@@ -117,26 +105,35 @@ export default {
           });
     },
 
-    // Fetch user's posts using Axios
-    getUserPosts() {
-      axios.get(`http://localhost:8080/posts/user/posts`, {
-        headers: {
-          Authorization: this.token
-        }
-      })
+    async fetchMyPosts() {
+      try {
+        const response = await axios.get("http://localhost:8080/posts/user/my-posts", {
+          headers: {
+            Authorization: this.token
+          }
+        });
 
-          .then(response => {
-            this.userPosts = response.data;
-          })
-          .catch(error => {
-            console.error(error);
-          });
+        if (response.status === 200) {
+          // Map the response data to include postId along with other post details
+          this.myPosts = response.data.map(post => ({
+            id: post.id,
+            userId: post.userId,
+            username: post.username,
+            profileImage: post.profileImage,
+            caption: post.caption,
+            postImage: post.postImage
+          }));
+
+        }
+      } catch (error) {
+        console.error("Error fetching my posts:", error);
+      }
     },
 
 
-    // Get full URL for the post image
-    getPostImageUrl(imageName) {
-      return imageName ? `http://localhost:8080/posts/${imageName}?random=${Math.random()}` : null;
+
+    getFullImageUrl(imageName) {
+      return imageName ? `http://localhost:8080/posts/postImages/${imageName}` : null;
     },
     // Get full URL for the profile picture
     getProfilePictureUrl(imageName) {
@@ -169,7 +166,7 @@ export default {
     this.token = localStorage.getItem("token");
     if (this.token) {
       this.getUserDetails();
-      this.getUserPosts();
+      this.fetchMyPosts();
     }
   },
 };
@@ -182,9 +179,6 @@ export default {
   background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
   height: 100%;
   min-height: 100vh;
-
-
-
 
 }
 
@@ -212,7 +206,8 @@ export default {
   padding: 20px;
   box-shadow: 0 0 100px rgb(0, 0, 0);
   height: auto;
-  min-height: 100vh;
+
+
 }
 
 .container p{
@@ -229,7 +224,7 @@ export default {
 }
 
 .profile-info-container
- {
+{
   text-align: center;
   margin-top: 10px;
 
@@ -247,29 +242,23 @@ export default {
   border-radius: 50%;
 }
 
-.user-posts {
-  margin-top: 20px;
-}
-
-.post-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
 
 .post-container {
-  width: calc(30.30% - 10px); /* 33.33% width for each post with some margin */
+  width: 30.30%; /* Each post takes up 33.33% of the container */
+  height: 400px; /* Set the height of each post */
   margin-bottom: 20px;
+  display: inline-block; /* Ensure posts are displayed in a row */
+  padding: 10px;
 }
 
 .post-container img {
-  width: 100%;
-  height: 100%; /* Make post images fill the container */
+  width: 100%; /* Make post images fill the post container */
+  height: 100%;
   object-fit: cover;
   border-radius: 8px;
 }
 
+
 /* Add any additional styling as needed */
 
 </style>
-

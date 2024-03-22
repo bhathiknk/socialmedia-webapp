@@ -9,6 +9,21 @@
           label="Add Feed"
           style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
       />
+
+      <CircularButton
+          @click="navigateToAddFeed"
+          to="/ProfileEdit"
+          icon="fa fa-user"
+          label="Go To Profile"
+          style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
+      />
+      <CircularButton
+          @click="navigateToAddFeed"
+          to="/MyPost"
+          icon="fa-regular fa-image"
+          label="Go To My Posts"
+          style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
+      />
     </div>
 
 
@@ -100,6 +115,8 @@ export default {
   margin-bottom: 20px;
   background: rgb(158,158,158);
   background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  height: 100%;
+  min-height: 100vh;
 }
 
 .container {

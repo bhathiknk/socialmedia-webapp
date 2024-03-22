@@ -19,6 +19,7 @@ import AddDiscussion from "@/components/DiscussionForum/AddDiscussion.vue";
 import AddShortNote from "@/components/ShortNote/AddShortNote.vue";
 import CircularButtonProfile from "@/components/CircularButtonProfile.vue";
 import MyQuestions from "@/components/DiscussionForum/MyQuestions.vue";
+import MyPost from "@/components/FeedCom/MyPost.vue";
 
 const routes = [
   {
@@ -120,6 +121,11 @@ const routes = [
     path:'/MyQuestions',
     name:'MyQuestions',
     component: MyQuestions
+  },
+  {
+    path:'/MyPost',
+    name:'MyPost',
+    component: MyPost
   },
 ]
 

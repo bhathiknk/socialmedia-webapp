@@ -1,5 +1,16 @@
 <template>
   <div>
+    <div class="circular-button-container">
+      <CircularButton
+          @click="navigateToAddFeed"
+          to="/ShortNote"
+          icon="fa fa-arrow-left"
+          label="Back to Note"
+          style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
+      />
+    </div>
+  </div>
+  <div class="body-form">
     <h1>Add Module</h1>
     <div>
       <form @submit.prevent="saveModule" class="entry-form">
@@ -17,8 +28,10 @@
 <script>
 import axios from 'axios';
 import Swal from "sweetalert2";
+import CircularButton from "@/components/CircularButton.vue";
 
 export default {
+  components: {CircularButton},
   data() {
     return {
         moduleName: "",
@@ -48,21 +61,20 @@ export default {
         );
 
         console.log(response.data);
-        this.showSuccessMessage(); // Call function to show success message
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Module saved successfully',
+        });
       } catch (error) {
         console.error('Error saving question:', error.response ? error.response.data : error);
         alert('Failed to save question. Please try again.');
       }
     },
 
-    showSuccessMessage() {
-      // Show success message using SweetAlert
-      Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: 'Journal saved successfully',
-      });
-    },
+
+
+
 
   },
   mounted() {
@@ -70,10 +82,22 @@ export default {
 };
 </script>
 
+.circular-button-container {
+position: fixed;
+top: 0;
+left: 0;
+bottom: 0;
+padding: 20px;
+background: rgb(24, 15, 15);
+
+}
 <style scoped>
-body {
-  overflow-y: auto; /* Enable vertical scrolling for the entire page */
-  height: 100%; /* Ensure body expands to full height of viewport */
+.body-form{
+  background: rgb(158,158,158);
+  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .entry-form {
@@ -82,9 +106,17 @@ body {
 
 }
 
+.body-form h1{
+  color: white;
+  padding: 30px;
+}
+
 .entry-form label {
   display: block;
   margin-bottom: 1px;
+  color: white;
+  padding: 20px;
+
 }
 
 .entry-form input,
@@ -93,18 +125,22 @@ body {
   padding: 8px;
   margin-bottom: 16px;
   box-sizing: border-box;
+  box-shadow: 0 0 50px rgb(28, 17, 17);
 }
 
 .entry-form button {
-  background-color: #4caf50;
+  background-color: #007bff;
   color: #fff;
-  padding: 10px 15px;
   border: none;
+  padding: 10px 20px;
   cursor: pointer;
-  font-size: 16px;
+  margin-right: 15px; /* Add space between buttons */
+  border-radius: 5px;
 }
 
 .entry-form button:hover {
-  background-color: #45a049;
+  background-color: #3636ef;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  transition: 0.8s;
 }
 </style>

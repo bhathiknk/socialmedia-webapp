@@ -1,4 +1,5 @@
 <template>
+  <div class="add-feed-form-container">
   <div class="add-feed-form">
     <h2>Create Post</h2>
     <form @submit.prevent="createPost">
@@ -16,6 +17,7 @@
       </div>
       <button type="submit">Create Post</button>
     </form>
+  </div>
   </div>
 </template>
 
@@ -95,15 +97,22 @@ export default {
 
 <style scoped>
 .add-feed-form {
-  max-width: 400px;
-  margin: 50px auto;
+  max-width: 600px;
+  margin: 20px auto;
   padding: 20px;
-  border: 1px solid #007bff;
+  box-shadow: 0 0 50px rgb(0, 0, 0);
   border-radius: 5px;
-  background-color: #f8f8f8;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.01);
+  max-height: calc(100vh - 100px);
 }
-
+.add-feed-form-container{
+  background: rgb(158,158,158);
+  background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
+  display: flex;
+  flex-wrap: wrap;
+  width: 100vw;
+  height: 100vh;
+}
 .form-group {
   margin-bottom: 15px;
 }
@@ -112,30 +121,35 @@ label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
+  color: white;
+}
+.add-feed-form  h2{
+  color: white;
+  margin: 40px;
 }
 
 input[type="text"],
 input[type="file"] {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-  margin-top: 5px;
+  box-shadow: 0 0 50px rgb(28, 17, 17);
+  border-radius: 10px;
+  color: black;
 }
 
 button {
   background-color: #007bff;
   color: #fff;
-  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  padding: 10px 20px;
   cursor: pointer;
-  font-weight: bold;
-  margin-top: 15px;
+  margin-right: 15px; /* Add space between buttons */
+  border-radius: 5px;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #3636ef;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  transition: 0.8s;
 }
 </style>
