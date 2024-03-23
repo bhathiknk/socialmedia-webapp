@@ -3,7 +3,7 @@ import ProfileView from '../views/Profile.vue'
 import FeedView from '../views/Feed.vue'
 import ConnectionView from '../views/ConnectionView.vue'
 import CircularButton from '../components/CircularButton.vue'
-import EventCalendar from "@/components/EventCalendar.vue"
+import EventCalendar from "@/components/ToDo/EventCalendar.vue"
 import DiscussionForum from "../components/DiscussionForum/DiscussionForum.vue"
 import DailyJournaling from "@/components/DailyJournal/DailyJournaling.vue";
 import GradesTracking from "@/components/GradesTracking/GradesTracking.vue";
@@ -23,7 +23,7 @@ import MyPost from "@/components/FeedCom/MyPost.vue";
 
 const routes = [
   {
-    path: '/',
+    path: '/profile',
     name: 'profile',
     component: ProfileView
   },
@@ -83,7 +83,7 @@ const routes = [
     component: SignUp
   },
   {
-    path:'/SignIn',
+    path:'/',
     name:'SignIn',
     component: SignIn
   },

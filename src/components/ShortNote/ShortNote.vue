@@ -6,7 +6,7 @@
     <div class="circular-button-container">
       <CircularButton
           @click="navigateToAddFeed"
-          to="/"
+          to="/profile"
           icon="fa fa-arrow-left"
           label="Back to Note"
           style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"

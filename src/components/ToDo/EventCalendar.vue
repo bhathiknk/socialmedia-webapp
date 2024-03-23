@@ -1,10 +1,10 @@
 <template>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <div>
     <div class="circular-button-container">
       <CircularButton
           @click="navigateToAddFeed"
-          to="/"
+          to="/profile"
           icon="fa fa-arrow-left"
           label="Back to Home"
           style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
@@ -22,7 +22,7 @@
             <p>Date: {{ todo.date }}</p>
             <p>Time: {{ todo.time }}</p>
             <!-- Delete icon -->
-            <i class="fa fa-trash-o" @click="deleteTodo(todo.id)" style="cursor: pointer;"></i>
+            <i class="fas fa-trash-alt delete-icon" @click="deleteTodo(todo.id)"></i>
           </ul>
         </div>
       </div>
@@ -244,8 +244,8 @@ export default {
   margin-bottom: 30px;
 }
 
-.fa {
-  font-size: 25px;
+.delete-icon {
+  font-size: 20px;
   color: red; /* Change color as needed */
 }
 
@@ -281,7 +281,7 @@ export default {
   border: 2px solid #000000;
   border-radius: 10px;
   box-sizing: border-box;
-  color:white ;
+  color: #1c1111;
 }
 
 .right-container button {

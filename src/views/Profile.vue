@@ -106,6 +106,18 @@
             <button id="stopwatch-buttons" @click="resetTimer">Reset</button>
           </div>
         </div>
+        <div class="card-item">
+        <div class="card">
+          <div class="circle"></div>
+          <div class="circle"></div>
+          <div class="card-inner">
+            <div class="quote">
+              <p>{{ quoteContent }}</p>
+              <h1>- {{ quoteAuthor }}</h1>
+            </div>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -134,7 +146,9 @@ export default {
       elapsedTime: 0,
       timerInterval: null,
       searchQuery: '',
-      books: []
+      books: [],
+      quoteContent:'',
+      quoteAuthor:''
     }
   },
   watch: {
@@ -154,11 +168,13 @@ export default {
     }
   },
   mounted() {
+
     // Fetch todos when the component is mounted
     this.fetchTodos();
     this.token = localStorage.getItem("token");
     if (this.token) {
       this.getUserDetails();
+      this.getquote();
     }
   },
   methods: {
@@ -181,6 +197,17 @@ export default {
       this.$router.push("/ProfileEdit");
     },
 
+    getquote(){
+    axios.get('https://api.quotable.io/random')
+        .then(response => {
+          // Update the quote content in the component data
+          this.quoteContent = response.data.content;
+          this.quoteAuthor = response.data.author;
+        })
+        .catch(error => {
+          console.error('Error fetching quote:', error);
+        });
+  },
     async searchBooks(query) {
       try {
         const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
@@ -399,9 +426,9 @@ body {
   text-align: center;
   max-width: 90%;
   background-color: rgb(255, 255, 255);
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
-  margin: 10px auto;
+  margin: 0px auto;
   box-shadow: 0 0 5px rgb(28, 17, 17);
 
 }
@@ -507,5 +534,73 @@ body {
 }
 .container2 h2{
   color: black;
+}
+
+.card {
+  width: 250px;
+  height: 300px;
+  transition: all 0.2s;
+  position: relative;
+  cursor: pointer;
+  margin: 20px auto;
+}
+.card-item{
+  padding: 10px;
+}
+
+.card-inner {
+  width: inherit;
+  height: inherit;
+  background: rgba(255,255,255,.05);
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+}
+
+.card:hover {
+  transform: scale(1.04) rotate(1deg);
+}
+
+.circle {
+  width: 100px;
+  height: 100px;
+  background: rgb(7,0,154);
+  background: radial-gradient(circle, rgba(7,0,154,1) 0%, rgba(0,211,255,1) 100%);
+  border-radius: 50%;
+  position: absolute;
+  animation: move-up6 2s ease-in infinite alternate-reverse;
+}
+
+.circle:nth-child(1) {
+  top: -25px;
+  left: -25px;
+}
+
+.circle:nth-child(2) {
+  bottom: -25px;
+  right: -25px;
+  animation-name: move-down1;
+}
+
+@keyframes move-up6 {
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes move-down1 {
+  to {
+    transform: translateY(10px);
+  }
+}
+.quote{
+  padding: 50px;
+}
+.quote h1{
+  font-weight: bold;
+  font-size: 20px;
+}
+.quote p{
+  font-size: 17px;
 }
 </style>
