@@ -1,4 +1,15 @@
 <template>
+  <div>
+    <div class="circular-button-container">
+      <CircularButton
+          @click="navigateToAddFeed"
+          to="/DiscussionForum"
+          icon="fa fa-arrow-left"
+          label="Back to Discussion"
+          style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
+      />
+    </div>
+  </div>
   <div class="question-form-body">
     <h2>Add Question</h2>
     <form @submit.prevent="saveQuestion" class="question-form">
@@ -13,9 +24,11 @@
 
 <script>
 import axios from 'axios';
-import Swal from 'sweetalert2'; // Import SweetAlert
+import Swal from 'sweetalert2';
+import CircularButton from "@/components/CircularButton.vue"; // Import SweetAlert
 
 export default {
+  components: {CircularButton},
   data() {
     return {
       questionContent: '',
@@ -44,6 +57,7 @@ export default {
 
         console.log(response.data);
         this.showSuccessMessage(); // Call function to show success message
+        this.questionContent= '';
       } catch (error) {
         console.error('Error saving question:', error.response ? error.response.data : error);
         alert('Failed to save question. Please try again.');
@@ -62,6 +76,15 @@ export default {
 </script>
 
 <style scoped>
+.circular-button-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 20px;
+  background: rgb(24, 15, 15);
+
+}
 .question-form-body {
   background: rgb(158,158,158);
   background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);

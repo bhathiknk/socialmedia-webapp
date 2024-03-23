@@ -18,11 +18,9 @@
     <div v-else>
       <div v-for="question in questions" :key="question.id" class="question-container">
         <div class="user-info">
-          <!-- Profile Image -->
           <img :src="getProfileImageUrl(question.user.profileImage)" alt="User Profile Image" class="user-profile-image" />
-
-          <!-- Username -->
           <p class="username">{{ question.user.userName }}</p>
+          <button @click="deleteQuestion(question.id)" class="delete-button">Delete</button>
         </div>
 
         <!-- Question Content -->
@@ -51,6 +49,8 @@
 
             <img :src="getProfileImageUrl(comment.user.profileImage)" alt="User Profile Image" class="user-profile-image" />
             <p><strong>{{ comment.user.userName }}:</strong> {{ comment.content }}</p>
+            <!-- Inside question-container div -->
+
           </div>
         </div>
       </div>
@@ -79,6 +79,37 @@ export default {
     this.fetchMyQuestions();
   },
   methods: {
+
+    deleteQuestion(questionId) {
+      const token = localStorage.getItem("token");
+      axios.delete(`http://localhost:8080/questions/${questionId}`, {
+        headers: {
+          Authorization: token
+        }
+      })
+          .then(response => {
+            // Handle success response
+            this.fetchMyQuestions(); // Refresh questions after deletion
+            // Show success message
+            Swal.fire({
+              icon: 'success',
+              title: 'Success!',
+              text: 'Question deleted successfully',
+            });
+          })
+          .catch(error => {
+            // Handle error response
+            console.error("Error deleting question:", error);
+            // Show error message
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!',
+              text: 'Error deleting question',
+            });
+          });
+    },
+
+
     async fetchMyQuestions() {
       try {
         const token = localStorage.getItem("token");
@@ -346,4 +377,14 @@ export default {
   color: white;
   margin-top: 10px;
 }
+.delete-button{
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 50%;
+}
+
 </style>

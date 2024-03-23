@@ -13,6 +13,10 @@
 
 
   <div class="background">
+    <div v-if="myPosts.length === 0">
+      <p>No Post from friends</p>
+    </div>
+    <div v-else>
     <div class="post-feed">
       <div class="container">
         <div class="post" v-for="post in myPosts" :key="post.id">
@@ -26,6 +30,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -217,7 +222,7 @@ export default {
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 50%;
 }
 
 </style>

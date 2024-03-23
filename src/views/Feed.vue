@@ -28,6 +28,10 @@
 
 
   <div class="post-feed">
+    <div v-if="posts.length === 0">
+      <p>No Post from friends</p>
+    </div>
+    <div v-else>
     <div class="container">
       <div class="post" v-for="post in posts" :key="post.userId">
         <div class="post-header">
@@ -40,7 +44,7 @@
       </div>
     </div>
   </div>
-
+  </div>
 </template>
 
 <script>

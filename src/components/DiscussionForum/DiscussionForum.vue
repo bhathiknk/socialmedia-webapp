@@ -252,13 +252,13 @@ export default {
 
 <style scoped>
 .question-background{
-  height: auto;
+  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: rgb(158,158,158);
   background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
   margin-bottom: 50px;
-  height: 100vh;
 }
 .question-container {
   display: flex;
