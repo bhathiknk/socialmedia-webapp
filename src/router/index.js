@@ -127,6 +127,7 @@ const routes = [
     name:'MyPost',
     component: MyPost
   },
+
 ]
 
 const router = createRouter({

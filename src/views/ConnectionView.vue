@@ -71,7 +71,10 @@
                 <div class="user-info">
                   <h4>{{ request.userName }}</h4>
                   <button @click="acceptConnection(request)" class="add-friend-button accept-button">Accept</button>
-                  <button @click="rejectConnection(request)" class="add-friend-button reject-button">Reject</button>
+                  <button @click="rejectConnection(request.id)" class="add-friend-button reject-button">Reject</button>
+
+
+
                 </div>
               </div>
             </li>
@@ -86,6 +89,8 @@
 
 <script>
 import axios from 'axios';
+import Swal from "sweetalert2";
+
 
 export default {
   data() {
@@ -99,6 +104,42 @@ export default {
     };
   },
   methods: {
+    rejectConnection(friendId) {
+      const userToken = localStorage.getItem('token');
+
+      if (!userToken) {
+        console.error('User token not found');
+        return;
+      }
+
+      axios.post(`http://localhost:8080/connection/reject-connection/${friendId}`, null, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      })
+          .then(response => {
+            console.log('Connection rejected successfully:', response.data);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success!',
+              text: 'Connection rejected successfully',
+            });
+
+            // Find the friend's index in pendingConnections array
+            const index = this.pendingConnections.findIndex(friend => friend.id === friendId);
+
+            // If friend found, remove them from the array
+            if (index !== -1) {
+              this.pendingConnections.splice(index, 1);
+            }
+          })
+          .catch(error => {
+            console.error('Error rejecting connection:', error);
+          });
+    },
+
+
+
     fetchSuggestedFriendsDetails() {
       const userToken = localStorage.getItem('token');
 
@@ -140,6 +181,11 @@ export default {
       })
           .then(response => {
             console.log('Friend request sent successfully:', response.data);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success!',
+              text: 'Friend request sent successfully',
+            });
 
             // Increment the friend request count for the logged-in user
             this.sentFriendRequests.push(response.data);
@@ -198,6 +244,11 @@ export default {
       })
           .then(response => {
             console.log('Connection accepted successfully:', response.data);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success!',
+              text: 'Connection accepted successfully',
+            });
 
             // Remove the accepted request from pendingConnections
             const index = this.pendingConnections.indexOf(request);
@@ -285,6 +336,7 @@ export default {
             console.error('Error fetching pending connection requests images:', error);
           });
     },
+
 
   },
   mounted() {

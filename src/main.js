@@ -7,4 +7,5 @@ import '@fortawesome/fontawesome-free/css/all.css'; // Ensure the path is correc
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+
 createApp(App).use(router).mount('#app')

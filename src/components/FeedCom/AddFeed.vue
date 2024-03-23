@@ -1,4 +1,15 @@
 <template>
+  <div>
+    <div class="circular-button-container">
+      <CircularButton
+          @click="navigateToAddFeed"
+          to="/Feed"
+          icon="fa fa-arrow-left"
+          label="Back to Feed"
+          style="margin-bottom: 10px; margin-top: 5px; margin-left: -10px"
+      />
+    </div>
+  </div>
   <div class="add-feed-form-container">
   <div class="add-feed-form">
     <h2>Create Post</h2>
@@ -26,8 +37,10 @@ import axios from "axios";
 import swal from "sweetalert";
 import baseURL from "@/config";
 import Swal from "sweetalert2";
+import CircularButton from "@/components/CircularButton.vue";
 
 export default {
+  components: {CircularButton},
   data() {
     return {
       postDto: {
