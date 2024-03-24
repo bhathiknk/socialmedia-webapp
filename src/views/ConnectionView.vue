@@ -6,7 +6,10 @@
     <div class="search-friend-section">
       <h3>Sent Friend Requests</h3>
       <!-- Display profile images as circles -->
-      <div class="sender-profile-images-container">
+      <div v-if="pendingConnectionImages.length === 0" class="no-data-message" style="color: white">
+        No pending friend requests.
+      </div>
+      <div v-else class="sender-profile-images-container">
         <div v-for="(image, index) in pendingConnectionImages" :key="index" class="sender-profile-image-circle">
           <img :src="getProfileImageUrl(image)" alt="Profile Image" class="profile-image" />
         </div>
@@ -23,11 +26,15 @@
           <h3>
             Suggested Friends
           </h3>
+          <div v-if="suggestedFriends.length === 0" style="color: white">
+            <p>No suggestedFriends</p>
+          </div>
+          <div v-else>
           <ul>
             <li v-for="friend in suggestedFriends" :key="friend.id">
               <div class="user-card">
                 <div class="profile-image-container">
-                  <img :src="getProfileImageUrl(friend.profileImage)" alt="Profile Image" class="profile-image" />
+                  <img :src="getProfileImageUrl(friend.profileImage)" :alt="friend.userName" class="profile-image" />
                 </div>
                 <div class="user-info">
                   <h4>{{ friend.userName }}</h4>
@@ -36,6 +43,7 @@
               </div>
             </li>
           </ul>
+          </div>
         </div>
       </div>
 
@@ -43,7 +51,10 @@
       <div class="col-md-4">
         <div class="friends-container">
           <h3>Friends</h3>
-          <ul>
+          <div v-if="friends.length === 0" class="no-data-message" style="color: white">
+            No friends yet.
+          </div>
+          <ul v-else>
             <li v-for="friend in friends" :key="friend.id">
               <div class="user-card">
                 <div class="profile-image-container">
@@ -62,7 +73,10 @@
       <div class="col-md-4">
         <div class="pending-requests-container">
           <h3>Pending Requests</h3>
-          <ul>
+          <div v-if="pendingConnections.length === 0" class="no-data-message" style="color: white">
+            No pending connection requests.
+          </div>
+          <ul v-else>
             <li v-for="request in pendingConnections" :key="request.id">
               <div class="user-card">
                 <div class="profile-image-container">
@@ -90,7 +104,7 @@
 <script>
 import axios from 'axios';
 import Swal from "sweetalert2";
-
+import defaultProfileImage from '@/assets/profile.jpg'; // Import the default profile image
 
 export default {
   data() {
@@ -156,15 +170,19 @@ export default {
           .then(response => {
             console.log('Fetched suggested friends details:', response.data);
             this.suggestedFriends = response.data;
+
+
           })
           .catch(error => {
             console.error('Error fetching suggested friends details:', error);
           });
     },
+
     getProfileImageUrl(profileImage) {
       // Adjust the URL based on your backend configuration
-      return profileImage ? `http://localhost:8080/static/images/${profileImage}` : ''; // Updated to handle undefined profileImage
+      return profileImage ? `http://localhost:8080/static/images/${profileImage}` : defaultProfileImage;
     },
+
 
     sendFriendRequest(friend) {
       const userToken = localStorage.getItem('token');
@@ -371,6 +389,12 @@ export default {
   margin-bottom: 20px;
   height: 100%;
   overflow-y: auto;
+}
+.suggested-friends-container h4,
+.friends-container h4,
+.pending-requests-container h4
+{
+  font-size: 18px;
 }
 /* Styling the scrollbar */
 .suggested-friends-container::-webkit-scrollbar {

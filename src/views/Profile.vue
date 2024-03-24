@@ -53,7 +53,7 @@
 
         <CircularButtonProfile
             @click="signout"
-            to="/ProfileEdit"
+            to="/"
             v-if="token"
             icon="fa fa-sign-out"
             label="Signout"
@@ -68,12 +68,17 @@
       <div class="container1">
         <div class="left-container">
           <h3 class="container1-text">Your Today Task</h3>
+          <div v-if="todos.length === 0" style="color: white">
+            <p>No Todos Added</p>
+          </div>
+          <div v-else>
           <div v-for="todo in todos" :key="todo.id" class="todo-container">
             <ul class="todo-show">
               <h3>{{ todo.todo }}</h3>
               <p>Date: {{ todo.date }}</p>
               <p>Time: {{ todo.time }}</p>
             </ul>
+          </div>
           </div>
         </div>
       </div>
@@ -197,6 +202,7 @@ export default {
       this.$router.push("/ProfileEdit");
     },
 
+
     getquote(){
     axios.get('https://api.quotable.io/random')
         .then(response => {
@@ -253,17 +259,29 @@ export default {
     getProfilePictureUrl(imageName) {
       return imageName ? `http://localhost:8080/api/images/${imageName}?random=${Math.random()}` : null;
     },
+
     signout() {
+      // Clear user details and token from localStorage
       localStorage.removeItem("token");
       this.token = null;
-      this.userName = null;
-      this.email = null;
-      this.text = null;
       this.profilePicture = require('@/assets/profile.jpg');
-      this.$router.push('/SignIn');
+      // Clear other user-related data
+      this.selectedDate = '';
+      this.selectedTime = '';
+      this.newTodo = '';
+      this.todos = [];
+      this.books = [];
+      this.quoteContent = '';
+      this.quoteAuthor = '';
+      this.elapsedTime = 0;
+      clearInterval(this.timerInterval);
+      this.timerRunning = false;
+      // Redirect to sign-in page
+      this.$router.push('/');
       // Display a success message using SweetAlert
       this.showSuccessMessage();
     },
+
     showSuccessMessage() {
       Swal.fire({
         icon: 'success',

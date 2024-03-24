@@ -19,11 +19,15 @@
     <div class="container1">
       <div class="container-content">
         <button class="addModuleButton" @click="redirectToAddShortNote">Add Module</button>
+        <div v-if="modules.length === 0">
+          <p>No Modules Added</p>
+        </div>
+        <div v-else>
         <div v-for="(module, index) in modules" :key="index" class="card" @click="selectModule(module.id)" :class="{ 'selected': selectedModuleId === module.id }">
           <p class="moduleName">{{ module.moduleName }}</p>
           <i class="fas fa-trash-alt delete-icon" @click="deleteModule(module.id)"></i>
         </div>
-
+        </div>
 
       </div>
     </div>
@@ -46,11 +50,15 @@
 
     <!-- Third container -->
     <div class="container3">
+      <div v-if="modules.length === 0">
+        <p>No question and answer Added</p>
+      </div>
+      <div v-else>
       <div v-for="(record, index) in moduleRecords" :key="index" class="record">
         <p class="questionName">{{ index + 1 }}. {{ record.moduleQuestion }}</p>
         <p class="answer">★ {{ record.moduleAnswer }}</p>
         <i class="fas fa-trash-alt delete-icon" @click="deleteQuestion(record.id)"></i>
-
+      </div>
       </div>
     </div>
   </div>

@@ -19,20 +19,29 @@
     </div>
 
     <div class="body">
-    <div class="centered-container">
-      <h2>Journal Entries</h2>
-      <div class="card-container">
-        <div v-for="entry in entries" :key="entry.id" class="journal-card" @click="openModal(entry)">
-          <div class="card-header">
-            Created Date: {{ entry.date }}
-          </div>
-          <div class="card-content">
-            <p><strong>Mood:</strong> {{ entry.mood }}</p>
-            <p><strong>Goals:</strong> {{ entry.goals }}</p>
+      <div class="centered-container">
+        <h2>Journal Entries</h2>
+        <div v-if="entries.length === 0">
+          <p>No Journal Added</p>
+        </div>
+        <div v-else>
+        <div class="card-container">
+          <div v-for="entry in entries" :key="entry.id" class="journal-card">
+            <div class="card-header">
+              Created Date: {{ entry.date }}
+              <!-- Add delete icon/button -->
+              <span v-if="!deleting">
+                <i class="fa fa-trash delete-icon" @click="deleteJournal(entry.id)"></i>
+              </span>
+            </div>
+            <div class="card-content">
+              <p><strong>Mood:</strong> {{ entry.mood }}</p>
+              <p><strong>Goals:</strong> {{ entry.goals }}</p>
+            </div>
           </div>
         </div>
+        </div>
       </div>
-    </div>
     </div>
 
     <!-- Include the modal component -->
@@ -48,6 +57,7 @@
 import CircularButton from "@/components/CircularButton.vue";
 import JournalDetailsModal from "@/components/DailyJournal/JournalDetailsModal.vue";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default {
   components: { CircularButton, JournalDetailsModal },
@@ -56,12 +66,55 @@ export default {
       entries: [],
       isModalOpen: false,
       selectedModalEntry: null,
+      deleting: false // Flag to indicate if deletion is in progress
     };
   },
   methods: {
     navigateToAddFeed() {
       // Navigate to AddJournal or handle the button click as needed
     },
+
+    async deleteJournal(journalId) {
+      try {
+        this.deleting = true;
+        const response = await axios.delete(
+            `http://localhost:8080/journals/${journalId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+        );
+
+        if (response.status === 204) {
+          // If the response status is 204, it means successful deletion
+          await this.fetchUserJournalEntries();
+          await Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Journal deleted successfully',
+          });
+        } else {
+          console.error("Failed to delete journal:", response.status, response.data);
+          await Swal.fire({
+            icon: 'error',
+            title: 'Failed to delete journal',
+            text: 'Please try again later',
+          });
+        }
+      } catch (error) {
+        console.error("Error deleting journal:", error);
+        await Swal.fire({
+          icon: 'error',
+          title: 'Failed to delete journal',
+          text: 'Please try again later',
+        });
+      } finally {
+        this.deleting = false;
+      }
+    },
+
+
 
     async fetchUserJournalEntries() {
       try {
@@ -113,10 +166,10 @@ export default {
 .body{
   background: rgb(158,158,158);
   background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-
   align-items: center;
 }
 

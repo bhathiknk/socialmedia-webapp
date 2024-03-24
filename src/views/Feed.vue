@@ -28,7 +28,7 @@
 
 
   <div class="post-feed">
-    <div v-if="posts.length === 0">
+    <div v-if="posts.length === 0" style="color: white" >
       <p>No Post from friends</p>
     </div>
     <div v-else>

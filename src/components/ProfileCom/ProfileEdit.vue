@@ -147,7 +147,7 @@ export default {
       this.email = null;
       this.text = null;
       this.profilePicture = require('@/assets/profile.jpg');
-      this.$router.push('/SignIn');
+      this.$router.push('/');
       // Display a success message using SweetAlert
       this.showSuccessMessage();
     },

@@ -27,6 +27,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import CircularButton from "@/components/CircularButton.vue"; // Import SweetAlert
 
+
 export default {
   components: {CircularButton},
   data() {
@@ -35,6 +36,8 @@ export default {
     };
   },
   methods: {
+
+
     async saveQuestion() {
       try {
         const token = localStorage.getItem('token');

@@ -25,8 +25,8 @@
       </div>
 
       <div class="form-group">
-        <label for="interest" class="inputIcon"><i class="fas fa-heart"></i></label>
-        <select id="interest" v-model="interest" class="inputField">
+        <label for="interest"  class="inputIcon"><i class="fas fa-heart"></i></label>
+        <select id="interest" v-model="interest" class="inputField" >
           <option value="technology">Technology</option>
           <option value="business">Business</option>
           <option value="science">Science</option>
@@ -43,7 +43,7 @@
       </div>
       <button type="submit" id="button">Sign Up</button>
       <div v-if="passwordFeedback" class="password-feedback">{{ passwordFeedback }}</div>
-      <p>If you have an account, please <router-link to="/SignIn">Sign In</router-link></p>
+      <p>If you have an account, please <router-link to="/">Sign In</router-link></p>
     </form>
   </div>
 
@@ -93,7 +93,7 @@ export default {
 
           if (response.data.status === 'success') {
 
-            this.$router.replace("/SignIn");
+            this.$router.replace("/");
             this.showSuccessMessage();
 
           } else {
@@ -167,13 +167,15 @@ export default {
   max-height: calc(100vh - 100px);
   border-radius: 10px;
 }
-
+.form_main h2{
+  color:black ;
+}
 .form_main::before {
   position: absolute;
   content: "";
   width: 300px;
   height: 100%;
-  background-color: rgb(209, 193, 255);
+  background-color: #77a9f1;
   transform: rotate(45deg);
   left: -180px;
   bottom: 30px;
@@ -211,9 +213,9 @@ export default {
   height: 30px;
   background-color: transparent;
   border: none;
-  border-bottom: 2px solid rgb(173, 173, 173);
+  border-bottom: 2px solid rgb(0, 0, 0);
   margin: 10px 0;
-  color: black;
+  color: #000000;
   font-size: .8em;
   font-weight: 500;
   box-sizing: border-box;
@@ -221,11 +223,11 @@ export default {
 }
 .inputField:focus {
   outline: none;
-  border-bottom: 2px solid rgb(199, 114, 255);
+  border-bottom: 2px solid rgb(2, 53, 241);
 }
 
 .inputField::placeholder {
-  color: rgb(80, 80, 80);
+  color: rgb(0, 0, 0);
   font-size: 1em;
   font-weight: 500;
 }
@@ -235,7 +237,7 @@ button {
   position: relative;
   width: 80%;
   border: none;
-  background-color: rgb(162, 104, 255);
+  background-color: #007bff;
   height: 30px;
   color: white;
   font-size: .8em;
