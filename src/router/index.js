@@ -13,7 +13,8 @@ import SignUp from "@/components/LoggingComponent/SignUp.vue";
 import SignIn from "@/components/LoggingComponent/SignIn.vue";
 import UserDetailEdit from "@/components/ProfileCom/UserDetailEdit.vue";
 import AddFeed from "@/components/FeedCom/AddFeed.vue";
-import HomePage from "@/components/HomePage/HomePage.vue"
+import HomePage from "@/components/HomePage/HomePage.vue";
+
 
 const routes = [
   {
