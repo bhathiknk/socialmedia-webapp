@@ -199,6 +199,7 @@ export default {
       })
           .then(response => {
             console.log('Friend request sent successfully:', response.data);
+            this.fetchPendingConnectionRequestsImages();
             Swal.fire({
               icon: 'success',
               title: 'Success!',

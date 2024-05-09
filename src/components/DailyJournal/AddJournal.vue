@@ -162,10 +162,13 @@ body {
 .body{
   background: rgb(158,158,158);
   background: radial-gradient(circle, rgba(158,158,158,1) 0%, rgba(0,0,0,1) 100%);
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  min-height: 100vh;
+  margin-bottom: 30px;
+
 }
 .body h1{
   color: white;

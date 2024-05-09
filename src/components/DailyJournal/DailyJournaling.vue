@@ -26,8 +26,8 @@
         </div>
         <div v-else>
         <div class="card-container">
-          <div v-for="entry in entries" :key="entry.id" class="journal-card">
-            <div class="card-header">
+          <div v-for="entry in entries" :key="entry.id" class="journal-card" @click="openModal(entry)">
+          <div class="card-header">
               Created Date: {{ entry.date }}
               <!-- Add delete icon/button -->
               <span v-if="!deleting">

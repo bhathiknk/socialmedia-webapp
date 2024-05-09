@@ -129,7 +129,6 @@ export default {
           });
           // After saving the subjects, fetch the data again
           fetchSubjectsData();
-
           showSuccessMessage();
         } catch (error) {
           console.error('Failed to save subject data', error);
