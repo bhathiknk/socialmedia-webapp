@@ -104,7 +104,7 @@
       <div class="container3">
         <!-- Content for Container 3 -->
         <div class="stopwatch">
-          <h3>Stopwatch</h3>
+          <h3>StopwatchTest</h3>
           <div class="stopwatch-timer">{{ formattedTime }}</div>
           <div class="stopwatch-buttons">
             <button id="stopwatch-buttons" @click="toggleTimer">{{ timerRunning ? 'Stop' : 'Start' }}</button>
